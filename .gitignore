@@ -1,0 +1,31 @@
+# dados baixados — os dados.py/preparar_dados.py os regeneram
+data/
+suporte/
+alpaca/
+preferencias/
+gsm8k-cot/
+gsm8k-direto/
+gsm8k-grpo/
+dados-destilados/
+dados-vicio/
+tracos_professor.jsonl
+
+# artefatos de treino e modelos locais
+adapters*/
+modelo-*/
+fused_model/
+qwen*bit/
+config-*.yaml
+
+# notebooks são derivados do lab*.py (python tools/build_notebooks.py)
+*.ipynb
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# sistema
+.DS_Store
+Thumbs.db
