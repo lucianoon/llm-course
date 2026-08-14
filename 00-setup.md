@@ -28,6 +28,23 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 ### Dependências
 
+O repositório declara as dependências em `pyproject.toml` e fixa a resolução completa
+em `uv.lock`. Para reproduzir exatamente o ambiente validado, na raiz do curso:
+
+```powershell
+pip install uv
+uv sync --extra cpu --locked
+```
+
+Sem `uv`, a instalação convencional continua disponível, mas resolve as versões dentro
+das faixas declaradas em vez de usar o lockfile:
+
+```powershell
+pip install -e ".[cpu]"
+```
+
+Equivalente manual, se você não quiser instalar o projeto em modo editável:
+
 ```powershell
 pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install transformers tokenizers datasets accelerate

@@ -69,9 +69,26 @@ pip install --upgrade pip
 
 ### Dependências
 
+Instalação reproduzível pelo `uv.lock`, incluindo as dependências de treino do MLX e os
+módulos de preferência/RL:
+
+```bash
+pip install uv
+uv sync --extra cpu --extra mlx --extra rl --locked
+source .venv/bin/activate
+```
+
+Sem `uv`, instale pelas faixas declaradas no `pyproject.toml`:
+
+```bash
+pip install -e ".[cpu,mlx,rl]"
+```
+
+Equivalente manual:
+
 ```bash
 # MLX — a trilha principal a partir do módulo 5
-pip install mlx mlx-lm
+pip install mlx "mlx-lm[train]" mlx-lm-lora
 
 # PyTorch (backend MPS) — para os labs dos módulos 1-4 e comparações
 pip install torch transformers tokenizers
