@@ -12,24 +12,15 @@ Regras de design (README, seção 6):
 """
 
 import re
+import sys
+from pathlib import Path
 
 from mlx_lm_lora.reward_functions import register_reward_function
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+from respostas import extrair_numero
 
-def _extrair_numero(texto: str):
-    """A extração robusta do módulo 7 — o último número, normalizado."""
-    m = re.search(r"(?:resposta final|final answer|answer is)[:\s]*\$?\s*([\-0-9.,]+)",
-                  texto, re.IGNORECASE)
-    candidato = m.group(1) if m else None
-    if candidato is None:
-        numeros = re.findall(r"-?\$?\d[\d,]*\.?\d*", texto)
-        if not numeros:
-            return None
-        candidato = numeros[-1]
-    limpo = candidato.replace("$", "").replace(",", "").rstrip(".")
-    if limpo.endswith((".0", ".00")):
-        limpo = limpo.split(".")[0]
-    return limpo or None
+_extrair_numero = extrair_numero
 
 
 @register_reward_function()

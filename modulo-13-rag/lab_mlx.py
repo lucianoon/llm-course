@@ -13,31 +13,27 @@
 # | 2 | Grounding medido: o modelo respeita "responda só pelo contexto"? |
 # | 3 | Lost in the middle: a posição do chunk certo importa? |
 #
-# Antes: rode as células 1–4 do `lab_cpu.py` (chunks + índices) — ou execute este
-# arquivo inteiro, que as reconstrói.
+# O arquivo constrói apenas o índice compartilhado de `tools/rag.py`; não é necessário
+# executar o `lab_cpu.py` antes.
 
 # %%
-# Reconstrói a infraestrutura de recuperação do lab_cpu (idêntica).
-exec(open("lab_cpu.py", encoding="utf-8").read().split("## Lab 5")[0].split("# %%", 2)[2]
-     if False else "")  # ← estratégia frágil; melhor: importar de verdade
-
-# A forma robusta: o lab_cpu como módulo.
-import importlib.util
 import platform
 import sys
 from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon"
 
-# Executa o lab_cpu até construir CHUNKS, bm25, buscar_densa, buscar_hibrida, PERGUNTAS.
-# (Ele roda em ~3 min no M4 — o custo é o embedding dos chunks; o resto é leve.)
-spec = importlib.util.spec_from_file_location("rag_base", Path.cwd() / "lab_cpu.py")
-rag = importlib.util.module_from_spec(spec)
-sys.modules["rag_base"] = rag
-spec.loader.exec_module(rag)          # executa o lab inteiro (inclui as avaliações)
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+RAIZ = AQUI.parent
+sys.path.insert(0, str(RAIZ / "tools"))
 
-CHUNKS, buscar_hibrida, PERGUNTAS = rag.CHUNKS, rag.buscar_hibrida, rag.PERGUNTAS
-FORA_DA_BASE = rag.FORA_DA_BASE
+from rag import FORA_DA_BASE, PERGUNTAS, IndiceRAG
+
+# Constrói apenas o índice. Importar lab_cpu executaria também as avaliações e
+# manteria um Qwen PyTorch residente junto do modelo MLX.
+indice_rag = IndiceRAG(RAIZ)
+CHUNKS = indice_rag.chunks
+buscar_hibrida = indice_rag.buscar_hibrida
 
 # %% [markdown]
 # ## Lab 1 — O pipeline completo

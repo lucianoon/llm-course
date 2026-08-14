@@ -30,7 +30,7 @@ from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 M7 = AQUI.parent / "modulo-07-reasoning"
 
 PROFESSOR = "mlx-community/DeepSeek-R1-Distill-Qwen-1.5B-4bit"   # suba p/ 7B se quiser
@@ -54,8 +54,8 @@ problemas = [{"question": e["question"], "answer": resposta_final(e["answer"])}
              for e in treino_bruto[2000: 2000 + N_PROBLEMAS]]
 print(f"{len(problemas)} problemas para o professor | {len(GABARITO_TESTE)} de teste")
 
-sys.path.insert(0, str(AQUI.parent / "modulo-09-rl"))
-from recompensas_r1 import _extrair_numero    # a extração testada do módulo 7
+sys.path.insert(0, str(AQUI.parent / "tools"))
+from respostas import extrair_numero
 
 # %% [markdown]
 # ## Etapa 1 — O professor gera
@@ -75,24 +75,49 @@ def gerar(model, tokenizer, pergunta, max_tokens=600, temp=0.7):
         return generate(model, tokenizer, prompt=prompt, max_tokens=max_tokens, verbose=False)
 
 TRACOS = AQUI / "tracos_professor.jsonl"
+TRACOS_PARCIAL = AQUI / "tracos_professor.jsonl.part"
+N_TRACOS_ESPERADO = len(problemas) * K_TENTATIVAS
+
+if TRACOS.exists():
+    n_existente = sum(1 for linha in TRACOS.open(encoding="utf-8") if linha.strip())
+    if n_existente != N_TRACOS_ESPERADO:
+        # Compatibilidade com uma execução antiga interrompida, que escrevia direto
+        # no nome final. A próxima etapa retoma do ponto alcançado.
+        TRACOS.replace(TRACOS_PARCIAL)
 
 if not TRACOS.exists():
+    concluidos = 0
+    if TRACOS_PARCIAL.exists():
+        concluidos = sum(1 for linha in TRACOS_PARCIAL.open(encoding="utf-8") if linha.strip())
+        if concluidos > N_TRACOS_ESPERADO:
+            raise RuntimeError("arquivo parcial tem mais traços que o esperado")
+        print(f"retomando geração após {concluidos}/{N_TRACOS_ESPERADO} traços")
+
     prof, tok_prof = load(PROFESSOR)
     t0 = time.perf_counter()
-    with TRACOS.open("w", encoding="utf-8") as f:
+    with TRACOS_PARCIAL.open("a", encoding="utf-8") as f:
         for i, prob in enumerate(problemas):
             for k in range(K_TENTATIVAS):
+                indice = i * K_TENTATIVAS + k
+                if indice < concluidos:
+                    continue
                 traco = gerar(prof, tok_prof, prob["question"],
                               temp=0.7 if k else 0.6)
                 f.write(json.dumps({"question": prob["question"],
                                     "answer": prob["answer"],
+                                    "tentativa": k,
                                     "traco": traco}, ensure_ascii=False) + "\n")
+                f.flush()
             if (i + 1) % 25 == 0:
                 dt = time.perf_counter() - t0
                 print(f"  {i+1}/{len(problemas)} ({dt/60:.0f} min, "
                       f"~{dt/(i+1)*(len(problemas)-i-1)/60:.0f} min restantes)")
     del prof
     mx.clear_cache()
+    n_final = sum(1 for linha in TRACOS_PARCIAL.open(encoding="utf-8") if linha.strip())
+    if n_final != N_TRACOS_ESPERADO:
+        raise RuntimeError(f"geração incompleta: {n_final}/{N_TRACOS_ESPERADO} traços")
+    TRACOS_PARCIAL.replace(TRACOS)
 
 tracos = [json.loads(l) for l in TRACOS.open(encoding="utf-8")]
 print(f"{len(tracos)} traços gerados")
@@ -120,7 +145,7 @@ def limpar_traco(texto: str) -> str:
 aprovados, rejeitados = [], {"errado": 0, "sem_numero": 0, "curto": 0, "longo": 0}
 for t in tracos:
     limpo = limpar_traco(t["traco"])
-    extraida = _extrair_numero(limpo)
+    extraida = extrair_numero(limpo)
     if extraida is None:
         rejeitados["sem_numero"] += 1
     elif extraida != t["answer"]:
@@ -168,6 +193,8 @@ for nome, dados in [("train", unicos[n_valid:]), ("valid", unicos[:n_valid])]:
 def rodar(*args, mostrar=1200):
     r = subprocess.run([sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True)
     print(r.stdout[-mostrar:] if r.returncode == 0 else r.stderr[-mostrar:])
+    if r.returncode != 0:
+        raise RuntimeError(f"mlx_lm {' '.join(args[:2])} falhou com exit {r.returncode}")
     return r.returncode == 0
 
 n_treino = len(unicos) - n_valid
@@ -190,7 +217,7 @@ def avaliar(model, tokenizer, n=60, rotulo="", max_tokens=450):
     for i in range(n):
         texto = gerar(model, tokenizer, GABARITO_TESTE[i]["question"],
                       max_tokens=max_tokens, temp=0.0)
-        if _extrair_numero(texto) == GABARITO_TESTE[i]["answer"]:
+        if extrair_numero(texto) == GABARITO_TESTE[i]["answer"]:
             acertos += 1
         if (i + 1) % 20 == 0:
             print(f"  [{rotulo}] {i+1}/{n}: {acertos/(i+1):.0%}")

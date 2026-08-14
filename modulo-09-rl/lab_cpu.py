@@ -24,7 +24,8 @@ from pathlib import Path
 import torch
 import torch.nn.functional as F
 
-sys.path.insert(0, str(Path.cwd().parent / "tools"))
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
 import minigpt
 
 torch.manual_seed(0)
@@ -110,7 +111,7 @@ for nome, rs in casos.items():
 # %%
 from tokenizers import Tokenizer, decoders, models, pre_tokenizers, trainers
 
-corpus_path = Path.cwd().parent / "modulo-03-treino" / "data" / "corpus.txt"
+corpus_path = AQUI.parent / "modulo-03-treino" / "data" / "corpus.txt"
 assert corpus_path.exists(), "rode antes: python ../modulo-03-treino/dados.py"
 texto = corpus_path.read_text(encoding="utf-8")
 
