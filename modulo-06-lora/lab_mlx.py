@@ -28,7 +28,7 @@ assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cp
 
 import mlx.core as mx
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 DADOS = AQUI.parent / "modulo-05-sft" / "suporte"
 assert DADOS.exists(), "rode antes: python ../modulo-05-sft/preparar_dados.py"
 
@@ -37,7 +37,7 @@ print(f"mlx device: {mx.default_device()}")
 print(f"dados     : {DADOS}")
 
 # %%
-def rodar(*args, mostrar=2500):
+def rodar(*args, mostrar=2500, verificar=True):
     """Chama a CLI do mlx_lm e devolve (ok, saída)."""
     t0 = time.perf_counter()
     r = subprocess.run([sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True)
@@ -45,6 +45,8 @@ def rodar(*args, mostrar=2500):
     saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
     print(f"$ mlx_lm {' '.join(args[:2])} ...  ({dt:.0f}s, exit {r.returncode})")
     print(saida[-mostrar:])
+    if verificar and r.returncode != 0:
+        raise RuntimeError(f"mlx_lm {' '.join(args[:2])} falhou com exit {r.returncode}")
     return r.returncode == 0, saida
 
 def tamanho_mb(caminho: Path) -> float:
@@ -292,7 +294,7 @@ ok, _ = rodar("lora", "--model", MODELO_7B, "--train", "--data", str(DADOS),
               "--num-layers", "4",              # só as 4 camadas finais
               "--grad-checkpoint",              # troca compute por memória
               "--max-seq-length", "512",
-              "--learning-rate", "1e-4", "--mask-prompt")
+              "--learning-rate", "1e-4", "--mask-prompt", verificar=False)
 
 if not ok:
     print("\nSe falhou por memória, tente nesta ordem:")

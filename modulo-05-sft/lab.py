@@ -29,7 +29,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 MODELO = "mlx-community/Qwen2.5-1.5B-Instruct-bf16"
 DADOS_SUPORTE = AQUI / "suporte"
 ADAPTADORES = AQUI / "adapters-suporte"
@@ -199,6 +199,7 @@ resultado = subprocess.run(comando, capture_output=True, text=True)
 print(resultado.stdout[-3000:])
 if resultado.returncode != 0:
     print("STDERR:\n", resultado.stderr[-2000:])
+    raise RuntimeError(f"treino MLX falhou com exit {resultado.returncode}")
 
 # %% [markdown]
 # **Como ler o log.** O `mlx_lm.lora` imprime `Train loss` a cada `steps_per_report` e
@@ -297,6 +298,8 @@ fusao = subprocess.run(
     capture_output=True, text=True,
 )
 print(fusao.stdout[-1500:] or fusao.stderr[-1500:])
+if fusao.returncode != 0:
+    raise RuntimeError(f"fusão MLX falhou com exit {fusao.returncode}")
 
 # %%
 # O adaptador é minúsculo comparado ao modelo — a razão de LoRA ser tão prático.
@@ -337,6 +340,8 @@ if DADOS_ALPACA.exists():
         capture_output=True, text=True,
     )
     print(r.stdout[-2000:] if r.returncode == 0 else r.stderr[-2000:])
+    if r.returncode != 0:
+        raise RuntimeError(f"treino Alpaca falhou com exit {r.returncode}")
 else:
     print("pasta alpaca/ não encontrada — rode: python preparar_dados.py")
 

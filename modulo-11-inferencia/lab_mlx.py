@@ -25,14 +25,16 @@ from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 
 
-def rodar(modulo, *args, mostrar=0):
+def rodar(modulo, *args, mostrar=0, verificar=True):
     t0 = time.perf_counter()
     r = subprocess.run([sys.executable, "-m", modulo, *args], capture_output=True, text=True)
     if mostrar or r.returncode != 0:
         print((r.stdout + r.stderr)[-max(mostrar, 1200):])
+    if verificar and r.returncode != 0:
+        raise RuntimeError(f"{modulo} {' '.join(args[:2])} falhou com exit {r.returncode}")
     return r.returncode == 0, r.stdout + r.stderr, time.perf_counter() - t0
 
 
@@ -133,7 +135,8 @@ COMPARACAO = {
 moe_stats = {}
 for nome, modelo_id in COMPARACAO.items():
     ok, saida, _ = rodar("mlx_lm", "generate", "--model", modelo_id,
-                         "--prompt", PROMPT_TESTE, "--max-tokens", "200", "--verbose")
+                         "--prompt", PROMPT_TESTE, "--max-tokens", "200", "--verbose",
+                         verificar=False)
     moe_stats[nome] = extrair_metricas(saida)
     if not ok:
         print(f"  ({nome} falhou — verifique se o repo existe na mlx-community)")

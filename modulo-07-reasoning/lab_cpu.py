@@ -28,7 +28,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import transformers
 
 torch.manual_seed(0)
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
 

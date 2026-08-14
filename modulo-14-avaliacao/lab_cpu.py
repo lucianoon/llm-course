@@ -24,7 +24,8 @@ from pathlib import Path
 import torch
 
 torch.manual_seed(0)
-RAIZ = Path.cwd().parent
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+RAIZ = AQUI.parent
 
 # %% [markdown]
 # ## Lab 1 — O custo do n pequeno

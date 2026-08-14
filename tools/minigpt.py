@@ -135,8 +135,11 @@ class MiniGPT(nn.Module):
 
 # ---------------------------------------------------------------- treino
 
-def pegar_batch(fonte, batch_size, bloco):
-    inicio = torch.randint(len(fonte) - bloco - 1, (batch_size,))
+def pegar_batch(fonte, batch_size, bloco, generator=None):
+    """Amostra um batch; ``generator`` permite isolar treino e avaliação."""
+    if len(fonte) <= bloco + 1:
+        raise ValueError(f"fonte precisa ter mais de {bloco + 1} tokens")
+    inicio = torch.randint(len(fonte) - bloco - 1, (batch_size,), generator=generator)
     x = torch.stack([fonte[i: i + bloco] for i in inicio])
     y = torch.stack([fonte[i + 1: i + 1 + bloco] for i in inicio])
     return x, y
@@ -158,10 +161,16 @@ def grupos_de_parametros(modelo, weight_decay=0.1):
 
 
 @torch.no_grad()
-def avaliar(modelo, fonte, n=20, batch=8):
+def avaliar(modelo, fonte, n=20, batch=8, seed=0):
+    """Avalia em batches determinísticos sem consumir o RNG do treino."""
+    estava_treinando = modelo.training
+    generator = torch.Generator().manual_seed(seed)
     modelo.eval()
-    perdas = [modelo(*pegar_batch(fonte, batch, modelo.cfg.bloco))[1].item() for _ in range(n)]
-    modelo.train()
+    perdas = [
+        modelo(*pegar_batch(fonte, batch, modelo.cfg.bloco, generator=generator))[1].item()
+        for _ in range(n)
+    ]
+    modelo.train(estava_treinando)
     return sum(perdas) / len(perdas)
 
 

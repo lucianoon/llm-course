@@ -26,8 +26,9 @@ from pathlib import Path
 
 import torch
 
-sys.path.insert(0, str(Path.cwd().parent / "tools"))
-sys.path.insert(0, str(Path.cwd()))
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
+sys.path.insert(0, str(AQUI))
 
 import dados
 import minigpt

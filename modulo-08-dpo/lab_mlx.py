@@ -32,7 +32,7 @@ from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 MODELO = "mlx-community/Qwen2.5-1.5B-Instruct-bf16"
 PREFS = AQUI / "preferencias"
 assert (PREFS / "train.jsonl").exists(), "rode antes: python preparar_dados.py"
@@ -48,6 +48,8 @@ def rodar(modulo, *args, mostrar=1800):
     print(f"$ {modulo} {' '.join(args[:2])} ...  ({time.perf_counter()-t0:.0f}s, exit {r.returncode})")
     if mostrar:
         print(saida[-mostrar:])
+    if r.returncode != 0:
+        raise RuntimeError(f"{modulo} {' '.join(args[:2])} falhou com exit {r.returncode}")
     return r.returncode == 0, saida
 
 # %% [markdown]
