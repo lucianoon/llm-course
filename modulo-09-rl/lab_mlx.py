@@ -25,7 +25,6 @@
 # %%
 import json
 import platform
-import re
 import subprocess
 import sys
 import time
@@ -45,12 +44,14 @@ GABARITO = [json.loads(l) for l in
 print(f"{len(GABARITO)} problemas de teste")
 
 sys.path.insert(0, str(AQUI))
-from recompensas_r1 import _extrair_numero, recompensa_acuracia, recompensa_formato
+from recompensas_r1 import recompensa_acuracia, recompensa_formato
 
 
 def rodar(modulo, *args, mostrar=2000):
     t0 = time.perf_counter()
-    r = subprocess.run([sys.executable, "-m", modulo, *args], capture_output=True, text=True)
+    r = subprocess.run(
+        [sys.executable, "-m", modulo, *args], capture_output=True, text=True, check=False
+    )
     saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
     print(f"$ {modulo} ...  ({time.perf_counter()-t0:.0f}s, exit {r.returncode})")
     if mostrar:

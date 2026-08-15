@@ -58,8 +58,8 @@ torch.manual_seed(1)
 media_com, var_com = gradiente_reinforce(baseline=float(recompensas.mean()))
 
 print(f"{'':<16} {'gradiente médio':>38} {'variância':>11}")
-print(f"{'sem baseline':<16} {str([f'{x:+.4f}' for x in media_sem]):>38} {var_sem:>11.4f}")
-print(f"{'com baseline':<16} {str([f'{x:+.4f}' for x in media_com]):>38} {var_com:>11.4f}")
+print(f"{'sem baseline':<16} {[f'{x:+.4f}' for x in media_sem]!s:>38} {var_sem:>11.4f}")
+print(f"{'com baseline':<16} {[f'{x:+.4f}' for x in media_com]!s:>38} {var_com:>11.4f}")
 print(f"\nmesma direção? {torch.allclose(media_sem, media_com, atol=0.02)}")
 print(f"redução de variância: {var_sem / var_com:.1f}x")
 

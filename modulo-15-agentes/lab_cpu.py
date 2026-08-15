@@ -18,7 +18,6 @@
 
 # %%
 import json
-import math
 import re
 import sys
 import time
@@ -163,7 +162,7 @@ def responder_cot(a, b):
     return nums[-1] if nums else ""
 
 def responder_agente(a, b):
-    resp, trilha = agente(f"Quanto é {a} × {b}?", verbose=False)
+    resp, _trilha = agente(f"Quanto é {a} × {b}?", verbose=False)
     nums = re.findall(r"\d+", resp)
     return nums[-1] if nums else ""
 

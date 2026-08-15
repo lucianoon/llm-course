@@ -57,7 +57,7 @@ print(f"{'camada':>7} {'top-1 previsto':>18} {'confiança':>10}")
 print("-" * 40)
 for L, token, conf in logit_lens("The capital of France is"):
     marca = "  ← resposta emerge" if token.strip() == "Paris" else ""
-    print(f"{L:>7} {repr(token):>18} {conf:>10.1%}{marca}")
+    print(f"{L:>7} {token!r:>18} {conf:>10.1%}{marca}")
 
 # %% [markdown]
 # **A honestidade do logit lens** (e a primeira lição de interpretabilidade): nas
@@ -162,7 +162,7 @@ danos.sort(reverse=True)
 print(f"{'dano':>8} {'camada':>7} {'cabeça':>7}")
 for dano, c, h in danos[:8]:
     print(f"{dano:>8.2f} {c:>7} {h:>7}")
-print(f"\n(dano positivo = ablar essa cabeça reduz o logit de Paris = ela ajudava)")
+print("\n(dano positivo = ablar essa cabeça reduz o logit de Paris = ela ajudava)")
 
 # %% [markdown]
 # > 🔧 Isto é *ablação de componente* — uma versão barata do patching. As cabeças no topo

@@ -19,5 +19,7 @@ jobs:
         run: uv sync --extra dev --extra test --locked
       - name: Compilar fontes Python
         run: uv run python -m compileall -q .
+      - name: Verificar qualidade estática
+        run: uv run ruff check .
       - name: Executar testes sem downloads de modelos
         run: uv run python -m pytest

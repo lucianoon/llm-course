@@ -444,7 +444,7 @@ for usar_cache in [True, False]:
     model.generate(**entrada, max_new_tokens=60, do_sample=False,
                    use_cache=usar_cache, pad_token_id=tok_qwen.eos_token_id)
     dt = time.perf_counter() - inicio
-    print(f"use_cache={str(usar_cache):5}  {dt:6.2f}s  ({60 / dt:5.1f} tok/s)")
+    print(f"use_cache={usar_cache!s:5}  {dt:6.2f}s  ({60 / dt:5.1f} tok/s)")
 
 # %% [markdown]
 # Sem cache, cada novo token reprocessa a sequência inteira do zero — trabalho O(n²)

@@ -15,7 +15,6 @@
 # | 4 | TTFT vs TPOT: as métricas de servir |
 
 # %%
-import json
 import platform
 import re
 import subprocess
@@ -30,7 +29,9 @@ AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd(
 
 def rodar(modulo, *args, mostrar=0, verificar=True):
     t0 = time.perf_counter()
-    r = subprocess.run([sys.executable, "-m", modulo, *args], capture_output=True, text=True)
+    r = subprocess.run(
+        [sys.executable, "-m", modulo, *args], capture_output=True, text=True, check=False
+    )
     if mostrar or r.returncode != 0:
         print((r.stdout + r.stderr)[-max(mostrar, 1200):])
     if verificar and r.returncode != 0:
@@ -77,7 +78,7 @@ for bits in ["8", "4"]:
 
 # %%
 import mlx.core as mx
-import mlx.nn as nn
+from mlx import nn
 from mlx_lm import load
 
 corpus = AQUI.parent / "modulo-03-treino" / "data" / "corpus.txt"

@@ -55,14 +55,13 @@ problemas = [{"question": e["question"], "answer": resposta_final(e["answer"])}
 print(f"{len(problemas)} problemas para o professor | {len(GABARITO_TESTE)} de teste")
 
 sys.path.insert(0, str(AQUI.parent / "tools"))
-from respostas import extrair_numero
-
 # %% [markdown]
 # ## Etapa 1 — O professor gera
-
 # %%
 import mlx.core as mx
 from mlx_lm import generate, load
+from respostas import extrair_numero
+
 
 def gerar(model, tokenizer, pergunta, max_tokens=600, temp=0.7):
     prompt = tokenizer.apply_chat_template([{"role": "user", "content": pergunta}],
@@ -175,7 +174,16 @@ print(f"após dedup por pergunta: {len(unicos)}")
 
 DESTINO = AQUI / "dados-destilados"
 DESTINO.mkdir(exist_ok=True)
-n_valid = max(10, len(unicos) // 10)
+MIN_EXEMPLOS_TREINO = 20
+n_valid = max(1, len(unicos) // 10)
+n_treino = len(unicos) - n_valid
+if n_treino < MIN_EXEMPLOS_TREINO:
+    raise RuntimeError(
+        "rejection sampling produziu poucos exemplos úteis: "
+        f"{n_treino} para treino e {n_valid} para validação; "
+        f"gere mais traços até obter ao menos {MIN_EXEMPLOS_TREINO} para treino"
+    )
+
 for nome, dados in [("train", unicos[n_valid:]), ("valid", unicos[:n_valid])]:
     with (DESTINO / f"{nome}.jsonl").open("w", encoding="utf-8") as f:
         for ex in dados:
@@ -191,13 +199,14 @@ for nome, dados in [("train", unicos[n_valid:]), ("valid", unicos[:n_valid])]:
 
 # %%
 def rodar(*args, mostrar=1200):
-    r = subprocess.run([sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True)
+    r = subprocess.run(
+        [sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True, check=False
+    )
     print(r.stdout[-mostrar:] if r.returncode == 0 else r.stderr[-mostrar:])
     if r.returncode != 0:
         raise RuntimeError(f"mlx_lm {' '.join(args[:2])} falhou com exit {r.returncode}")
     return r.returncode == 0
 
-n_treino = len(unicos) - n_valid
 iters = max(150, n_treino * 3 // 4)          # ~3 épocas
 print(f"{n_treino} exemplos, {iters} iters (batch 4) = {iters*4/n_treino:.1f} épocas")
 

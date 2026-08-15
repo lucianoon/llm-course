@@ -14,7 +14,6 @@
 # | 5 | Black-box em miniatura: treinar no texto do professor |
 
 # %%
-import copy
 import math
 import sys
 import time
@@ -109,7 +108,7 @@ mu_r, sig_r, _ = ajustar("reverse")
 
 print(f"forward KL (cobre tudo) : aluno em mu={mu_f:+.2f}, sigma={sig_f:.2f}")
 print(f"reverse KL (escolhe)    : aluno em mu={mu_r:+.2f}, sigma={sig_r:.2f}")
-print(f"\nmodos do professor: -2.0 e +2.0")
+print("\nmodos do professor: -2.0 e +2.0")
 
 # %%
 def curva_ascii(dist, titulo, largura=80, altura=8):

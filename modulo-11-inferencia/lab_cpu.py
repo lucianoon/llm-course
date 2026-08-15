@@ -11,15 +11,14 @@
 # | 4 | **Decodificação especulativa do zero, com prova de equivalência** |
 
 # %%
-import copy
 import math
 import sys
 import time
 from pathlib import Path
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 sys.path.insert(0, str(AQUI.parent / "tools"))
@@ -218,7 +217,7 @@ print(f"{'modelo':<28} {'params totais':>14} {'PPL val':>9}")
 print("-" * 56)
 print(f"{'denso (1 MLP)':<28} {n_denso:>14,} {ppl_denso:>9.1f}")
 print(f"{'MoE 4 experts top-1':<28} {n_moe:>14,} {ppl_moe:>9.1f}")
-print(f"\nO MoE ativa por token ~o mesmo compute do denso (1 expert = 1 MLP),")
+print("\nO MoE ativa por token ~o mesmo compute do denso (1 expert = 1 MLP),")
 print(f"mas tem {n_moe/n_denso:.1f}x os parâmetros — capacidade extra 'de graça' no compute.")
 
 # %% [markdown]

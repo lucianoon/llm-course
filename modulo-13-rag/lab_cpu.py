@@ -18,6 +18,7 @@
 # %%
 import math
 import re
+import sys
 import time
 from collections import Counter
 from pathlib import Path
@@ -28,6 +29,9 @@ import torch.nn.functional as F
 torch.manual_seed(0)
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 RAIZ = AQUI.parent
+sys.path.insert(0, str(RAIZ / "tools"))
+
+from rag import PERGUNTAS
 
 # %% [markdown]
 # ## Lab 1 — Chunking
@@ -80,36 +84,10 @@ print(" ", CHUNKS[40]["texto"][:180], "...")
 # regra de ouro dos módulos 5 e 14: **a métrica vem antes do sistema.**
 
 # %%
-# (pergunta, resposta curta, módulos-fonte aceitáveis)
-PERGUNTAS = [
-    ("Quantos bytes por parâmetro custa o full fine-tune com AdamW?", "16 bytes", {"modulo-01-fundamentos", "modulo-03-treino", "modulo-06-lora"}),
-    ("Que fração dos parâmetros de um bloco transformer está no MLP?", "87,7%", {"modulo-02-attention", "modulo-06-lora", "modulo-11-inferencia"}),
-    ("Qual é a loss inicial esperada de um treino de DPO?", "ln 2", {"modulo-08-dpo"}),
-    ("Quantos KV heads tem o Qwen2.5-0.5B?", "2", {"modulo-02-attention"}),
-    ("Qual algoritmo de RL treinou o DeepSeek-R1?", "GRPO", {"modulo-09-rl", "modulo-07-reasoning"}),
-    ("O que significa NF4?", "4-bit NormalFloat", {"modulo-06-lora"}),
-    ("Qual a fórmula de FLOPs de treino de um LLM?", "6ND", {"modulo-03-treino"}),
-    ("Quantos tokens de treino por parâmetro recomenda o Chinchilla?", "20", {"modulo-01-fundamentos", "modulo-03-treino"}),
-    ("Qual flag do mlx_lm.lora calcula a loss só na resposta?", "--mask-prompt", {"modulo-05-sft"}),
-    ("Qual o valor de beta2 do AdamW usado em LLMs?", "0,95", {"modulo-03-treino"}),
-    ("Que técnica reduz o KV cache compartilhando keys e values entre query heads?", "GQA", {"modulo-01-fundamentos", "modulo-02-attention"}),
-    ("Por que a matriz B do LoRA é inicializada em zeros?", "identidade no passo 0", {"modulo-06-lora"}),
-    ("Qual foi a degradação da quantização 4-bit em literatura portuguesa?", "17,4%", {"modulo-06-lora"}),
-    ("O que é o attention sink?", "atenção concentrada no primeiro token", {"modulo-02-attention", "modulo-11-inferencia"}),
-    ("Quantos exemplos curados usou o LIMA?", "1.000", {"modulo-04-dados", "modulo-05-sft"}),
-    ("Qual estimador de KL o GRPO usa?", "k3", {"modulo-09-rl"}),
-    ("Que loss auxiliar previne o colapso de roteamento em MoE?", "balanceamento do Switch", {"modulo-11-inferencia"}),
-    ("Qual a taxa de aceitação medida na decodificação especulativa do curso?", "59%", {"modulo-11-inferencia"}),
-    ("O que o masking com -100 faz no SFT?", "ignora os tokens do prompt na loss", {"modulo-04-dados", "modulo-05-sft"}),
-    ("Qual dataset de matemática com gabarito verificável o curso usa?", "GSM8K", {"modulo-07-reasoning", "modulo-09-rl"}),
-    ("Por que bf16 dispensa loss scaling?", "mesmo expoente do fp32", {"modulo-03-treino"}),
-    ("Qual método detecta contaminação de benchmark?", "sobreposição de 13-gramas", {"modulo-04-dados"}),
-    ("O que é catastrophic forgetting?", "perda de capacidades gerais", {"modulo-05-sft", "modulo-06-lora"}),
-    ("Qual arquitetura substitui o MLP por especialistas roteados?", "MoE", {"modulo-11-inferencia"}),
-    ("O que o rejection sampling filtra no pipeline de distillation?", "traços com resposta errada", {"modulo-10-distillation", "modulo-07-reasoning"}),
-]
+# (pergunta, resposta curta, módulos-fonte aceitáveis). O banco canônico fica em
+# tools/rag.py para que os módulos 13, 14 e 15 avaliem exatamente os mesmos casos.
 print(f"{len(PERGUNTAS)} perguntas | módulos cobertos: "
-      f"{len(set(m for _, _, ms in PERGUNTAS for m in ms))}")
+      f"{len({m for _, _, ms in PERGUNTAS for m in ms})}")
 
 # %% [markdown]
 # ## Lab 2 — BM25 do zero
@@ -277,7 +255,8 @@ for r in resultados:
 
 # %%
 import transformers
-from transformers import AutoModelForCausalLM, AutoTokenizer as AT
+from transformers import AutoModelForCausalLM
+from transformers import AutoTokenizer as AT
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}

@@ -104,6 +104,7 @@ print(" ", aderencia("Você pode tentar reiniciar o computador e verificar os ca
 # %%
 from mlx_lm import generate, load
 
+
 def responder(model, tokenizer, pergunta, sistema, max_tokens=300):
     """Wrapper defensivo: a assinatura de `generate` mudou entre versões do mlx-lm."""
     msgs = [{"role": "system", "content": sistema}, {"role": "user", "content": pergunta}]
@@ -195,7 +196,7 @@ comando = [
 ]
 print(" ".join(comando).replace(sys.executable, "python"), "\n")
 
-resultado = subprocess.run(comando, capture_output=True, text=True)
+resultado = subprocess.run(comando, capture_output=True, text=True, check=False)
 print(resultado.stdout[-3000:])
 if resultado.returncode != 0:
     print("STDERR:\n", resultado.stderr[-2000:])
@@ -248,7 +249,8 @@ print(responder(modelo_sft, tokenizer_sft, perguntas_teste[1], SISTEMA_SIMPLES)[
 # **fora** do domínio de fine-tuning.
 
 # %%
-import mlx.nn as nn
+from mlx import nn
+
 
 def perplexidade(model, tokenizer, texto: str) -> float:
     ids = tokenizer.encode(texto)
@@ -295,7 +297,7 @@ fusao = subprocess.run(
      "--model", MODELO,
      "--adapter-path", str(ADAPTADORES),
      "--save-path", str(AQUI / "modelo-suporte-fundido")],
-    capture_output=True, text=True,
+    capture_output=True, text=True, check=False,
 )
 print(fusao.stdout[-1500:] or fusao.stderr[-1500:])
 if fusao.returncode != 0:
@@ -337,7 +339,7 @@ if DADOS_ALPACA.exists():
          "--iters", str(iters_alpaca), "--batch-size", "4",
          "--num-layers", "16", "--learning-rate", "1e-4",
          "--mask-prompt", "--max-seq-length", "1024"],
-        capture_output=True, text=True,
+        capture_output=True, text=True, check=False,
     )
     print(r.stdout[-2000:] if r.returncode == 0 else r.stderr[-2000:])
     if r.returncode != 0:

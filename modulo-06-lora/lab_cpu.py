@@ -27,8 +27,8 @@ import time
 from pathlib import Path
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 sys.path.insert(0, str(AQUI.parent / "tools"))
@@ -46,7 +46,6 @@ torch.manual_seed(0)
 # Isso é testável. Vamos fine-tunar o MiniGPT de verdade e olhar o espectro de `ΔW`.
 
 # %%
-import numpy as np
 
 corpus_path = AQUI.parent / "modulo-03-treino" / "data" / "corpus.txt"
 assert corpus_path.exists(), "rode antes: python ../modulo-03-treino/dados.py"
@@ -328,8 +327,8 @@ print(f"{'full':>6} {resultados['full fine-tune']['treinaveis']:>12,} "
 # O MiniGPT prova o algoritmo. Agora as contas num modelo de verdade.
 
 # %%
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import transformers
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}

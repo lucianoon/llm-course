@@ -22,7 +22,6 @@ import json
 import platform
 import re
 import sys
-import time
 from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
@@ -33,6 +32,7 @@ sys.path.insert(0, str(RAIZ / "tools"))
 
 import mlx.core as mx
 from mlx_lm import generate, load
+
 
 def gerar_mlx(model, tok, mensagens, ferramentas=None, max_tokens=250):
     prompt = tok.apply_chat_template(mensagens, tools=ferramentas, tokenize=False,

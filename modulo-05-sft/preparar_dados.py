@@ -265,7 +265,9 @@ if __name__ == "__main__":
         alpaca = dividir(montar_alpaca())
         escrever(alpaca, AQUI / "alpaca")
         verificar_vazamento(alpaca)
-    except Exception as e:
+    # O experimento é opcional e pode falhar por download, formato ou ausência dos
+    # dados do módulo 4; o curso principal de suporte ainda deve ser produzido.
+    except Exception as e:  # noqa: BLE001
         print(f"  pulado ({type(e).__name__}: {e})")
         print("  rode antes: python ../modulo-04-dados/dados.py")
 

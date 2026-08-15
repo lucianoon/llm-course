@@ -18,6 +18,7 @@
 # %%
 import math
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -26,6 +27,9 @@ import torch
 torch.manual_seed(0)
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 RAIZ = AQUI.parent
+sys.path.insert(0, str(RAIZ / "tools"))
+
+from rag import PERGUNTAS
 
 # %% [markdown]
 # ## Lab 1 — O custo do n pequeno
@@ -120,10 +124,9 @@ for corr in [0.0, 0.5, 0.8, 0.95]:
 # --- reconstrução compacta da recuperação do módulo 13 (mesmo código, mesma seed) ---
 def extrair_chunks(md_path, alvo=220, overlap=40):
     texto = md_path.read_text(encoding="utf-8")
-    chunks, titulo = [], md_path.parent.name
+    chunks = []
     for parte in re.split(r"(?m)^(#{1,2} .+)$", texto):
         if re.match(r"^#{1,2} ", parte or ""):
-            titulo = parte.lstrip("# ").strip()
             continue
         palavras = (parte or "").split()
         if len(palavras) < 30:
@@ -141,9 +144,6 @@ for md in sorted(RAIZ.glob("modulo-*/README.md")):
     if "modulo-14" in str(md):
         continue                     # o próprio módulo 14 fora do índice (senão vaza)
     CHUNKS.extend(extrair_chunks(md))
-
-import sys
-sys.path.insert(0, str(RAIZ / "modulo-13-rag"))
 
 def tokenizar_busca(t):
     return re.findall(r"[a-záàâãéêíóôõúüç0-9@#\-]+", t.lower())
@@ -169,8 +169,8 @@ class BM25:
                 melhor, melhor_s = i, s
         return melhor
 
-from transformers import AutoModel, AutoTokenizer
 import torch.nn.functional as F
+from transformers import AutoModel, AutoTokenizer
 
 tok_e5 = AutoTokenizer.from_pretrained("intfloat/multilingual-e5-small")
 e5 = AutoModel.from_pretrained("intfloat/multilingual-e5-small")
@@ -187,12 +187,8 @@ def embed(textos, batch=16):
         out.append(F.normalize((h * m).sum(1) / m.sum(1), dim=-1))
     return torch.cat(out)
 
-# As 25 perguntas — importadas do módulo 13 (fonte da verdade) por leitura do arquivo.
-import ast
-fonte13 = (RAIZ / "modulo-13-rag" / "lab_cpu.py").read_text(encoding="utf-8")
-bloco = fonte13.split("PERGUNTAS = [")[1].split("]\nprint")[0]
-PERGUNTAS = ast.literal_eval("[" + bloco + "]")
-print(f"{len(CHUNKS)} chunks | {len(PERGUNTAS)} perguntas (importadas do módulo 13)")
+# As 25 perguntas vêm do banco canônico compartilhado pelos módulos 13–15.
+print(f"{len(CHUNKS)} chunks | {len(PERGUNTAS)} perguntas (banco compartilhado)")
 
 bm25 = BM25([c["texto"] for c in CHUNKS])
 EMB = embed([f"passage: {c['texto']}" for c in CHUNKS])
@@ -246,7 +242,8 @@ print(f"\nVEREDITO: a diferença {'É' if p_valor < 0.05 else 'NÃO é'} signifi
 
 # %%
 import transformers
-from transformers import AutoModelForCausalLM, AutoTokenizer as AT
+from transformers import AutoModelForCausalLM
+from transformers import AutoTokenizer as AT
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
@@ -299,7 +296,7 @@ n_j = len(PARES_GABARITO)
 print(f"acurácia do juiz (2 ordens × {n_j} pares): {acertos}/{2*n_j} = {acertos/(2*n_j):.0%}")
 print(f"consistência entre ordens: {consistentes}/{n_j} = {consistentes/n_j:.0%}")
 print(f"acerta NAS DUAS ordens: {acerta_consistente}/{n_j} = {acerta_consistente/n_j:.0%}")
-print(f"\n(um juiz aleatório: 50% de acurácia, 50% de consistência)")
+print("\n(um juiz aleatório: 50% de acurácia, 50% de consistência)")
 
 # %% [markdown]
 # **A régua:** a distância entre este juiz e a moeda é o máximo de confiança que

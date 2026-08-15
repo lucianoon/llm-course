@@ -6,7 +6,7 @@ from pathlib import Path
 
 from tools.build_notebooks import parse_percent
 from tools.calculadora import calcular
-from tools.rag import BM25, extrair_chunks
+from tools.rag import BM25, PERGUNTAS, extrair_chunks
 from tools.respostas import extrair_numero
 
 
@@ -39,6 +39,11 @@ class TestRespostas(unittest.TestCase):
 
 
 class TestRAG(unittest.TestCase):
+    def test_banco_de_perguntas_e_unico_e_estavel(self):
+        enunciados = [pergunta for pergunta, _, _ in PERGUNTAS]
+        self.assertEqual(len(enunciados), 25)
+        self.assertEqual(len(set(enunciados)), len(enunciados))
+
     def test_bm25_prioriza_termo_raro(self):
         indice = BM25(["gato comum", "transformer attention qkv", "gato doméstico"])
         ordem, _ = indice.buscar("attention qkv", k=1)

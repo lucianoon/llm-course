@@ -41,7 +41,9 @@ print(f"{len(gabarito)} problemas de teste (split oficial do GSM8K)")
 
 def rodar(*args, mostrar=1500):
     t0 = time.perf_counter()
-    r = subprocess.run([sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True)
+    r = subprocess.run(
+        [sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True, check=False
+    )
     saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
     print(f"$ mlx_lm {' '.join(args[:2])} ...  ({time.perf_counter()-t0:.0f}s, exit {r.returncode})")
     if mostrar:

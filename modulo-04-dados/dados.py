@@ -38,7 +38,7 @@ def carregar_corpus() -> str:
     if not CORPUS_M3.exists():
         import sys
         sys.path.insert(0, str(CORPUS_M3.parent.parent))
-        import dados as dados_m3           # modulo-03-treino/dados.py
+        import dados as dados_m3  # modulo-03-treino/dados.py
         return dados_m3.carregar()
     return CORPUS_M3.read_text(encoding="utf-8")
 

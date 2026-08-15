@@ -124,7 +124,7 @@ def forward_manual(x, W1, b1, W2, b2, y):
     return loss, (z1, h, z2, logp)
 
 def backward_manual(x, W1, b1, W2, b2, y, cache):
-    z1, h, z2, logp = cache
+    z1, h, z2, _logp = cache
     N = len(y)
     # dL/dz2 = softmax - onehot(y)  (o gradiente clássico da cross-entropy)
     dz2 = z2.exp() / z2.exp().sum(1, keepdim=True)
@@ -169,6 +169,7 @@ for nome, meu, pt in zip(["dW1", "db1", "dW2", "db2"], grads_meus, grads_pt):
 
 # %%
 import torch.utils.checkpoint as cp
+
 
 class RedeProfunda(torch.nn.Module):
     def __init__(self, d=1024, n_camadas=24, checkpoint=False):
@@ -285,7 +286,7 @@ def bytes_comunicacao(n_params, n_gpus, estrategia):
         return 3 * n_params * 2 * (n_gpus - 1) / n_gpus
 
 N = 7e9
-print(f"comunicação por GPU por passo, 7B em 8 GPUs:")
+print("comunicação por GPU por passo, 7B em 8 GPUs:")
 for estrategia in ["DDP", "FSDP"]:
     gb = bytes_comunicacao(N, 8, estrategia) / 1e9
     # tempo a 400 GB/s (NVLink) vs 50 GB/s (Ethernet rápida)

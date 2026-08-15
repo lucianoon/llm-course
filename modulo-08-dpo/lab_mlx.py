@@ -43,7 +43,9 @@ print("frases-sonda:", SONDAS)
 
 def rodar(modulo, *args, mostrar=1800):
     t0 = time.perf_counter()
-    r = subprocess.run([sys.executable, "-m", modulo, *args], capture_output=True, text=True)
+    r = subprocess.run(
+        [sys.executable, "-m", modulo, *args], capture_output=True, text=True, check=False
+    )
     saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
     print(f"$ {modulo} {' '.join(args[:2])} ...  ({time.perf_counter()-t0:.0f}s, exit {r.returncode})")
     if mostrar:
@@ -182,7 +184,7 @@ mx.clear_cache()
 # `r̂(chosen) − r̂(rejected)` deve ser positiva após o treino — é a métrica interna do DPO.
 
 # %%
-import mlx.nn as nn
+from mlx import nn
 
 
 def logprob_mlx(model, tokenizer, prompt, resposta):
