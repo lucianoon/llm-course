@@ -24,11 +24,11 @@ from pathlib import Path
 
 import torch
 import torch.nn.functional as F
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import transformers
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 torch.manual_seed(0)
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
 
@@ -60,7 +60,7 @@ def extrair_resposta(texto: str):
             return None
         candidato = numeros[-1]                      # o ÚLTIMO número da resposta
     limpo = candidato.replace("$", "").replace(",", "").rstrip(".")
-    if limpo.endswith(".0") or limpo.endswith(".00"):
+    if limpo.endswith((".0", ".00")):
         limpo = limpo.split(".")[0]
     return limpo or None
 

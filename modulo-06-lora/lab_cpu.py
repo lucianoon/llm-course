@@ -27,10 +27,11 @@ import time
 from pathlib import Path
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
-sys.path.insert(0, str(Path.cwd().parent / "tools"))
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
 import minigpt
 
 torch.manual_seed(0)
@@ -45,9 +46,8 @@ torch.manual_seed(0)
 # Isso é testável. Vamos fine-tunar o MiniGPT de verdade e olhar o espectro de `ΔW`.
 
 # %%
-import numpy as np
 
-corpus_path = Path.cwd().parent / "modulo-03-treino" / "data" / "corpus.txt"
+corpus_path = AQUI.parent / "modulo-03-treino" / "data" / "corpus.txt"
 assert corpus_path.exists(), "rode antes: python ../modulo-03-treino/dados.py"
 texto = corpus_path.read_text(encoding="utf-8")
 
@@ -232,14 +232,17 @@ for nome, i, o in [("MiniGPT qkv", 192, 576), ("Qwen 0.5B q_proj", 896, 896),
 # ## Lab 4 — LoRA vs full fine-tune, medido
 #
 # Mesmo modelo base, mesmo subdomínio, mesmo número de passos. Muda só o que é treinável.
+# Os batches de treino e avaliação também são idênticos entre variantes: cada função usa
+# um Generator próprio com seed fixa, sem depender das avaliações executadas antes.
 
 # %%
-def treinar_no_subdominio(modelo, passos=150, lr=3e-4, so_treinaveis=True):
+def treinar_no_subdominio(modelo, passos=150, lr=3e-4, so_treinaveis=True, seed=2024):
     params = [p for p in modelo.parameters() if p.requires_grad] if so_treinaveis else list(modelo.parameters())
     otim = torch.optim.AdamW(params, lr=lr, betas=(0.9, 0.95))
+    generator = torch.Generator().manual_seed(seed)
     t0 = time.perf_counter()
     for _ in range(passos):
-        x, y = minigpt.pegar_batch(ids_dlg, 16, cfg.bloco)
+        x, y = minigpt.pegar_batch(ids_dlg, 16, cfg.bloco, generator=generator)
         otim.zero_grad(set_to_none=True)
         _, perda = modelo(x, y)
         perda.backward()
@@ -248,9 +251,13 @@ def treinar_no_subdominio(modelo, passos=150, lr=3e-4, so_treinaveis=True):
     return perda.item(), time.perf_counter() - t0
 
 @torch.no_grad()
-def perda_em(modelo, fonte, n=30):
+def perda_em(modelo, fonte, n=30, seed=0):
     modelo.eval()
-    v = sum(modelo(*minigpt.pegar_batch(fonte, 8, cfg.bloco))[1].item() for _ in range(n)) / n
+    generator = torch.Generator().manual_seed(seed)
+    v = sum(
+        modelo(*minigpt.pegar_batch(fonte, 8, cfg.bloco, generator=generator))[1].item()
+        for _ in range(n)
+    ) / n
     modelo.train()
     return v
 
@@ -273,6 +280,7 @@ for r in [1, 4, 8, 32]:
     m = copy.deepcopy(base)
     for p in m.parameters():
         p.requires_grad = False
+    torch.manual_seed(1000 + r)
     aplicar_lora(m, alvos=("qkv", "saida"), r=r, alpha=2 * r)
     perda_l, tempo_l = treinar_no_subdominio(m)
     tr, _ = contar(m)
@@ -319,8 +327,8 @@ print(f"{'full':>6} {resultados['full fine-tune']['treinaveis']:>12,} "
 # O MiniGPT prova o algoritmo. Agora as contas num modelo de verdade.
 
 # %%
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import transformers
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}

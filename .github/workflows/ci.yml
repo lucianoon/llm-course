@@ -1,0 +1,27 @@
+name: verificacoes
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  testes-rapidos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Sincronizar ambiente pelo lockfile
+        run: uv sync --extra dev --extra test --locked
+      - name: Compilar fontes Python
+        run: uv run python -m compileall -q .
+      - name: Gerar notebooks derivados
+        run: uv run python tools/build_notebooks.py
+      - name: Verificar qualidade estática
+        run: uv run ruff check .
+      - name: Executar testes sem downloads de modelos
+        run: uv run python -m pytest

@@ -186,7 +186,7 @@ V_mod[5] += 100.0   # mexe só no último token
 
 for causal in [False, True]:
     delta = (saida_pos2(V_mod, causal) - saida_pos2(V, causal)).abs().max()
-    print(f"causal={str(causal):<5} mudança na saída da posição 2 ao alterar a posição 5: {delta:.6f}")
+    print(f"causal={causal!s:<5} mudança na saída da posição 2 ao alterar a posição 5: {delta:.6f}")
 
 # %% [markdown]
 # Sem máscara, alterar o token 5 muda a representação do token 2 — o modelo estaria
@@ -525,7 +525,7 @@ for nome, m in grupos.items():
     n_p = sum(p.numel() for p in m.parameters())
     forma = tuple(m.weight.shape)
     bias = " +bias" if m.bias is not None else ""
-    print(f"  {nome:<10} {str(forma):>14}{bias:<6} {n_p:>12,}  {n_p / total_bloco:>6.1%}")
+    print(f"  {nome:<10} {forma!s:>14}{bias:<6} {n_p:>12,}  {n_p / total_bloco:>6.1%}")
 
 print(f"\n  {'atenção':<10} {'':>20} {attn:>12,}  {attn / total_bloco:>6.1%}")
 print(f"  {'MLP':<10} {'':>20} {mlp:>12,}  {mlp / total_bloco:>6.1%}")

@@ -14,23 +14,25 @@
 # | 2 | Agentic RAG: o agente que busca no próprio curso |
 # | 3 | O agente responde SÓ o que sabe: quando ele decide não buscar |
 #
-# Antes: `python ../modulo-13-rag/lab_cpu.py` foi rodado ao menos uma vez.
+# O índice RAG é construído diretamente por `tools/rag.py`; o módulo 13 não precisa
+# ficar carregado na memória.
 
 # %%
 import json
 import platform
 import re
 import sys
-import time
 from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 RAIZ = AQUI.parent
+sys.path.insert(0, str(RAIZ / "tools"))
 
 import mlx.core as mx
 from mlx_lm import generate, load
+
 
 def gerar_mlx(model, tok, mensagens, ferramentas=None, max_tokens=250):
     prompt = tok.apply_chat_template(mensagens, tools=ferramentas, tokenize=False,
@@ -59,11 +61,11 @@ def extrair_tool_call(texto):
 
 # %%
 def calculadora(expressao: str) -> str:
-    if not re.fullmatch(r"[\d\s+\-*/().]+", expressao or ""):
-        return "erro"
+    from calculadora import calcular
+
     try:
-        return str(eval(expressao, {"__builtins__": {}}, {}))
-    except Exception:
+        return calcular(expressao)
+    except (SyntaxError, ValueError, ZeroDivisionError, OverflowError):
         return "erro"
 
 BASE = {"capital do brasil": "Brasília", "capital da frança": "Paris",
@@ -111,17 +113,15 @@ for modelo_id in ["mlx-community/Qwen2.5-1.5B-Instruct-bf16",
 # perguntas que ele já sabe, pode responder direto. É o meio-termo do módulo 13, seção 6.
 
 # %%
-# Reusa a recuperação do módulo 13 (roda em ~3 min no M4).
-import importlib.util
-spec = importlib.util.spec_from_file_location("rag_base", RAIZ / "modulo-13-rag" / "lab_cpu.py")
-rag = importlib.util.module_from_spec(spec)
-sys.modules["rag_base"] = rag
-spec.loader.exec_module(rag)
-CHUNKS, buscar_hibrida = rag.CHUNKS, rag.buscar_hibrida
+# Reusa apenas a recuperação, sem executar avaliações nem carregar o Qwen PyTorch.
+from rag import IndiceRAG
+
+indice_rag = IndiceRAG(RAIZ)
+CHUNKS, buscar_hibrida = indice_rag.chunks, indice_rag.buscar_hibrida
 
 def buscar_no_curso(consulta: str) -> str:
     topo, _ = buscar_hibrida(consulta, k=2)
-    return "\n---\n".join(f"[{CHUNKS[i]['modulo']}] {CHUNKS[i]['texto'][:300]}" for i in topo)
+    return "\n---\n".join(f"[{CHUNKS[i].modulo}] {CHUNKS[i].texto[:300]}" for i in topo)
 
 FERRAMENTA_RAG = [{"type": "function", "function": {"name": "buscar_no_curso",
     "description": "Busca trechos no material do curso de LLMs. Use para perguntas sobre "

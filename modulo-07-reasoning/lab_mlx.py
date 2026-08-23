@@ -21,14 +21,16 @@
 import json
 import platform
 import re
-import subprocess
 import sys
 import time
 from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
+from execucao import executar_modulo
+
 MODELO = "mlx-community/Qwen2.5-1.5B-Instruct-bf16"
 
 for pasta in ["gsm8k-cot", "gsm8k-direto"]:
@@ -40,13 +42,8 @@ print(f"{len(gabarito)} problemas de teste (split oficial do GSM8K)")
 
 
 def rodar(*args, mostrar=1500):
-    t0 = time.perf_counter()
-    r = subprocess.run([sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True)
-    saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
-    print(f"$ mlx_lm {' '.join(args[:2])} ...  ({time.perf_counter()-t0:.0f}s, exit {r.returncode})")
-    if mostrar:
-        print(saida[-mostrar:])
-    return r.returncode == 0, saida
+    resultado = executar_modulo("mlx_lm", *args, mostrar=mostrar)
+    return resultado.ok, resultado.saida
 
 # %% [markdown]
 # ## Lab 1 — Os dois treinos

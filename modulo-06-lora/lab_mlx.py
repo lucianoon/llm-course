@@ -19,7 +19,6 @@
 
 # %%
 import platform
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -28,7 +27,10 @@ assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cp
 
 import mlx.core as mx
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
+from execucao import executar_modulo
+
 DADOS = AQUI.parent / "modulo-05-sft" / "suporte"
 assert DADOS.exists(), "rode antes: python ../modulo-05-sft/preparar_dados.py"
 
@@ -37,15 +39,10 @@ print(f"mlx device: {mx.default_device()}")
 print(f"dados     : {DADOS}")
 
 # %%
-def rodar(*args, mostrar=2500):
+def rodar(*args, mostrar=2500, verificar=True):
     """Chama a CLI do mlx_lm e devolve (ok, saída)."""
-    t0 = time.perf_counter()
-    r = subprocess.run([sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True)
-    dt = time.perf_counter() - t0
-    saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
-    print(f"$ mlx_lm {' '.join(args[:2])} ...  ({dt:.0f}s, exit {r.returncode})")
-    print(saida[-mostrar:])
-    return r.returncode == 0, saida
+    resultado = executar_modulo("mlx_lm", *args, mostrar=mostrar, verificar=verificar)
+    return resultado.ok, resultado.saida
 
 def tamanho_mb(caminho: Path) -> float:
     if not caminho.exists():
@@ -97,8 +94,8 @@ def treinar(nome: str, **campos):
 
 
 def test_loss(modelo: str, adaptador: Path) -> str:
-    ok, log = rodar("lora", "--model", modelo, "--adapter-path", str(adaptador),
-                    "--data", str(DADOS), "--test", mostrar=0)
+    _ok, log = rodar("lora", "--model", modelo, "--adapter-path", str(adaptador),
+                     "--data", str(DADOS), "--test", mostrar=0)
     for linha in log.splitlines():
         if "Test loss" in linha:
             return linha.split("Test loss")[-1].strip().split()[0]
@@ -145,7 +142,8 @@ print(f"em disco — bf16: ~3.1 GB | 4-bit: {tamanho_mb(Q4)/1000:.2f} GB")
 # +4,3% em inglês, no modelo de 0,5B. Confirmando no 1.5B, com a implementação real.
 
 # %%
-import mlx.nn as nn
+from mlx import nn
+
 
 def perplexidade(model, tokenizer, texto: str) -> float:
     ids = tokenizer.encode(texto)
@@ -210,9 +208,11 @@ print("(o treino roda em subprocesso — use o Monitor de Atividade para o núme
 # Aqui o custo do outro lado da balança.
 
 # %%
-COMUM = dict(model=str(Q4), train=True, data=str(DADOS), iters=200, batch_size=4,
-             num_layers=8, learning_rate=1e-4, mask_prompt=True, max_seq_length=1024,
-             fine_tune_type="lora")
+COMUM = {
+    "model": str(Q4), "train": True, "data": str(DADOS), "iters": 200,
+    "batch_size": 4, "num_layers": 8, "learning_rate": 1e-4, "mask_prompt": True,
+    "max_seq_length": 1024, "fine_tune_type": "lora",
+}
 
 resultados = {}
 for r in [4, 8, 16, 64]:
@@ -292,7 +292,7 @@ ok, _ = rodar("lora", "--model", MODELO_7B, "--train", "--data", str(DADOS),
               "--num-layers", "4",              # só as 4 camadas finais
               "--grad-checkpoint",              # troca compute por memória
               "--max-seq-length", "512",
-              "--learning-rate", "1e-4", "--mask-prompt")
+              "--learning-rate", "1e-4", "--mask-prompt", verificar=False)
 
 if not ok:
     print("\nSe falhou por memória, tente nesta ordem:")

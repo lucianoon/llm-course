@@ -13,37 +13,32 @@
 # | 2 | Grounding medido: o modelo respeita "responda só pelo contexto"? |
 # | 3 | Lost in the middle: a posição do chunk certo importa? |
 #
-# Antes: rode as células 1–4 do `lab_cpu.py` (chunks + índices) — ou execute este
-# arquivo inteiro, que as reconstrói.
+# O arquivo constrói apenas o índice compartilhado de `tools/rag.py`; não é necessário
+# executar o `lab_cpu.py` antes.
 
 # %%
-# Reconstrói a infraestrutura de recuperação do lab_cpu (idêntica).
-exec(open("lab_cpu.py", encoding="utf-8").read().split("## Lab 5")[0].split("# %%", 2)[2]
-     if False else "")  # ← estratégia frágil; melhor: importar de verdade
-
-# A forma robusta: o lab_cpu como módulo.
-import importlib.util
 import platform
 import sys
 from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon"
 
-# Executa o lab_cpu até construir CHUNKS, bm25, buscar_densa, buscar_hibrida, PERGUNTAS.
-# (Ele roda em ~3 min no M4 — o custo é o embedding dos chunks; o resto é leve.)
-spec = importlib.util.spec_from_file_location("rag_base", Path.cwd() / "lab_cpu.py")
-rag = importlib.util.module_from_spec(spec)
-sys.modules["rag_base"] = rag
-spec.loader.exec_module(rag)          # executa o lab inteiro (inclui as avaliações)
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+RAIZ = AQUI.parent
+sys.path.insert(0, str(RAIZ / "tools"))
 
-CHUNKS, buscar_hibrida, PERGUNTAS = rag.CHUNKS, rag.buscar_hibrida, rag.PERGUNTAS
-FORA_DA_BASE = rag.FORA_DA_BASE
+from rag import FORA_DA_BASE, PERGUNTAS, IndiceRAG
+
+# Constrói apenas o índice. Importar lab_cpu executaria também as avaliações e
+# manteria um Qwen PyTorch residente junto do modelo MLX.
+indice_rag = IndiceRAG(RAIZ)
+CHUNKS = indice_rag.chunks
+buscar_hibrida = indice_rag.buscar_hibrida
 
 # %% [markdown]
 # ## Lab 1 — O pipeline completo
 
 # %%
-import mlx.core as mx
 from mlx_lm import generate, load
 
 MODELO = "mlx-community/Qwen2.5-1.5B-Instruct-bf16"
@@ -58,7 +53,7 @@ SISTEMA_RAG = (
 def responder_rag(pergunta: str, k: int = 4, max_tokens: int = 300,
                   posicao_do_certo: str | None = None):
     topo, _ = buscar_hibrida(pergunta, k=k)
-    blocos = [f"[{CHUNKS[i]['modulo']}] {CHUNKS[i]['texto']}" for i in topo]
+    blocos = [f"[{CHUNKS[i].modulo}] {CHUNKS[i].texto}" for i in topo]
     if posicao_do_certo == "fim":
         blocos = blocos[1:] + blocos[:1]      # move o top-1 para o FIM da lista
     contexto = "\n\n---\n\n".join(blocos)
@@ -71,7 +66,7 @@ def responder_rag(pergunta: str, k: int = 4, max_tokens: int = 300,
                          sampler=make_sampler(temp=0.0), verbose=False)
     except (ImportError, TypeError):
         texto = generate(model, tok, prompt=prompt, max_tokens=max_tokens, verbose=False)
-    return texto, [CHUNKS[i]["modulo"] for i in topo]
+    return texto, [CHUNKS[i].modulo for i in topo]
 
 # O assistente, em ação:
 for pergunta, _, _ in [PERGUNTAS[0], PERGUNTAS[4], PERGUNTAS[12]]:

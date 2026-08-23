@@ -9,6 +9,7 @@ gsm8k-grpo/
 dados-destilados/
 dados-vicio/
 tracos_professor.jsonl
+tracos_professor.jsonl.part
 
 # artefatos de treino e modelos locais
 adapters*/
@@ -25,6 +26,9 @@ __pycache__/
 *.pyc
 .venv/
 .ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
 
 # sistema
 .DS_Store

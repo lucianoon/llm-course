@@ -12,30 +12,19 @@ Regras de design (README, seção 6):
 """
 
 import re
+import sys
+from pathlib import Path
 
 from mlx_lm_lora.reward_functions import register_reward_function
 
-
-def _extrair_numero(texto: str):
-    """A extração robusta do módulo 7 — o último número, normalizado."""
-    m = re.search(r"(?:resposta final|final answer|answer is)[:\s]*\$?\s*([\-0-9.,]+)",
-                  texto, re.IGNORECASE)
-    candidato = m.group(1) if m else None
-    if candidato is None:
-        numeros = re.findall(r"-?\$?\d[\d,]*\.?\d*", texto)
-        if not numeros:
-            return None
-        candidato = numeros[-1]
-    limpo = candidato.replace("$", "").replace(",", "").rstrip(".")
-    if limpo.endswith((".0", ".00")):
-        limpo = limpo.split(".")[0]
-    return limpo or None
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+from respostas import extrair_numero
 
 
 @register_reward_function()
 def recompensa_acuracia(prompt, completion, reference_answer, **kwargs):
     """1.0 se a resposta final extraída confere com o gabarito. Senão 0.0."""
-    extraida = _extrair_numero(completion or "")
+    extraida = extrair_numero(completion or "")
     return 1.0 if extraida is not None and extraida == str(reference_answer).strip() else 0.0
 
 

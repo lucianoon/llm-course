@@ -25,11 +25,13 @@
 # %%
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 
-AQUI = Path.cwd()
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
+from execucao import executar_modulo
+
 MODELO = "mlx-community/Qwen2.5-1.5B-Instruct-bf16"
 DADOS_SUPORTE = AQUI / "suporte"
 ADAPTADORES = AQUI / "adapters-suporte"
@@ -103,6 +105,7 @@ print(" ", aderencia("Você pode tentar reiniciar o computador e verificar os ca
 
 # %%
 from mlx_lm import generate, load
+
 
 def responder(model, tokenizer, pergunta, sistema, max_tokens=300):
     """Wrapper defensivo: a assinatura de `generate` mudou entre versões do mlx-lm."""
@@ -180,7 +183,7 @@ assert 1 <= ITERS * BATCH / N_TREINO <= 12, "fora da faixa razoável — ajuste 
 
 # %%
 comando = [
-    sys.executable, "-m", "mlx_lm", "lora",
+    "lora",
     "--model", MODELO,
     "--train",
     "--data", str(DADOS_SUPORTE),
@@ -193,12 +196,7 @@ comando = [
     "--steps-per-eval", "50",
     "--max-seq-length", "1024",
 ]
-print(" ".join(comando).replace(sys.executable, "python"), "\n")
-
-resultado = subprocess.run(comando, capture_output=True, text=True)
-print(resultado.stdout[-3000:])
-if resultado.returncode != 0:
-    print("STDERR:\n", resultado.stderr[-2000:])
+executar_modulo("mlx_lm", *comando, mostrar=3000)
 
 # %% [markdown]
 # **Como ler o log.** O `mlx_lm.lora` imprime `Train loss` a cada `steps_per_report` e
@@ -247,7 +245,8 @@ print(responder(modelo_sft, tokenizer_sft, perguntas_teste[1], SISTEMA_SIMPLES)[
 # **fora** do domínio de fine-tuning.
 
 # %%
-import mlx.nn as nn
+from mlx import nn
+
 
 def perplexidade(model, tokenizer, texto: str) -> float:
     ids = tokenizer.encode(texto)
@@ -289,14 +288,13 @@ for nome, texto in FORA_DO_DOMINIO.items():
 # quantizar ou exportar para GGUF.
 
 # %%
-fusao = subprocess.run(
-    [sys.executable, "-m", "mlx_lm", "fuse",
-     "--model", MODELO,
-     "--adapter-path", str(ADAPTADORES),
-     "--save-path", str(AQUI / "modelo-suporte-fundido")],
-    capture_output=True, text=True,
+executar_modulo(
+    "mlx_lm", "fuse",
+    "--model", MODELO,
+    "--adapter-path", str(ADAPTADORES),
+    "--save-path", str(AQUI / "modelo-suporte-fundido"),
+    mostrar=1500,
 )
-print(fusao.stdout[-1500:] or fusao.stderr[-1500:])
 
 # %%
 # O adaptador é minúsculo comparado ao modelo — a razão de LoRA ser tão prático.
@@ -326,17 +324,16 @@ if DADOS_ALPACA.exists():
     iters_alpaca = 600
     print(f"exemplos: {n_alpaca} | épocas: {iters_alpaca * 4 / n_alpaca:.1f}")
 
-    r = subprocess.run(
-        [sys.executable, "-m", "mlx_lm", "lora",
-         "--model", MODELO, "--train",
-         "--data", str(DADOS_ALPACA),
-         "--adapter-path", str(ADAPT_ALPACA),
-         "--iters", str(iters_alpaca), "--batch-size", "4",
-         "--num-layers", "16", "--learning-rate", "1e-4",
-         "--mask-prompt", "--max-seq-length", "1024"],
-        capture_output=True, text=True,
+    executar_modulo(
+        "mlx_lm", "lora",
+        "--model", MODELO, "--train",
+        "--data", str(DADOS_ALPACA),
+        "--adapter-path", str(ADAPT_ALPACA),
+        "--iters", str(iters_alpaca), "--batch-size", "4",
+        "--num-layers", "16", "--learning-rate", "1e-4",
+        "--mask-prompt", "--max-seq-length", "1024",
+        mostrar=2000,
     )
-    print(r.stdout[-2000:] if r.returncode == 0 else r.stderr[-2000:])
 else:
     print("pasta alpaca/ não encontrada — rode: python preparar_dados.py")
 

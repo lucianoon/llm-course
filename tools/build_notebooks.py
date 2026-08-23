@@ -70,8 +70,30 @@ def as_source(lines: list[str]) -> list[str]:
     return [ln + "\n" for ln in lines[:-1]] + [lines[-1]]
 
 
+def notebook_bootstrap(caminho_relativo: Path) -> list[str]:
+    """Cria um prólogo portátil que dá ao notebook o ``__file__`` do lab-fonte."""
+    relativo = caminho_relativo.as_posix()
+    return as_source([
+        "# Gerado por tools/build_notebooks.py: torna caminhos independentes do cwd do kernel.",
+        "from pathlib import Path as _NotebookPath",
+        "_notebook_origem = _NotebookPath.cwd().resolve()",
+        "_notebook_raiz = next(",
+        "    (p for p in (_notebook_origem, *_notebook_origem.parents)",
+        "     if (p / 'pyproject.toml').is_file()),",
+        "    None,",
+        ")",
+        "if _notebook_raiz is None:",
+        "    raise RuntimeError('abra o notebook dentro do repositório llm-course')",
+        f"__file__ = str(_notebook_raiz / {relativo!r})",
+        "del _NotebookPath, _notebook_origem, _notebook_raiz",
+        "",
+    ])
+
+
 def build(py_path: Path) -> Path:
     cells = parse_percent(py_path.read_text(encoding="utf-8"))
+    primeira_codigo = next(cell for cell in cells if cell["cell_type"] == "code")
+    primeira_codigo["source"] = notebook_bootstrap(py_path.relative_to(ROOT)) + primeira_codigo["source"]
     notebook = {
         "cells": cells,
         "metadata": {

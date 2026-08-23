@@ -9,17 +9,28 @@ Convenção dos títulos: `arquivo → o que procurar`.
 ## 1. O cabeçalho de todo lab
 
 ```python
+import sys
+from pathlib import Path
+
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+
 import torch
-sys.path.insert(0, str(Path.cwd().parent / "tools"))   # habilita: import minigpt
+sys.path.insert(0, str(AQUI.parent / "tools"))   # habilita: import minigpt
 import minigpt
 
 torch.manual_seed(0)          # congela o acaso: mesmo sorteio toda vez
 torch.set_grad_enabled(False) # (só em labs de inferência) desliga a contabilidade de treino
 ```
 
-**O que faz:** prepara o ambiente e torna o experimento reproduzível.
-**Por quê:** `manual_seed` faz o "aleatório" sair igual em toda execução — sem isso, você nunca sabe se uma diferença veio da sua mudança ou do sorteio. `set_grad_enabled(False)` desliga o rastreamento de gradientes (a "contabilidade" que só o treino precisa), economizando memória e tempo.
-**Tropeço comum:** esquecer que a seed fixa *a sequência* de sorteios — inserir uma chamada aleatória no meio do código desloca todos os sorteios seguintes.
+**O que faz:** encontra a pasta do módulo, prepara o ambiente e torna o experimento reproduzível.
+**Por que funciona também no notebook:** `tools/build_notebooks.py` acrescenta à primeira
+célula um pequeno prólogo que procura o `pyproject.toml` e define `__file__` como o caminho
+do `lab.py` original. Assim, o mesmo cabeçalho funciona com o kernel iniciado na raiz ou
+na pasta do módulo; o notebook não depende do diretório acidental do processo.
+**Por que a seed:** `manual_seed` faz o "aleatório" sair igual em toda execução — sem isso,
+você nunca sabe se uma diferença veio da sua mudança ou do sorteio.
+**Tropeço comum:** esquecer que a seed fixa *a sequência* de sorteios — inserir uma chamada
+aleatória no meio do código desloca todos os sorteios seguintes.
 
 ---
 
@@ -44,7 +55,7 @@ ids = torch.tensor(tk.encode(texto).ids)
 
 ```python
 def pegar_batch(fonte, batch_size, bloco):
-    inicio = torch.randint(len(fonte) - bloco - 1, (batch_size,))
+    inicio = torch.randint(len(fonte) - bloco, (batch_size,))
     x = torch.stack([fonte[i : i + bloco] for i in inicio])         # a entrada
     y = torch.stack([fonte[i + 1 : i + 1 + bloco] for i in inicio]) # o alvo: x deslocado 1
     return x, y
@@ -215,10 +226,12 @@ Todo experimento do curso começa conferindo um valor conhecido a priori:
 ## 11. Os padrões dos labs MLX (módulos 5+, no Mac)
 
 ```python
-ok = subprocess.run([sys.executable, "-m", "mlx_lm", "lora", "--train", ...])
+from execucao import executar_modulo
+
+resultado = executar_modulo("mlx_lm", "lora", "--train", ..., mostrar=2000)
 ```
 
-**Por que subprocess em vez de importar:** os treinos do MLX são ferramentas de linha de comando (`mlx_lm.lora`, `mlx_lm.generate`) — o lab as chama como você chamaria no terminal, capturando a saída. Vantagem: o que funciona no notebook funciona igual no terminal.
+**Por que subprocess em vez de importar:** os treinos do MLX são ferramentas de linha de comando (`mlx_lm.lora`, `mlx_lm.generate`) — o lab as chama como você chamaria no terminal, capturando a saída. O módulo compartilhado `tools/execucao.py` concentra tempo, log e código de saída; por padrão, qualquer falha interrompe o lab em vez de deixar as células seguintes usarem artefatos incompletos.
 **O padrão defensivo `try/except (ImportError, TypeError)`:** a API do `mlx-lm` muda entre versões (o sampler, por exemplo); o lab tenta a forma nova e cai para a antiga. Se ambas falharem, a mensagem de erro é a informação útil — reporte-a.
 **Configuração por YAML:** `rank`, `scale` e afins **não têm flags de linha de comando** no `mlx_lm.lora` — só via `--config arquivo.yaml`. O lab gera o YAML explicitamente e o **imprime antes de treinar**: flags silenciosamente ignoradas são o pior tipo de bug.
 **`mx.clear_cache()` entre modelos:** o Mac tem 16 GB para tudo; descarregar um modelo antes de carregar o próximo (`del model; mx.clear_cache()`) é o que evita o estouro de memória no meio do lab.

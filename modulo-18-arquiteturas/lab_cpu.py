@@ -89,7 +89,7 @@ print(f"SSM: entrada {tuple(x.shape)} -> saída {tuple(y.shape)}, estado de {D_E
 
 # %%
 # A propriedade que muda tudo: a memória de inferência é CONSTANTE no comprimento.
-print(f"\nmemória de 'histórico' por sequência (inferência):")
+print("\nmemória de 'histórico' por sequência (inferência):")
 print(f"{'L':>8} {'attention KV cache':>20} {'SSM estado':>14}")
 print("-" * 46)
 for L in [1024, 8192, 131072, 1_000_000]:
@@ -217,7 +217,7 @@ def custo_hibrido(n_layers, frac_atencao, L, d=4096):
     custo_full_attn = n_layers * L
     return custo / custo_full_attn
 
-print(f"custo de compute em contexto longo (L grande), vs 100% atenção:")
+print("custo de compute em contexto longo (L grande), vs 100% atenção:")
 print(f"{'% de camadas de atenção':>26} {'custo relativo':>16}")
 print("-" * 44)
 for frac in [1.0, 0.5, 0.25, 0.1, 0.0]:

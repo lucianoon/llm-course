@@ -175,7 +175,7 @@ Aqui está o resultado mais importante do módulo para você. Lab 8, Qwen2.5-0.5
 
 Se seu caso de uso é português, meça a degradação **em português**. O número que os papers reportam é quase sempre em inglês.
 
-> ⚠️ **Como não medir.** A primeira versão deste lab usou uma única frase de 30 tokens e obteve **−13%** — a quantização teria melhorado o modelo, o que é impossível. Perplexidade em textos curtos tem variância maior que o efeito medido. É o erro mais comum em posts sobre quantização. Meça em milhares de tokens, em domínios variados, e reporte a faixa.
+> ⚠️ **Como não medir.** A primeira versão deste lab usou uma única frase de 30 tokens e obteve **−13%** — naquela amostra, o ruído favoreceu a sequência avaliada. Isso não demonstra uma melhora geral: perplexidade em textos curtos tem variância maior que o efeito medido. É um erro comum em posts sobre quantização. Meça em milhares de tokens, em domínios variados, com mais de uma amostra, e reporte a faixa.
 
 ---
 

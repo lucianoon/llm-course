@@ -18,8 +18,8 @@
 
 # %%
 import json
-import math
 import re
+import sys
 import time
 from pathlib import Path
 
@@ -29,6 +29,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 torch.manual_seed(0)
 torch.set_grad_enabled(False)
+AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
@@ -45,13 +47,13 @@ model.eval()
 
 # %%
 def calculadora(expressao: str) -> str:
-    """Avalia uma expressão aritmética de forma restrita (sem eval geral)."""
-    if not re.fullmatch(r"[\d\s+\-*/().]+", expressao):
-        return "erro: expressão inválida"
+    """Avalia aritmética com operadores e magnitudes limitados."""
+    from calculadora import calcular
+
     try:
-        return str(eval(expressao, {"__builtins__": {}}, {}))
-    except Exception as e:
-        return f"erro: {e}"
+        return calcular(expressao)
+    except (SyntaxError, ValueError, ZeroDivisionError, OverflowError) as erro:
+        return f"erro: {erro}"
 
 FERRAMENTAS = [{
     "type": "function",
@@ -160,7 +162,7 @@ def responder_cot(a, b):
     return nums[-1] if nums else ""
 
 def responder_agente(a, b):
-    resp, trilha = agente(f"Quanto é {a} × {b}?", verbose=False)
+    resp, _trilha = agente(f"Quanto é {a} × {b}?", verbose=False)
     nums = re.findall(r"\d+", resp)
     return nums[-1] if nums else ""
 
