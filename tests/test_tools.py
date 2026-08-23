@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from tools.build_notebooks import notebook_bootstrap, parse_percent
+from tools.build_notebooks import ROOT, descobrir_labs, notebook_bootstrap, parse_percent
 from tools.calculadora import calcular
 from tools.execucao import executar_modulo
 from tools.jsonl import preparar_jsonl_retomavel
@@ -16,6 +17,11 @@ from tools.respostas import extrair_numero
 
 
 class TestBuildNotebooks(unittest.TestCase):
+    def test_descobre_fase_zero_e_modulos(self):
+        relativos = {caminho.relative_to(ROOT).as_posix() for caminho in descobrir_labs()}
+        self.assertIn("00-iniciante-zero/lab.py", relativos)
+        self.assertIn("modulo-01-fundamentos/lab.py", relativos)
+
     def test_parseia_markdown_e_codigo(self):
         cells = parse_percent("# %% [markdown]\n# Título\n# %%\nx = 1\n")
         self.assertEqual([cell["cell_type"] for cell in cells], ["markdown", "code"])
@@ -34,6 +40,17 @@ class TestBuildNotebooks(unittest.TestCase):
                 with patch("pathlib.Path.cwd", return_value=cwd):
                     exec(fonte, namespace)  # noqa: S102 - valida o prólogo Python gerado
                 self.assertEqual(Path(namespace["__file__"]), modulo / "lab.py")
+
+    def test_lab_da_fase_zero_executa_por_inteiro(self):
+        resultado = subprocess.run(
+            [sys.executable, "00-iniciante-zero/lab.py"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(resultado.returncode, 0, resultado.stderr)
+        self.assertIn("acurácia: 2/3", resultado.stdout)
 
 
 class TestCalculadora(unittest.TestCase):

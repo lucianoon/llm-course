@@ -2,6 +2,17 @@
 
 Uma nota honesta antes de tudo: técnicas com marca registrada ("PNL", "aprendizado acelerado", estilos de aprendizagem visual/auditivo) **não têm sustentação científica**. O que tem — replicado por décadas de pesquisa em ciência cognitiva (Roediger, Bjork, Dunlosky, Ericsson) — é um conjunto pequeno de princípios de efeito enorme. Este documento os transforma em protocolo concreto para ESTE curso.
 
+## Para quem começa do zero
+
+Na [`Fase 0`](00-iniciante-zero/), use blocos de 45–60 minutos e mire **5–7 horas por
+semana**. Nas primeiras semanas, executar e modificar código vale mais do que criar muitos
+cartões. Para cada conceito: leia um exemplo, feche o material, reescreva uma versão menor,
+execute, leia o erro e corrija. Comece o protocolo completo e o Anki no módulo 1.
+
+Se terminal, Python e matemática forem novos ao mesmo tempo, isso não é sinal de falta de
+talento: são três vocabulários sendo aprendidos juntos. Reduza o tamanho do exercício, não
+pule a verificação. O gate continua sendo explicar e executar sem copiar.
+
 ## Os seis princípios (e por que funcionam)
 
 ### 1. Prática de recuperação — o efeito de testagem
