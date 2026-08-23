@@ -17,19 +17,18 @@
 
 # %%
 import math
-import re
 import sys
-from collections import Counter
 from pathlib import Path
 
 import torch
+import torch.nn.functional as F
 
 torch.manual_seed(0)
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
 RAIZ = AQUI.parent
 sys.path.insert(0, str(RAIZ / "tools"))
 
-from rag import PERGUNTAS
+from rag import PERGUNTAS, IndiceRAG
 
 # %% [markdown]
 # ## Lab 1 — O custo do n pequeno
@@ -117,88 +116,21 @@ for corr in [0.0, 0.5, 0.8, 0.95]:
 #
 # ## Lab 3 — Auditoria do módulo 13
 #
-# O curso afirmou: densa (92% hit@1) > BM25 (84%). Foi medido em n=25. Reconstruímos a
-# recuperação e aplicamos o rigor deste módulo à nossa própria conclusão.
+# O curso afirmou: densa (92% hit@1) > BM25 (84%). Foi medido em n=25. Reutilizamos a
+# MESMA infraestrutura do módulo 13 e aplicamos o rigor deste módulo à conclusão.
 
 # %%
-# --- reconstrução compacta da recuperação do módulo 13 (mesmo código, mesma seed) ---
-def extrair_chunks(md_path, alvo=220, overlap=40):
-    texto = md_path.read_text(encoding="utf-8")
-    chunks = []
-    for parte in re.split(r"(?m)^(#{1,2} .+)$", texto):
-        if re.match(r"^#{1,2} ", parte or ""):
-            continue
-        palavras = (parte or "").split()
-        if len(palavras) < 30:
-            continue
-        for i in range(0, len(palavras), alvo - overlap):
-            p = " ".join(palavras[i: i + alvo])
-            if len(p.split()) >= 30:
-                chunks.append({"modulo": md_path.parent.name, "texto": p})
-            if i + alvo >= len(palavras):
-                break
-    return chunks
-
-CHUNKS = []
-for md in sorted(RAIZ.glob("modulo-*/README.md")):
-    if "modulo-14" in str(md):
-        continue                     # o próprio módulo 14 fora do índice (senão vaza)
-    CHUNKS.extend(extrair_chunks(md))
-
-def tokenizar_busca(t):
-    return re.findall(r"[a-záàâãéêíóôõúüç0-9@#\-]+", t.lower())
-
-class BM25:
-    def __init__(self, docs, k1=1.5, b=0.75):
-        self.k1, self.b = k1, b
-        self.toks = [tokenizar_busca(d) for d in docs]
-        self.N = len(docs)
-        self.medio = sum(len(t) for t in self.toks) / self.N
-        df = Counter(tok for t in self.toks for tok in set(t))
-        self.idf = {t: math.log((self.N - n + 0.5) / (n + 0.5) + 1) for t, n in df.items()}
-        self.tf = [Counter(t) for t in self.toks]
-
-    def top1(self, consulta):
-        q = tokenizar_busca(consulta)
-        melhor, melhor_s = 0, -1.0
-        for i in range(self.N):
-            s = sum(self.idf.get(t, 0) * self.tf[i][t] * (self.k1 + 1) /
-                    (self.tf[i][t] + self.k1 * (1 - self.b + self.b * len(self.toks[i]) / self.medio))
-                    for t in q if t in self.tf[i])
-            if s > melhor_s:
-                melhor, melhor_s = i, s
-        return melhor
-
-import torch.nn.functional as F
-from transformers import AutoModel, AutoTokenizer
-
-tok_e5 = AutoTokenizer.from_pretrained("intfloat/multilingual-e5-small")
-e5 = AutoModel.from_pretrained("intfloat/multilingual-e5-small")
-e5.eval()
-
-@torch.no_grad()
-def embed(textos, batch=16):
-    out = []
-    for i in range(0, len(textos), batch):
-        enc = tok_e5(textos[i:i+batch], padding=True, truncation=True,
-                     max_length=512, return_tensors="pt")
-        h = e5(**enc).last_hidden_state
-        m = enc["attention_mask"].unsqueeze(-1).float()
-        out.append(F.normalize((h * m).sum(1) / m.sum(1), dim=-1))
-    return torch.cat(out)
-
-# As 25 perguntas vêm do banco canônico compartilhado pelos módulos 13–15.
+# O próprio módulo 14 fica fora do índice para não revelar as respostas da auditoria.
+indice_rag = IndiceRAG(RAIZ, excluir_modulos={"modulo-14-avaliacao"})
+CHUNKS = indice_rag.chunks
 print(f"{len(CHUNKS)} chunks | {len(PERGUNTAS)} perguntas (banco compartilhado)")
-
-bm25 = BM25([c["texto"] for c in CHUNKS])
-EMB = embed([f"passage: {c['texto']}" for c in CHUNKS])
 
 hits_bm, hits_dn = [], []
 for pergunta, _, fontes in PERGUNTAS:
-    hits_bm.append(1 if CHUNKS[bm25.top1(pergunta)]["modulo"] in fontes else 0)
-    q = embed([f"query: {pergunta}"])
-    top_dn = int((q @ EMB.T)[0].argmax())
-    hits_dn.append(1 if CHUNKS[top_dn]["modulo"] in fontes else 0)
+    ordem_bm, _ = indice_rag.bm25.buscar(pergunta, k=1)
+    ordem_dn, _ = indice_rag.buscar_densa(pergunta, k=1)
+    hits_bm.append(1 if CHUNKS[ordem_bm[0]].modulo in fontes else 0)
+    hits_dn.append(1 if CHUNKS[ordem_dn[0]].modulo in fontes else 0)
 
 acc_bm, acc_dn = sum(hits_bm) / len(hits_bm), sum(hits_dn) / len(hits_dn)
 print(f"hit@1 — BM25: {acc_bm:.0%} | densa: {acc_dn:.0%} (n={len(PERGUNTAS)})")

@@ -17,26 +17,19 @@
 # %%
 import platform
 import re
-import subprocess
 import sys
-import time
 from pathlib import Path
 
 assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cpu.py"
 
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
+from execucao import executar_modulo
 
 
 def rodar(modulo, *args, mostrar=0, verificar=True):
-    t0 = time.perf_counter()
-    r = subprocess.run(
-        [sys.executable, "-m", modulo, *args], capture_output=True, text=True, check=False
-    )
-    if mostrar or r.returncode != 0:
-        print((r.stdout + r.stderr)[-max(mostrar, 1200):])
-    if verificar and r.returncode != 0:
-        raise RuntimeError(f"{modulo} {' '.join(args[:2])} falhou com exit {r.returncode}")
-    return r.returncode == 0, r.stdout + r.stderr, time.perf_counter() - t0
+    resultado = executar_modulo(modulo, *args, mostrar=mostrar, verificar=verificar)
+    return resultado.ok, resultado.saida, resultado.segundos
 
 
 def extrair_metricas(saida: str) -> dict:

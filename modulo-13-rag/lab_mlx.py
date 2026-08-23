@@ -53,7 +53,7 @@ SISTEMA_RAG = (
 def responder_rag(pergunta: str, k: int = 4, max_tokens: int = 300,
                   posicao_do_certo: str | None = None):
     topo, _ = buscar_hibrida(pergunta, k=k)
-    blocos = [f"[{CHUNKS[i]['modulo']}] {CHUNKS[i]['texto']}" for i in topo]
+    blocos = [f"[{CHUNKS[i].modulo}] {CHUNKS[i].texto}" for i in topo]
     if posicao_do_certo == "fim":
         blocos = blocos[1:] + blocos[:1]      # move o top-1 para o FIM da lista
     contexto = "\n\n---\n\n".join(blocos)
@@ -66,7 +66,7 @@ def responder_rag(pergunta: str, k: int = 4, max_tokens: int = 300,
                          sampler=make_sampler(temp=0.0), verbose=False)
     except (ImportError, TypeError):
         texto = generate(model, tok, prompt=prompt, max_tokens=max_tokens, verbose=False)
-    return texto, [CHUNKS[i]["modulo"] for i in topo]
+    return texto, [CHUNKS[i].modulo for i in topo]
 
 # O assistente, em ação:
 for pergunta, _, _ in [PERGUNTAS[0], PERGUNTAS[4], PERGUNTAS[12]]:

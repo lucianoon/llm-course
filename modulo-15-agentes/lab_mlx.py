@@ -121,7 +121,7 @@ CHUNKS, buscar_hibrida = indice_rag.chunks, indice_rag.buscar_hibrida
 
 def buscar_no_curso(consulta: str) -> str:
     topo, _ = buscar_hibrida(consulta, k=2)
-    return "\n---\n".join(f"[{CHUNKS[i]['modulo']}] {CHUNKS[i]['texto'][:300]}" for i in topo)
+    return "\n---\n".join(f"[{CHUNKS[i].modulo}] {CHUNKS[i].texto[:300]}" for i in topo)
 
 FERRAMENTA_RAG = [{"type": "function", "function": {"name": "buscar_no_curso",
     "description": "Busca trechos no material do curso de LLMs. Use para perguntas sobre "

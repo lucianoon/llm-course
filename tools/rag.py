@@ -10,6 +10,7 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 
 PERGUNTAS = [
@@ -49,13 +50,22 @@ FORA_DA_BASE = [
 ]
 
 
-def extrair_chunks(md_path: Path, alvo_palavras: int = 220, overlap: int = 40) -> list[dict]:
+@dataclass(frozen=True)
+class Chunk:
+    """Trecho recuperável com sua origem pedagógica."""
+
+    modulo: str
+    titulo: str
+    texto: str
+
+
+def extrair_chunks(md_path: Path, alvo_palavras: int = 220, overlap: int = 40) -> list[Chunk]:
     """Corta um README por seções e subdivide seções longas com sobreposição."""
     if not 0 <= overlap < alvo_palavras:
         raise ValueError("overlap deve ser menor que alvo_palavras")
     texto = md_path.read_text(encoding="utf-8")
     modulo = md_path.parent.name
-    chunks: list[dict] = []
+    chunks: list[Chunk] = []
     titulo_atual = modulo
     for parte in re.split(r"(?m)^(#{1,2} .+)$", texto):
         if re.match(r"^#{1,2} ", parte or ""):
@@ -67,15 +77,19 @@ def extrair_chunks(md_path: Path, alvo_palavras: int = 220, overlap: int = 40) -
         for i in range(0, len(palavras), alvo_palavras - overlap):
             pedaco = " ".join(palavras[i : i + alvo_palavras])
             if len(pedaco.split()) >= 30:
-                chunks.append({"modulo": modulo, "titulo": titulo_atual, "texto": pedaco})
+                chunks.append(Chunk(modulo=modulo, titulo=titulo_atual, texto=pedaco))
             if i + alvo_palavras >= len(palavras):
                 break
     return chunks
 
 
-def carregar_chunks(raiz: Path) -> list[dict]:
-    chunks: list[dict] = []
+def carregar_chunks(raiz: Path, excluir_modulos: set[str] | None = None) -> list[Chunk]:
+    """Carrega os READMEs, opcionalmente excluindo módulos para evitar vazamento."""
+    excluidos = excluir_modulos or set()
+    chunks: list[Chunk] = []
     for md_path in sorted(raiz.glob("modulo-*/README.md")):
+        if md_path.parent.name in excluidos:
+            continue
         chunks.extend(extrair_chunks(md_path))
     if not chunks:
         raise ValueError(f"nenhum README de módulo encontrado em {raiz}")
@@ -124,20 +138,25 @@ class BM25:
 class IndiceRAG:
     """Índice híbrido BM25 + E5, sem carregar um LLM gerador."""
 
-    def __init__(self, raiz: Path, modelo_embeddings: str = "intfloat/multilingual-e5-small"):
+    def __init__(
+        self,
+        raiz: Path,
+        modelo_embeddings: str = "intfloat/multilingual-e5-small",
+        excluir_modulos: set[str] | None = None,
+    ):
         import torch
         from torch.nn import functional
         from transformers import AutoModel, AutoTokenizer
 
         self._torch = torch
         self._functional = functional
-        self.chunks = carregar_chunks(raiz)
-        self.bm25 = BM25([chunk["texto"] for chunk in self.chunks])
+        self.chunks = carregar_chunks(raiz, excluir_modulos=excluir_modulos)
+        self.bm25 = BM25([chunk.texto for chunk in self.chunks])
         self.tokenizer = AutoTokenizer.from_pretrained(modelo_embeddings)
         self.encoder = AutoModel.from_pretrained(modelo_embeddings)
         self.encoder.eval()
         self.embeddings = self._embed(
-            [f"passage: {chunk['texto']}" for chunk in self.chunks]
+            [f"passage: {chunk.texto}" for chunk in self.chunks]
         )
 
     def _embed(self, textos: list[str], batch: int = 16):

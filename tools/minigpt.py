@@ -137,9 +137,9 @@ class MiniGPT(nn.Module):
 
 def pegar_batch(fonte, batch_size, bloco, generator=None):
     """Amostra um batch; ``generator`` permite isolar treino e avaliação."""
-    if len(fonte) <= bloco + 1:
-        raise ValueError(f"fonte precisa ter mais de {bloco + 1} tokens")
-    inicio = torch.randint(len(fonte) - bloco - 1, (batch_size,), generator=generator)
+    if len(fonte) <= bloco:
+        raise ValueError(f"fonte precisa ter mais de {bloco} tokens")
+    inicio = torch.randint(len(fonte) - bloco, (batch_size,), generator=generator)
     x = torch.stack([fonte[i: i + bloco] for i in inicio])
     y = torch.stack([fonte[i + 1: i + 1 + bloco] for i in inicio])
     return x, y

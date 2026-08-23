@@ -19,7 +19,6 @@
 
 # %%
 import platform
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -29,6 +28,9 @@ assert platform.machine() == "arm64", "este lab requer Apple Silicon; use lab_cp
 import mlx.core as mx
 
 AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd()
+sys.path.insert(0, str(AQUI.parent / "tools"))
+from execucao import executar_modulo
+
 DADOS = AQUI.parent / "modulo-05-sft" / "suporte"
 assert DADOS.exists(), "rode antes: python ../modulo-05-sft/preparar_dados.py"
 
@@ -39,17 +41,8 @@ print(f"dados     : {DADOS}")
 # %%
 def rodar(*args, mostrar=2500, verificar=True):
     """Chama a CLI do mlx_lm e devolve (ok, saída)."""
-    t0 = time.perf_counter()
-    r = subprocess.run(
-        [sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True, check=False
-    )
-    dt = time.perf_counter() - t0
-    saida = r.stdout if r.returncode == 0 else (r.stdout + "\n--- STDERR ---\n" + r.stderr)
-    print(f"$ mlx_lm {' '.join(args[:2])} ...  ({dt:.0f}s, exit {r.returncode})")
-    print(saida[-mostrar:])
-    if verificar and r.returncode != 0:
-        raise RuntimeError(f"mlx_lm {' '.join(args[:2])} falhou com exit {r.returncode}")
-    return r.returncode == 0, saida
+    resultado = executar_modulo("mlx_lm", *args, mostrar=mostrar, verificar=verificar)
+    return resultado.ok, resultado.saida
 
 def tamanho_mb(caminho: Path) -> float:
     if not caminho.exists():

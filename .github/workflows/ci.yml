@@ -19,6 +19,8 @@ jobs:
         run: uv sync --extra dev --extra test --locked
       - name: Compilar fontes Python
         run: uv run python -m compileall -q .
+      - name: Gerar notebooks derivados
+        run: uv run python tools/build_notebooks.py
       - name: Verificar qualidade estática
         run: uv run ruff check .
       - name: Executar testes sem downloads de modelos

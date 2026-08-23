@@ -23,7 +23,6 @@
 import json
 import platform
 import re
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -59,6 +58,8 @@ sys.path.insert(0, str(AQUI.parent / "tools"))
 # ## Etapa 1 — O professor gera
 # %%
 import mlx.core as mx
+from execucao import executar_modulo
+from jsonl import preparar_jsonl_retomavel
 from mlx_lm import generate, load
 from respostas import extrair_numero
 
@@ -78,7 +79,7 @@ TRACOS_PARCIAL = AQUI / "tracos_professor.jsonl.part"
 N_TRACOS_ESPERADO = len(problemas) * K_TENTATIVAS
 
 if TRACOS.exists():
-    n_existente = sum(1 for linha in TRACOS.open(encoding="utf-8") if linha.strip())
+    n_existente = preparar_jsonl_retomavel(TRACOS)
     if n_existente != N_TRACOS_ESPERADO:
         # Compatibilidade com uma execução antiga interrompida, que escrevia direto
         # no nome final. A próxima etapa retoma do ponto alcançado.
@@ -87,7 +88,7 @@ if TRACOS.exists():
 if not TRACOS.exists():
     concluidos = 0
     if TRACOS_PARCIAL.exists():
-        concluidos = sum(1 for linha in TRACOS_PARCIAL.open(encoding="utf-8") if linha.strip())
+        concluidos = preparar_jsonl_retomavel(TRACOS_PARCIAL)
         if concluidos > N_TRACOS_ESPERADO:
             raise RuntimeError("arquivo parcial tem mais traços que o esperado")
         print(f"retomando geração após {concluidos}/{N_TRACOS_ESPERADO} traços")
@@ -113,7 +114,7 @@ if not TRACOS.exists():
                       f"~{dt/(i+1)*(len(problemas)-i-1)/60:.0f} min restantes)")
     del prof
     mx.clear_cache()
-    n_final = sum(1 for linha in TRACOS_PARCIAL.open(encoding="utf-8") if linha.strip())
+    n_final = preparar_jsonl_retomavel(TRACOS_PARCIAL)
     if n_final != N_TRACOS_ESPERADO:
         raise RuntimeError(f"geração incompleta: {n_final}/{N_TRACOS_ESPERADO} traços")
     TRACOS_PARCIAL.replace(TRACOS)
@@ -199,13 +200,7 @@ for nome, dados in [("train", unicos[n_valid:]), ("valid", unicos[:n_valid])]:
 
 # %%
 def rodar(*args, mostrar=1200):
-    r = subprocess.run(
-        [sys.executable, "-m", "mlx_lm", *args], capture_output=True, text=True, check=False
-    )
-    print(r.stdout[-mostrar:] if r.returncode == 0 else r.stderr[-mostrar:])
-    if r.returncode != 0:
-        raise RuntimeError(f"mlx_lm {' '.join(args[:2])} falhou com exit {r.returncode}")
-    return r.returncode == 0
+    return executar_modulo("mlx_lm", *args, mostrar=mostrar).ok
 
 iters = max(150, n_treino * 3 // 4)          # ~3 épocas
 print(f"{n_treino} exemplos, {iters} iters (batch 4) = {iters*4/n_treino:.1f} épocas")

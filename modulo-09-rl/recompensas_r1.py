@@ -20,13 +20,11 @@ from mlx_lm_lora.reward_functions import register_reward_function
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from respostas import extrair_numero
 
-_extrair_numero = extrair_numero
-
 
 @register_reward_function()
 def recompensa_acuracia(prompt, completion, reference_answer, **kwargs):
     """1.0 se a resposta final extraída confere com o gabarito. Senão 0.0."""
-    extraida = _extrair_numero(completion or "")
+    extraida = extrair_numero(completion or "")
     return 1.0 if extraida is not None and extraida == str(reference_answer).strip() else 0.0
 
 
