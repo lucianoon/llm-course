@@ -1,4 +1,4 @@
-# 🧠 Customização de LLMs — do zero ao estado da arte
+# 🧠 Customização de LLMs Curso Completo
 
 Um curso completo e autônomo sobre como modelos de linguagem funcionam e como customizá-los — **construído de baixo para cima e verificado por medição.** Todo número na teoria saiu de um laboratório que roda; quando a medição desmentiu o que estava escrito (aconteceu dezenas de vezes), o material foi corrigido e **o erro virou conteúdo.**
 
