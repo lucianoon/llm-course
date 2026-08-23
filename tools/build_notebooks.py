@@ -9,7 +9,7 @@ Formato aceito no lab.py:
     codigo_python = "aqui"
 
 Uso:
-    python tools/build_notebooks.py            # converte todos os modulo-*/lab.py
+    python tools/build_notebooks.py            # converte a Fase 0 e todos os módulos
     python tools/build_notebooks.py modulo-01-fundamentos/lab.py
 """
 
@@ -20,6 +20,14 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def descobrir_labs() -> list[Path]:
+    """Encontra os labs da Fase 0 e dos módulos, em ordem estável."""
+    return sorted([
+        *ROOT.glob("00-iniciante-zero/lab*.py"),
+        *ROOT.glob("modulo-*/lab*.py"),
+    ])
 
 
 def parse_percent(text: str) -> list[dict]:
@@ -113,7 +121,7 @@ def main() -> None:
     # qualquer máquina) e lab_mlx.py (Apple Silicon).
     targets = (
         [Path(a) if Path(a).is_absolute() else ROOT / a for a in sys.argv[1:]]
-        or sorted(ROOT.glob("modulo-*/lab*.py"))
+        or descobrir_labs()
     )
     if not targets:
         print("nenhum lab.py encontrado")

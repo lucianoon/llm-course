@@ -4,8 +4,12 @@ Um curso completo e autônomo sobre como modelos de linguagem funcionam e como c
 
 Não é uma coletânea de tutoriais. É a área inteira reconstruída peça por peça — tokenizer, transformer, treino, fine-tuning, RL, RAG, agentes, interpretabilidade — cada uma implementada do zero e medida, com atenção especial ao que muda **em português**.
 
-> **21 módulos · 3 fases · ~50 laboratórios executáveis · 140 cartões de revisão**
+> **Fase 0 + 21 módulos · trilha essencial + especializações · ~50 laboratórios executáveis**
 > Fundamentos e ciência rodam em **CPU** (qualquer máquina). Customização com modelos reais roda no **Mac Apple Silicon** (MLX).
+
+> 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
+> e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
+> Você não precisa concluir todos os temas avançados para começar a trabalhar bem.
 
 ---
 
@@ -27,37 +31,53 @@ Não é uma coletânea de tutoriais. É a área inteira reconstruída peça por 
 
 ---
 
-## As três fases
+## O mapa completo
+
+### ⚪ Fase 0 — Alfabetização técnica · *para quem nunca programou*
+
+Python, terminal, testes, Git e a matemática mínima aparecem juntos em
+[`00-iniciante-zero/`](00-iniciante-zero/). O laboratório começa com variáveis e termina
+com um preditor de próxima palavra, sem baixar modelos.
+
+### A rota profissional essencial
+
+Para chegar ao primeiro nível profissional, siga esta ordem:
+
+`Fase 0 → módulos 1–6 → módulo 11 → módulos 13–15 → projeto (módulo 12)`
+
+Essa rota ensina a construir, testar, avaliar, documentar e entregar sistemas de LLM.
+Os demais módulos continuam disponíveis como especializações. Veja os gates e projetos
+em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md).
 
 ### 🔵 Fase 1 — Fundação (módulos 1–12) · *o pipeline completo, do zero*
 
-| # | Módulo | Pergunta central | HW |
-|---|---|---|---|
-| 1 | [Fundamentos de LLMs](modulo-01-fundamentos/) | O que um LLM realmente calcula? | CPU |
-| 2 | [Transformers, Attention e QKV](modulo-02-attention/) | Como o contexto vira representação? | CPU |
-| 3 | [Como um LLM é treinado](modulo-03-treino/) | Pré-treino, objetivo, escala, custo | CPU |
-| 4 | [Curadoria de datasets](modulo-04-dados/) | Por que dado é o gargalo real | CPU |
-| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Mac |
-| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Mac |
-| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Mac |
-| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Mac |
-| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Mac |
-| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Mac |
-| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Mac |
-| 12 | [Projeto final](modulo-12-projeto/) | Fechar o ciclo ponta a ponta | Mac |
+| # | Módulo | Pergunta central | Rota | HW |
+|---|---|---|---|---|
+| 1 | [Fundamentos de LLMs](modulo-01-fundamentos/) | O que um LLM realmente calcula? | Essencial | CPU |
+| 2 | [Transformers, Attention e QKV](modulo-02-attention/) | Como o contexto vira representação? | Essencial | CPU |
+| 3 | [Como um LLM é treinado](modulo-03-treino/) | Pré-treino, objetivo, escala, custo | Essencial | CPU |
+| 4 | [Curadoria de datasets](modulo-04-dados/) | Por que dado é o gargalo real | Essencial | CPU |
+| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Essencial | Mac |
+| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Essencial | Mac |
+| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Especialização | Mac |
+| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Especialização | Mac |
+| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Especialização | Mac |
+| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Especialização | Mac |
+| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | Mac |
+| 12 | [Projeto final](modulo-12-projeto/) | Fechar o ciclo ponta a ponta | Essencial, após o 15 | Mac |
 
 ### 🟢 Fase 2 — Expansão (módulos 13–18) · *o que as melhores formações têm* — tudo em CPU
 
-| # | Módulo | Pergunta central |
-|---|---|---|
-| 13 | [RAG e conhecimento externo](modulo-13-rag/) | Como dar ao modelo o que ele não sabe, sem treinar? |
-| 14 | [Avaliação como disciplina](modulo-14-avaliacao/) | Quantas amostras para afirmar que A é melhor que B? |
-| 15 | [Agentes e tool use](modulo-15-agentes/) | O que muda quando o modelo age em vez de responder? |
-| 16 | [Interpretabilidade mecanicista](modulo-16-interpretabilidade/) | O que acontece DENTRO do modelo — e como intervir? |
-| 17 | [Sistemas de treino em escala](modulo-17-sistemas/) | Como treinar em 1.000 GPUs o que não cabe em uma? |
-| 18 | [Fronteira de arquiteturas](modulo-18-arquiteturas/) | O que vem depois do transformer? |
+| # | Módulo | Pergunta central | Rota |
+|---|---|---|---|
+| 13 | [RAG e conhecimento externo](modulo-13-rag/) | Como dar ao modelo o que ele não sabe, sem treinar? | Essencial |
+| 14 | [Avaliação como disciplina](modulo-14-avaliacao/) | Quantas amostras para afirmar que A é melhor que B? | Essencial |
+| 15 | [Agentes e tool use](modulo-15-agentes/) | O que muda quando o modelo age em vez de responder? | Essencial |
+| 16 | [Interpretabilidade mecanicista](modulo-16-interpretabilidade/) | O que acontece DENTRO do modelo — e como intervir? | Especialização |
+| 17 | [Sistemas de treino em escala](modulo-17-sistemas/) | Como treinar em 1.000 GPUs o que não cabe em uma? | Especialização |
+| 18 | [Fronteira de arquiteturas](modulo-18-arquiteturas/) | O que vem depois do transformer? | Especialização |
 
-### 🟣 Fase 3 — Maestria (módulos 19–21) · *de aluno a pesquisador*
+### 🟣 Fase 3 — Pesquisa (módulos 19–21) · *especialização opcional*
 
 [**FASE-3-MAESTRIA.md**](FASE-3-MAESTRIA.md) — reproduzir papers · contribuir e publicar · pesquisa própria · a trilha contínua.
 
@@ -67,7 +87,8 @@ O currículo se mede contra **Stanford CS336/CS224N, ARENA, Berkeley CS294 e Kar
 
 ## Como cada módulo é organizado
 
-Cada pasta `modulo-NN-*/` tem:
+Cada pasta `modulo-NN-*/` tem a estrutura abaixo. A Fase 0 usa a mesma convenção com
+`README.md`, `lab.py`, `lab.ipynb` gerado e `exercicios.md`.
 
 | Arquivo | O que é |
 |---|---|
@@ -93,11 +114,16 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 
 ## Começando
 
-**1. Escolha o ambiente (a leitura de 5 min que evita 90% dos problemas):**
+**1. Escolha seu ponto de entrada:**
+- Nunca programou ou não conhece testes, Git e tensores → [`00-iniciante-zero/`](00-iniciante-zero/)
+- Já programa e quer a rota mais curta até projetos profissionais → [`TRILHA-ESSENCIAL.md`](TRILHA-ESSENCIAL.md)
+- Já domina os fundamentos e quer pesquisa → escolha uma especialização no mapa acima
+
+**2. Escolha o ambiente (a leitura de 5 min que evita 90% dos problemas):**
 - Módulos de CPU (fundamentos + toda a Fase 2) → [`00-setup.md`](00-setup.md)
 - Customização com modelos reais no Mac → [`00-setup-mac.md`](00-setup-mac.md)
 
-**2. Clone e prepare (no Mac, após instalar o `gh`):**
+**3. Clone e prepare (no Mac, após instalar o `gh`):**
 ```bash
 gh repo clone lucianoon/llm-course
 cd llm-course
@@ -105,9 +131,9 @@ python tools/build_notebooks.py      # gera os notebooks a partir dos labs
 ```
 Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
 
-**3. Para cada módulo, na ordem:** leia o `README.md` → rode o `lab_cpu.py` **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman. Não avance com menos de 80% no checklist de saída. (O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).)
+**4. Para cada módulo da sua rota:** leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman. Não avance com menos de 80% no checklist de saída. (O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).)
 
-**4. Estude para reter:** importe [`revisao/baralho-*.tsv`](revisao/) no [Anki](https://apps.ankiweb.net) e faça 15 min por dia. É o piso que impede o conhecimento de escorrer.
+**5. Estude para reter:** importe [`revisao/baralho-*.tsv`](revisao/) no [Anki](https://apps.ankiweb.net) e faça 15 min por dia a partir do módulo 1. Na Fase 0, priorize executar, errar e corrigir o código.
 
 ---
 

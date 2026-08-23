@@ -1,5 +1,9 @@
 # 00 — Setup do ambiente (Windows / CPU)
 
+> 🌱 **Começando sem experiência em programação?** Faça primeiro a
+> [`Fase 0 — iniciante absoluto`](00-iniciante-zero/). Este guia prepara o ambiente;
+> a Fase 0 ensina o vocabulário e as operações usadas nos comandos abaixo.
+
 > ℹ️ **Este documento cobre os módulos 1–4 (CPU) e a estratégia de GPU em nuvem.** A trilha
 > principal dos módulos 5–12 roda no **Mac M4 com MLX** — veja [`00-setup-mac.md`](00-setup-mac.md).
 > A seção 3 abaixo (Colab/Runpod) permanece como alternativa CUDA, útil se você quiser

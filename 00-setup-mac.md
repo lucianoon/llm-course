@@ -1,5 +1,8 @@
 # 00b — Migração e setup no Mac M4 (16 GB)
 
+> 🌱 **Começando sem experiência em programação?** Prepare o ambiente aqui e faça a
+> [`Fase 0 — iniciante absoluto`](00-iniciante-zero/) antes do módulo 1.
+
 A partir do módulo 5 o curso roda no seu **MacBook M4 com 16 GB de memória unificada**, usando **MLX** — o framework de ML da Apple para Apple Silicon.
 
 Este documento cobre a migração da pasta, o ambiente, e — mais importante — o **orçamento de memória realista** de 16 GB, que determina quais modelos você pode tocar.
