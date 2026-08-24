@@ -37,7 +37,11 @@ A tabela que deveria estar colada em todo monitor da área:
 
 Medido no Lab 1 (dois modelos com acurácias VERDADEIRAS de 62% e 65%): com n=25, o ranking observado sai **invertido em 36% das avaliações**; com n=100, em 31,5%; até n=500 erra 15% das vezes. Toda decisão "rodei 100 exemplos e A deu 2 pontos a mais" carrega essa taxa de erro embutida.
 
-**E a auditoria do próprio curso (Lab 3):** o "densa 92% > BM25 84%" do módulo 13, testado com o rigor devido — 3 discordâncias a favor da densa, 1 contra; McNemar exato **p = 0,625**; bootstrap pareado da diferença: **+8pp, IC95 [−8pp, +24pp]**. O IC cruza zero com folga. A conclusão honesta rebaixada: *"a densa venceu nesta amostra; n=25 não distingue os sistemas"*. Nada no módulo 13 estava errado — o que muda é a força da afirmação permitida.
+**E a auditoria do próprio curso (Lab 3):** a primeira avaliação dizia "densa 92% >
+BM25 84%", mas usava o módulo de origem como proxy de relevância. Um chunk irrelevante
+do módulo correto podia contar como hit. O módulo 13 agora usa passagens rotuladas e o
+Lab 3 recalcula tanto as métricas quanto o teste pareado. A lição ficou mais forte: um
+intervalo de confiança não salva um gabarito que mede a coisa errada.
 
 **As outras auditorias do lab, medidas:**
 - **O juiz de 0.5B é um selecionador de posição puro:** 50% de acurácia em pares com gabarito e **0% de consistência entre ordens** — ele escolhe a mesma letra sempre, independente do conteúdo. Qualquer win rate dele é ruído com formato de número.

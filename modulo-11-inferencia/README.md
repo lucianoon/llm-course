@@ -187,4 +187,4 @@ Uma A100 a US$ 1,50/h servindo um 8B em 4-bit com continuous batching faz ~2.000
 - [ ] Batch maior: o que melhora, o que piora, e quem decide o ponto?
 - [ ] Faça a conta: H100 a US$ 3/h, 3.500 tok/s agregados — custo por Mtok?
 
-Depois: `lab_cpu.py` (MoE do zero + colapso + decodificação especulativa, executados), `lab_mlx.py` (MoE real, níveis de quantização e speculative no M4).
+Depois: `lab_cpu.py` (MoE do zero + colapso + decodificação especulativa, executados), `lab_qat.py` (PTQ contra QAT), `lab_mlx.py` no M4 ou `lab_moe_cuda.py` em GPU NVIDIA. Feche com o benchmark de serviço em [`SERVING.md`](SERVING.md).

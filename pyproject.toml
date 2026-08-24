@@ -28,6 +28,24 @@ mlx = [
 rl = [
   "mlx-lm-lora<1",
 ]
+gpu = [
+  "torch>=2.4,<3",
+  "transformers>=5.2,<6",
+  "datasets>=3,<5",
+  "accelerate>=1,<2",
+  "peft>=0.17,<1",
+  "trl>=0.25,<1",
+  "bitsandbytes>=0.46,<1",
+  "huggingface-hub>=0.34,<2",
+]
+serving = [
+  "vllm>=0.11,<1",
+  "httpx>=0.28,<1",
+]
+tracking = [
+  "mlflow>=3,<4",
+  "wandb>=0.21,<1",
+]
 dev = [
   "pytest>=8,<9",
   "ruff>=0.9,<1",

@@ -161,4 +161,4 @@ Regra de bolso do que sobrevive bem à compressão: comportamento, formato, proc
 - [ ] Que viés a filtragem por gabarito introduz?
 - [ ] O que sobrevive bem à compressão e o que morre primeiro?
 
-Depois: `lab_cpu.py` (executado — logits, KL dos dois lados, e uma destilação real), `lab_mlx.py` (o pipeline R1-Distill no seu M4).
+Depois: `lab_cpu.py` (executado — logits, KL dos dois lados e uma destilação real), `lab_avancado.py` (features, múltiplos professores e destilação progressiva), e uma rota real: `lab_mlx.py` no Apple Silicon ou `lab_cuda.py` em GPU NVIDIA.

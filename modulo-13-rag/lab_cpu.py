@@ -31,7 +31,7 @@ AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd(
 RAIZ = AQUI.parent
 sys.path.insert(0, str(RAIZ / "tools"))
 
-from rag import PERGUNTAS
+from rag import PERGUNTAS, passagem_relevante
 
 # %% [markdown]
 # ## Lab 1 — Chunking
@@ -68,10 +68,12 @@ def extrair_chunks(md_path: Path, alvo_palavras=220, overlap=40):
 
 CHUNKS = []
 for md in sorted(RAIZ.glob("modulo-*/README.md")):
-    CHUNKS.extend(extrair_chunks(md))
+    numero = int(md.parent.name.split("-", 2)[1])
+    if numero <= 12:
+        CHUNKS.extend(extrair_chunks(md))
 
 tamanhos = [len(c["texto"].split()) for c in CHUNKS]
-print(f"{len(CHUNKS)} chunks de {len(list(RAIZ.glob('modulo-*/README.md')))} módulos")
+print(f"{len(CHUNKS)} chunks dos módulos 1–12")
 print(f"palavras por chunk: média {sum(tamanhos)/len(tamanhos):.0f} | "
       f"min {min(tamanhos)} | max {max(tamanhos)}")
 print(f"\nexemplo: [{CHUNKS[40]['modulo']} / {CHUNKS[40]['titulo'][:40]}]")
@@ -80,12 +82,13 @@ print(" ", CHUNKS[40]["texto"][:180], "...")
 # %% [markdown]
 # ## As 25 perguntas de avaliação
 #
-# Cada uma tem resposta em módulo(s) conhecido(s) — o gabarito de recuperação. É a
-# regra de ouro dos módulos 5 e 14: **a métrica vem antes do sistema.**
+# Cada uma tem uma ou mais passagens rotuladas que contêm a evidência da resposta. O
+# módulo de origem sozinho não basta: um trecho irrelevante do módulo certo não é hit.
+# É a regra de ouro dos módulos 5 e 14: **a métrica vem antes do sistema.**
 
 # %%
-# (pergunta, resposta curta, módulos-fonte aceitáveis). O banco canônico fica em
-# tools/rag.py para que os módulos 13, 14 e 15 avaliem exatamente os mesmos casos.
+# (pergunta, resposta curta, módulos-fonte). O gabarito de passagens fica em
+# tools/rag.py para que os módulos 13 e 14 avaliem exatamente os mesmos casos.
 print(f"{len(PERGUNTAS)} perguntas | módulos cobertos: "
       f"{len({m for _, _, ms in PERGUNTAS for m in ms})}")
 
@@ -199,7 +202,7 @@ def buscar_hibrida(consulta: str, k=10, c=60):
 # %% [markdown]
 # ## Lab 5 — A avaliação verificável
 #
-# hit@k: a resposta está em algum chunk do módulo certo entre os k primeiros?
+# hit@k: uma passagem que contém a evidência está entre os k primeiros?
 # MRR: em que posição, em média, o primeiro acerto aparece (1/rank).
 
 # %%
@@ -207,10 +210,17 @@ def avaliar(nome, buscador, k_max=5):
     hits = {1: 0, 3: 0, 5: 0}
     mrr = 0.0
     falhas = []
-    for pergunta, _, fontes in PERGUNTAS:
+    for pergunta, _, _ in PERGUNTAS:
         ordem, _ = buscador(pergunta, k=k_max)
-        modulos = [CHUNKS[i]["modulo"] for i in ordem]
-        acertos = [r for r, m in enumerate(modulos) if m in fontes]
+        acertos = [
+            rank
+            for rank, indice in enumerate(ordem)
+            if passagem_relevante(
+                pergunta,
+                CHUNKS[indice]["modulo"],
+                CHUNKS[indice]["texto"],
+            )
+        ]
         primeiro = acertos[0] if acertos else None
         for k in hits:
             if primeiro is not None and primeiro < k:
@@ -281,7 +291,7 @@ SUBSET = [0, 2, 4, 5, 6, 10, 19, 23]     # perguntas com resposta curta e extra�
 torch.manual_seed(0)
 chunk_irrelevante = CHUNKS[7]["texto"]    # um chunk qualquer, fixo
 
-print(f"{'pergunta':<44} {'sem ctx':>9} {'ctx certo':>10} {'ctx errado':>11}")
+print(f"{'pergunta':<44} {'sem ctx':>9} {'ctx recuperado':>14} {'ctx controle':>12}")
 print("-" * 78)
 ganhos = []
 for idx in SUBSET:
@@ -299,12 +309,11 @@ print(f"\nganho médio do contexto recuperado: {media:+.2f} nats "
       f"= resposta {math.exp(media):,.0f}x mais provável")
 
 # %% [markdown]
-# **As três colunas contam a história completa do RAG:** o contexto certo desloca a
-# probabilidade da resposta em ordens de grandeza (compare com o módulo 7: raciocínio
-# fazia o mesmo — os dois são formas de pôr informação onde a atenção alcança). E a
-# coluna do contexto ERRADO mostra o custo do retrieval ruim: frequentemente pior que
-# nenhum contexto — o modelo confia no lixo que você entregou. **RAG com recuperação
-# ruim é pior que não ter RAG.**
+# **As três colunas contam a história completa do RAG:** o contexto recuperado pode
+# deslocar a probabilidade da resposta em ordens de grandeza. Ele não é chamado de
+# "certo" por definição: o gabarito de passagens permite verificar isso separadamente.
+# A coluna de controle mostra o custo do retrieval ruim: pode ser pior que nenhum
+# contexto — o modelo confia no lixo que você entregou.
 #
 # ## Lab 7 — Abstenção: "não está na base"
 #

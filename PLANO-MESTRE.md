@@ -15,7 +15,7 @@ O objetivo mudou: não é mais acompanhar um curso de 36h, é **se tornar refer�
 | **fast.ai** | Pedagogia top-down: o todo funcional primeiro, os detalhes depois | ⚠️ Parcial — nosso curso é bottom-up; a fase 2 alterna |
 | **HuggingFace smol-course / EleutherAI** | Prática aberta, avaliação, comunidade | ⚠️ Falta o módulo de avaliação (14) e a prática de contribuição (fase 3) |
 
-**Leitura honesta da tabela:** a Fase 1 (módulos 1–12) já cobre o núcleo do CS336 + CS224N com um diferencial raro (tudo medido) e um déficit conhecido (escala de brinquedo). O que falta para o nível "melhor do mundo" está nas lacunas: interpretabilidade, agentes, avaliação, sistemas, e — acima de tudo — **as habilidades de pesquisa da fase 3**, que nenhum curso ensina e todo pesquisador de elite tem.
+**Leitura honesta da tabela:** a Fase 1 (módulos 1–12) já cobre o núcleo do CS336 + CS224N com um diferencial raro (resultados ligados a experimentos e limitações explícitas) e um déficit conhecido (escala de brinquedo). O que falta para o nível "melhor do mundo" está nas lacunas: interpretabilidade, agentes, avaliação, sistemas, e — acima de tudo — **as habilidades de pesquisa da fase 3**, que nenhum curso ensina e todo pesquisador de elite tem.
 
 ---
 
@@ -46,13 +46,13 @@ Mesmo padrão da fase 1: teoria medida, `lab_cpu`/`lab_mlx`, exercícios com gab
 
 O que separa os melhores não é conhecer mais técnicas — é o ciclo de pesquisa. Três músculos, treinados em sequência:
 
-| # | Módulo | O músculo |
+| Etapa | Trilha | O músculo |
 |---|---|---|
-| 19 ✅ | **Ler e reproduzir papers** | Escolher um paper recente e **reproduzi-lo de ponta a ponta** — o rito de passagem de todo pesquisador. Aprende-se a ler criticamente, a identificar o que o paper esconde, e a distância entre "entendi" e "fiz funcionar". |
-| 20 ✅ | **Contribuir e publicar** | Uma contribuição real a um projeto aberto (mlx-lm, vllm, lm-eval-harness) + escrever tecnicamente em público (blog/relatórios). Quem é referência na área é **visível** na área. |
-| 21 ✅ | **Pesquisa própria** | Uma pergunta sua, não respondida na literatura, atacada com o método do curso: hipótese → experimento mínimo → medição → escrita. O projeto do módulo 12, elevado a pesquisa. |
+| 1 ✅ | **Ler e reproduzir papers** | Escolher um paper recente e **reproduzi-lo de ponta a ponta** — o rito de passagem de todo pesquisador. Aprende-se a ler criticamente, a identificar o que o paper esconde, e a distância entre "entendi" e "fiz funcionar". |
+| 2 ✅ | **Contribuir e publicar** | Uma contribuição real a um projeto aberto (mlx-lm, vllm, lm-eval-harness) + escrever tecnicamente em público (blog/relatórios). Quem é referência na área é **visível** na área. |
+| 3 ✅ | **Pesquisa própria** | Uma pergunta sua, não respondida na literatura, atacada com o método do curso: hipótese → experimento mínimo → medição → escrita. O projeto do módulo 12, elevado a pesquisa. |
 
-E a **trilha contínua**, sem fim: 2 papers/semana (método do módulo 19), o baralho de revisão diário, e o diário de erros — para sempre. Os melhores da área não "terminaram de estudar"; institucionalizaram o estudo.
+E a **trilha contínua**, sem fim: 2 papers/semana (método da etapa 1), o baralho de revisão diário, e o diário de erros — para sempre. Os melhores da área não "terminaram de estudar"; institucionalizaram o estudo.
 
 ---
 
@@ -64,9 +64,9 @@ Assumindo ~10–12 h/semana de estudo deliberado:
 |---|---|
 | Semanas 1–2 | Migração ao M4 + execução de TODOS os labs MLX (com correções) + início do método de estudo (revisão espaçada da fase 1) |
 | Semanas 3–10 | Fase 2, um módulo a cada ~10 dias, com intercalação da fase 1 (ver MÉTODO) |
-| Semanas 11–14 | Módulo 19 (reprodução de um paper) |
+| Semanas 11–14 | Etapa 1 da trilha de pesquisa (reprodução de um paper) |
 | Contínuo a partir da semana 3 | Baralho diário (15 min) + sabatinas espaçadas |
-| Semana 15+ | Módulos 20–21 — e aqui o "curso" acaba e a carreira de especialista começa |
+| Semana 15+ | Etapas 2–3 da trilha de pesquisa — e aqui o "curso" acaba e a carreira de especialista começa |
 
 **Sobre o I2A2 (out/2026–jan/2027):** com este plano, quando ele começar você estará na fase 3. Se mantiver a matrícula, ele vira o que universidades chamam de *seminário de auditoria* — você compara, questiona e extrai dos instrutores o que material nenhum contém. Se cancelar, nada essencial se perde.
 
@@ -74,7 +74,7 @@ Assumindo ~10–12 h/semana de estudo deliberado:
 
 ## Princípios de construção (herdados da fase 1, agora explícitos)
 
-1. **Nada entra na teoria sem ser medido** — e quando a medição desmentir, o erro vira conteúdo.
+1. **Resultados experimentais entram com escopo e status de evidência** — e quando a medição desmentir, o texto e o registro mudam.
 2. **Todo módulo produz artefatos de revisão** — cartões novos no baralho, verbetes no glossário, padrões no guia de código.
 3. **Escala de brinquedo com aviso de escala** — todo resultado de MiniGPT declara explicitamente o que transfere e o que não.
 4. **Português como cidadão de primeira classe** — os efeitos específicos do idioma (tokenização, quantização, avaliação) são medidos, não assumidos.

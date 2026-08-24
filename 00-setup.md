@@ -9,6 +9,8 @@
 > A seção 3 abaixo (Colab/Runpod) permanece como alternativa CUDA, útil se você quiser
 > reproduzir as receitas da indústria ou treinar modelos acima do teto do M4.
 
+Para a nova rota NVIDIA reproduzível, com TRL, PEFT e vLLM, use [`00-setup-gpu.md`](00-setup-gpu.md).
+
 Seu ambiente detectado: **Windows 11**, **Python 3.11**, **sem GPU NVIDIA local**.
 
 Isso define a estratégia do curso: módulos 1–4 rodam inteiros na sua máquina (CPU basta para tokenizadores, inspeção de modelos pequenos e curadoria de dados). A partir do módulo 5 (SFT), você precisa de GPU — e a decisão de *qual* GPU é ela própria conteúdo do curso.

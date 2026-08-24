@@ -275,4 +275,4 @@ O sintoma é inconfundível e a causa é uma linha de código. Verifique **sempr
 - [ ] Quais três coisas precisam estar certas na formatação de um exemplo de SFT?
 - [ ] Seu modelo responde certo e depois continua falando sozinho. Diagnóstico?
 
-Depois, abra o `lab.py`. O Lab 7 é um experimento controlado: mesmo modelo, mesmo compute, corpus limpo contra corpus poluído.
+Depois, abra o `lab.py`. O Lab 7 é um experimento controlado: mesmo modelo, mesmo compute, corpus limpo contra corpus poluído. Antes de usar dados externos, aplique o gate de proveniência, licença, checksum e PII descrito em [`../GOVERNANCA-DE-DADOS.md`](../GOVERNANCA-DE-DADOS.md).

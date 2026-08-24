@@ -2,7 +2,7 @@
 
 > **Pergunta central:** você consegue atravessar o pipeline inteiro — problema → dados → treino → alinhamento → serving — tomando cada decisão por medição, e defendê-la?
 
-Não há lab neste módulo. Há um projeto, um contrato de entrega, e os critérios pelos quais você mesmo vai se avaliar. Tudo o que o projeto exige já foi construído nos módulos 1–11; o trabalho aqui é **integração e julgamento**.
+Não há lab neste módulo. Há um projeto, um contrato de entrega, e os critérios pelos quais você mesmo vai se avaliar. Tudo o que o projeto exige já foi construído nos módulos 1–11; o trabalho aqui é **integração e julgamento**. Antes de concluir, use o protocolo de aceite em [`VALIDACAO.md`](VALIDACAO.md).
 
 ---
 

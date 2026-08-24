@@ -29,7 +29,7 @@ Para cada caso, RAG, fine-tuning, os dois, ou nenhum — com o teste que justifi
 
 ### A2. A tabela que surpreendeu
 
-No lab, a híbrida (88% hit@1) perdeu para a densa pura (92%).
+Rode o lab com o gabarito de passagens e compare a híbrida com a densa pura.
 
 a) Explique o mecanismo pelo qual o RRF pode piorar o sistema.
 b) Em que condições o híbrido paga — e como você DETECTARIA essas condições antes de adotar?
@@ -37,7 +37,7 @@ c) Proponha uma variante do RRF que mitigue o problema.
 
 <details><summary>Gabarito</summary>
 
-a) O RRF dá peso igual aos dois rankings. Quando um sistema é dominante (densa acerta 92% no top-1) e o outro erra em perguntas que o dominante acerta, a fusão promove os erros do fraco: um chunk errado bem ranqueado no BM25 rouba a posição 1 do chunk certo da densa.
+a) O RRF dá peso igual aos dois rankings. Quando um sistema domina o outro, a fusão pode promover os erros do mais fraco: um chunk irrelevante bem ranqueado no BM25 pode roubar a posição 1 de uma passagem relevante da busca densa. Confirme se isso acontece na execução atual antes de concluir.
 
 b) O híbrido paga quando as falhas são **complementares** — cada sistema acerta perguntas que o outro erra. Detecção: rode os dois separados no seu conjunto de avaliação e monte a matriz de concordância (ambos acertam / só A / só B / ambos erram). Se "só BM25 acerta" é quase vazio, a fusão só puxa para baixo. É uma tabela de 4 células que quase ninguém faz antes de adotar "híbrido é melhor".
 
@@ -57,7 +57,7 @@ b) O que isso implica para a frase "melhorei o hit@1, logo o sistema melhorou"?
 
 a) 1) **Fraseado distante**: o chunk contém a informação com outras palavras; a resposta-alvo exata ("ln 2") pode ficar *menos* provável que uma paráfrase — a métrica de log-prob da string exata pune isso. 2) **Diluição de atenção**: 200 palavras de contexto competem com a pergunta; a resposta curta fica mais longe do fim do prompt. 3) **Conflito de formato**: o chunk pode induzir o modelo a continuar o texto do chunk em vez de responder.
 
-b) Que recuperação e geração se avaliam SEPARADAS e o sistema, de ponta a ponta: hit@1 é condição necessária, não suficiente. Um chunk "certo" pela fonte pode ser inútil pelo fraseado — e a otimização real de RAG frequentemente está em COMO o chunk entra no prompt (posição, formato, compressão), não só em qual chunk.
+b) Que recuperação e geração se avaliam SEPARADAS e o sistema, de ponta a ponta: hit@1 é condição necessária, não suficiente. Mesmo uma passagem rotulada como relevante pode ser mal utilizada pelo gerador — e a otimização real de RAG frequentemente está em COMO o chunk entra no prompt (posição, formato, compressão), não só em qual chunk.
 </details>
 
 ---
@@ -120,7 +120,7 @@ O hit@1 cai? As fontes "concorrentes" roubam o top-1 de qual sistema — BM25 ou
 
 <details><summary>Gabarito esperado</summary>
 
-Espere queda de hit@1 (pelo critério fonte-módulo, o glossário "rouba" acertos — ele contém as respostas!). Isso expõe uma decisão de design real: duplicação semântica na base confunde a ATRIBUIÇÃO mesmo quando ajuda o usuário. Soluções de produção: dedup semântico do índice (módulo 4, MinHash sobre embeddings), ou aceitar múltiplas fontes como corretas no gabarito. Não há resposta única — há a decisão consciente.
+O glossário pode "roubar" posições mesmo contendo respostas válidas. Antes de medir, amplie o gabarito com as passagens relevantes do novo documento; caso contrário, você estará penalizando uma recuperação útil. Isso expõe uma decisão real: o gabarito deve representar relevância para o usuário, não apenas a origem editorial preferida.
 </details>
 
 ---

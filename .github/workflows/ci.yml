@@ -6,12 +6,23 @@ on:
 
 jobs:
   testes-rapidos:
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }} · Python ${{ matrix.python }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.11"
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: macos-latest
+            python: "3.12"
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python }}
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
@@ -25,3 +36,8 @@ jobs:
         run: uv run ruff check .
       - name: Executar testes sem downloads de modelos
         run: uv run python -m pytest
+      - name: Executar novos labs CPU de supervisão e QAT
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.11'
+        run: |
+          uv run python modulo-07-reasoning/lab_process_supervision.py
+          uv run python modulo-11-inferencia/lab_qat.py

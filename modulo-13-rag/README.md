@@ -4,7 +4,7 @@
 
 A fase 1 apontou para cá uma dúzia de vezes: *"problema de conhecimento? RAG"*. Este módulo paga a dívida. E fecha o quadro conceitual do curso: **fine-tuning muda o que o modelo É; RAG muda o que ele VÊ.** Comportamento se treina; conhecimento se entrega no contexto.
 
-O lab constrói o sistema sobre a base de conhecimento mais útil disponível: **o próprio curso** — um assistente de estudo sobre os 12 módulos, com avaliação verificável (sabemos em qual módulo cada resposta mora).
+O lab constrói o sistema sobre a base de conhecimento mais útil disponível: **o próprio curso** — um assistente de estudo sobre os 12 módulos, com avaliação verificável por passagens rotuladas que contêm a evidência de cada resposta.
 
 ## Objetivos
 
@@ -92,7 +92,9 @@ O bi-encoder comprime pergunta e documento **separadamente** — barato, mas ceg
 
 O erro clássico: avaliar o sistema inteiro lendo respostas finais. Quando a resposta sai errada, foi a busca ou a geração? Sem separar, não se sabe o que consertar.
 
-**A recuperação se avalia sozinha, com gabarito de fonte:**
+**A recuperação se avalia sozinha, com gabarito de passagem:** o módulo de origem é
+metadado, não relevância. Um chunk qualquer do módulo correto não conta como acerto;
+ele precisa conter a evidência rotulada para a resposta.
 
 | Métrica | Pergunta que responde |
 |---|---|
@@ -100,18 +102,11 @@ O erro clássico: avaliar o sistema inteiro lendo respostas finais. Quando a res
 | **MRR** | em que posição o primeiro acerto aparece, em média (1/rank) |
 | nDCG | versão com relevância graduada — quando há "muito relevante" vs "relevante" |
 
-Medido — 201 chunks dos 12 módulos, 25 perguntas com fonte conhecida:
-
-| Sistema | hit@1 | hit@3 | hit@5 | MRR |
-|---|---|---|---|---|
-| BM25 | 84% | 100% | 100% | 0,91 |
-| **Densa (e5-small)** | **92%** | 100% | 100% | **0,96** |
-| Híbrida (RRF) | 88% | 100% | 100% | 0,94 |
-
-Dois achados honestos nessa tabela:
-
-1. **A híbrida NÃO venceu a densa aqui** (88% < 92%). O RRF misturou o ranking mais fraco do BM25 e puxou a densa para baixo. A lição que os tutoriais omitem: o híbrido paga quando as falhas são *complementares*; quando um sistema domina o outro em quase tudo, a fusão dilui. Meça antes de adotar — "híbrido é sempre melhor" é folclore.
-2. **hit@3 = 100% para todos** — neste corpus pequeno e limpo, a briga acontece só no top-1. Em bases reais (milhões de chunks, ruído), as curvas se separam muito mais; o exercício B2 degrada o corpus para ver isso.
+> **Correção metodológica:** a primeira versão do lab usava apenas o módulo de origem
+> como gabarito e reportava BM25 84%, densa 92% e RRF 88% em hit@1. Esse critério podia
+> contar um chunk irrelevante do módulo correto como hit. Os números foram retirados da
+> teoria; rode `lab_cpu.py` para obter a medição atual com gabarito no nível de passagem.
+> O episódio é parte do conteúdo: antes da estatística, valide o que o rótulo significa.
 
 ---
 

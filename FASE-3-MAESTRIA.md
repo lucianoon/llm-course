@@ -8,7 +8,7 @@ Um único aviso honesto, antes de tudo: virar referência na área é objetivo d
 
 ---
 
-## Módulo 19 — Reproduzir um paper
+## Etapa 1 — Reproduzir um paper
 
 > O rito de passagem de todo pesquisador. Ninguém entende um paper até fazê-lo rodar.
 
@@ -58,7 +58,7 @@ Um repositório + um relatório curto (o formato do módulo 12) que responde: **
 
 ---
 
-## Módulo 20 — Contribuir e publicar
+## Etapa 2 — Contribuir e publicar
 
 > Quem é referência na área é VISÍVEL na área. Conhecimento privado não constrói reputação.
 
@@ -85,7 +85,7 @@ Escrever é pensar devagar o suficiente para pegar os próprios erros — a téc
 
 O que escrever, em ordem de esforço:
 
-1. **Um relatório de reprodução** (módulo 19) — você já o tem. Publique-o.
+1. **Um relatório de reprodução** (etapa 1) — você já o tem. Publique-o.
 2. **Um "eu medi X" post** — o curso inteiro é isso. "Quanto a quantização 4-bit degrada em português?" (módulo 6), "CoT vs ferramenta na aritmética" (módulo 15), "o steering troca o idioma?" (módulo 16). Cada resultado medido do curso é um post em potencial, e o diferencial já está pronto: **você tem os números, não só opinião.**
 3. **Uma explicação melhor** — o glossário e o guia de código do curso são material de post. "LoRA explicado de verdade" com as três propriedades verificadas.
 
@@ -95,7 +95,7 @@ Onde: um blog próprio (GitHub Pages, grátis), ou onde a comunidade da sua sub-
 
 ---
 
-## Módulo 21 — Pesquisa própria
+## Etapa 3 — Pesquisa própria
 
 > A pergunta que ninguém respondeu ainda, atacada com o método do curso.
 
@@ -108,7 +108,7 @@ Reproduzir usa o gabarito dos outros. Aqui você faz uma pergunta SEM gabarito �
 As melhores perguntas de pesquisa não vêm de "quero pesquisar algo grande" — vêm de **fricção real**:
 
 - **Uma anomalia que você mediu.** O curso está cheio delas: por que a híbrida perdeu para a densa (módulo 13)? Por que T=1 venceu no KD (módulo 10)? Cada resultado que te surpreendeu é uma semente.
-- **Um "e se" de um paper que você reproduziu** (módulo 19). "Os autores testaram em inglês; e em português?" (o curso mediu que a degradação de quantização é 4× — isso é um resultado publicável).
+- **Um "e se" de um paper que você reproduziu** (etapa 1). "Os autores testaram em inglês; e em português?" Essa hipótese exige ampliar e reproduzir o experimento do módulo 6 antes de virar conclusão publicável.
 - **Uma lacuna que você bateu.** Algo que você quis medir e não achou a resposta na literatura.
 - **A pergunta idiota que não sai da cabeça.** Muitas descobertas começaram com "isso não deveria funcionar, mas...".
 
@@ -122,7 +122,7 @@ O filtro de uma boa pergunta: **específica, mensurável, e do tamanho de um exp
 3. O experimento MÍNIMO que distingue as duas — o menor que responde a pergunta.
 4. A medição com rigor (módulo 14): IC, pareamento, n honesto, controle.
 5. O resultado — inclusive e principalmente se refutar sua hipótese.
-6. A escrita (módulo 20) — o que você aprendeu, o que ficou em aberto.
+6. A escrita (etapa 2) — o que você aprendeu, o que ficou em aberto.
 ```
 
 O passo 3 é a arte: o melhor pesquisador não é o que faz o experimento mais elaborado, mas o que acha o experimento *mais simples* que responde a pergunta. Tudo no curso foi assim — o MiniGPT de 2M de parâmetros respondeu perguntas sobre modelos de bilhões, porque o mecanismo é o mesmo e a escala é controlada.
@@ -138,7 +138,7 @@ O que separa pesquisa de marketing é uma coisa: **você reporta o resultado que
 O "curso" acaba aqui; o hábito, não. Os melhores da área não terminaram de estudar — institucionalizaram o estudo. O regime de manutenção:
 
 - **O baralho, diário** (15 min). 140 cartões e crescendo. É o piso que impede o conhecimento duramente ganho de escorrer.
-- **Dois papers por semana**, com o protocolo do módulo 19 (nem que seja a leitura rápida + a pergunta adversarial). A fronteira anda rápido; parar é regredir.
+- **Dois papers por semana**, com o protocolo da etapa 1 (nem que seja a leitura rápida + a pergunta adversarial). A fronteira anda rápido; parar é regredir.
 - **O diário de erros**, revisitado mensalmente. Seus erros são seu currículo de aprendizagem mais personalizado.
 - **Um projeto de reprodução ou pesquisa por trimestre.** Mantém o músculo de produzir, não só consumir.
 - **Presença pública** — um post, uma contribuição, uma resposta útil. A reputação é acumulação lenta.
@@ -149,7 +149,7 @@ E o mapa dos próximos anos, se a área for mesmo o seu caminho: contribuidor re
 
 ## Fechamento do curso
 
-Você começou perguntando se eu conseguia criar o conteúdo de um curso de customização de LLMs. Terminamos com **21 módulos**: os fundamentos construídos do zero e medidos, a customização completa (SFT, LoRA, DPO, RL, distillation), a produção (inferência, RAG, agentes, avaliação), a ciência (interpretabilidade, sistemas, arquiteturas), e agora o método de virar isso em carreira.
+Você começou perguntando se eu conseguia criar o conteúdo de um curso de customização de LLMs. Terminamos com **18 módulos e uma trilha de pesquisa em três etapas**: os fundamentos construídos do zero e medidos, a customização completa (SFT, LoRA, DPO, RL, distillation), a produção (inferência, RAG, agentes, avaliação), a ciência (interpretabilidade, sistemas, arquiteturas), e agora o método de virar isso em carreira.
 
 O fio que atravessa tudo, e o que vale levar acima de qualquer técnica específica: **desconfie de todo número que você não mediu.** O curso se corrigiu dezenas de vezes porque a execução desmentiu a teoria escrita de memória — e essa disposição de deixar a realidade vencer a expectativa é, no fim, a única habilidade que não envelhece. As arquiteturas vão mudar, as ferramentas vão mudar, os números vão mudar. O método, não.
 

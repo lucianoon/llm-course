@@ -1,11 +1,13 @@
 # 🧠 Customização de LLMs Curso Completo
 
-Um curso completo e autônomo sobre como modelos de linguagem funcionam e como customizá-los — **construído de baixo para cima e verificado por medição.** Todo número na teoria saiu de um laboratório que roda; quando a medição desmentiu o que estava escrito (aconteceu dezenas de vezes), o material foi corrigido e **o erro virou conteúdo.**
+Um curso completo e autônomo sobre como modelos de linguagem funcionam e como customizá-los — **construído de baixo para cima e verificado por medição.** Os resultados centrais têm laboratório correspondente e escopo documentado em [EVIDENCIAS.md](EVIDENCIAS.md); quando a medição desmente o texto, o material e o status da evidência precisam mudar.
 
 Não é uma coletânea de tutoriais. É a área inteira reconstruída peça por peça — tokenizer, transformer, treino, fine-tuning, RL, RAG, agentes, interpretabilidade — cada uma implementada do zero e medida, com atenção especial ao que muda **em português**.
 
-> **Fase 0 + 21 módulos · trilha essencial + especializações · ~50 laboratórios executáveis**
-> Fundamentos e ciência rodam em **CPU** (qualquer máquina). Customização com modelos reais roda no **Mac Apple Silicon** (MLX).
+> **Fase 0 + 18 módulos · trilha de pesquisa em 3 etapas · 34 scripts de laboratório**
+> Fundamentos e ciência rodam em **CPU**. Customização com modelos reais tem rotas para **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
+
+Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md).
 
 > 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
@@ -15,16 +17,16 @@ Não é uma coletânea de tutoriais. É a área inteira reconstruída peça por 
 
 ## Por que este curso é diferente
 
-**Tudo é medido, nada é decorado.** A maioria do material sobre LLMs repete números de papers sem nunca reproduzi-los. Aqui, quando o texto diz *"LoRA esquece 4× menos"* ou *"a quantização degrada 4× mais em português"*, existe um lab que você roda e obtém o número. Alguns destaques, todos medidos nos labs:
+**Hipótese → lab → evidência → limite.** Os números abaixo são resultados de experimentos específicos, não leis universais. Consulte [EVIDENCIAS.md](EVIDENCIAS.md) para ambiente, amostra, status de reprodução e limitações.
 
 | Achado | Módulo |
 |---|---|
-| Uma camada do Qwen2.5 reconstruída do zero bate **bit a bit** com o HuggingFace | 2 |
-| A quantização 4-bit degrada **+17% em português literário** contra +4% em inglês | 6 |
-| Chain-of-thought torna a resposta certa **38× mais provável** — medido sem gerar um token | 7 |
-| GRPO leva a taxa de acerto de **27% → 90%**; e o *reward hacking* produzido em cativeiro | 9 |
-| Um agente com calculadora vai de **0% → 87%** na aritmética que o CoT não resolve | 15 |
-| *Steering*: somar uma direção às ativações **troca o idioma da geração** sem treinar | 16 |
+| No ambiente de referência float32/eager, uma camada do Qwen2.5 reconstruída do zero produziu saída **bit-exact** | 2 |
+| No Qwen2.5-0.5B e nos textos do lab, quantização 4-bit degradou **+17,4% na amostra literária em português** e +4,3% na inglesa | 6 |
+| No modelo e conjunto de prompts do lab, chain-of-thought tornou a resposta certa **38× mais provável** | 7 |
+| Na tarefa sintética do lab, GRPO levou a taxa de acerto de **27% → 90%** e expôs *reward hacking* | 9 |
+| Em 30 multiplicações de três dígitos, o agente com calculadora foi de **0% → 87%** | 15 |
+| No experimento de steering do módulo, uma direção de ativação **trocou o idioma da geração** sem treino | 16 |
 | A auditoria estatística **rebaixou uma conclusão do próprio curso** (n=25 não conclui) | 14 |
 
 **O erro é first-class.** Os melhores trechos são as armadilhas: o teste de EOS mal construído, os TFLOPs com sparsity, a métrica de degeneração medida no modo de decoding errado, a simulação que desmentiu o próprio README. Aprender onde a intuição falha vale mais que decorar onde ela acerta.
@@ -77,7 +79,7 @@ em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md).
 | 17 | [Sistemas de treino em escala](modulo-17-sistemas/) | Como treinar em 1.000 GPUs o que não cabe em uma? | Especialização |
 | 18 | [Fronteira de arquiteturas](modulo-18-arquiteturas/) | O que vem depois do transformer? | Especialização |
 
-### 🟣 Fase 3 — Pesquisa (módulos 19–21) · *especialização opcional*
+### 🟣 Fase 3 — Trilha de pesquisa em 3 etapas · *especialização opcional*
 
 [**FASE-3-MAESTRIA.md**](FASE-3-MAESTRIA.md) — reproduzir papers · contribuir e publicar · pesquisa própria · a trilha contínua.
 
@@ -92,8 +94,8 @@ Cada pasta `modulo-NN-*/` tem a estrutura abaixo. A Fase 0 usa a mesma convenç�
 
 | Arquivo | O que é |
 |---|---|
-| **`README.md`** | A aula: teoria, matemática e armadilhas, com os números **medidos**. Leia primeiro. |
-| **`lab_cpu.py`** (ou `lab.py`) | O algoritmo do zero + verificações numéricas. Roda em qualquer máquina — **executado e validado na autoria.** |
+| **`README.md`** | A aula: teoria, matemática, armadilhas e escopo das medições. Leia primeiro. |
+| **`lab_cpu.py`** (ou `lab.py`) | O algoritmo do zero + verificações numéricas. Consulte o status em `EVIDENCIAS.md`. |
 | **`lab_mlx.py`** | A receita de produção no Mac (MLX), com modelos reais. |
 | **`exercicios.md`** | Exercícios com gabarito escondido. Faça sem olhar o lab. |
 | **`dados.py`** | Baixa os datasets, de forma idempotente (quando o módulo usa). |
@@ -109,6 +111,8 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 | 🧭 [**PLANO-MESTRE.md**](PLANO-MESTRE.md) | O norte: currículo comparado às melhores formações do mundo. |
 | 🎯 [**METODO-DE-ESTUDO.md**](METODO-DE-ESTUDO.md) | Como estudar isto para **reter** — ciência cognitiva aplicada, protocolo semanal. |
 | 🗂️ [**revisao/**](revisao/) | Baralho Anki de **140 cartões** + diário de erros. Conteúdo sem retenção é entretenimento. |
+| 🧾 [**EVIDENCIAS.md**](EVIDENCIAS.md) | Registro de alegações, reproduções, escopo e limitações. |
+| 🔐 [**GOVERNANCA-DE-DADOS.md**](GOVERNANCA-DE-DADOS.md) | Proveniência, licença, checksum e auditoria de PII antes do treino. |
 
 ---
 
@@ -122,6 +126,7 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 **2. Escolha o ambiente (a leitura de 5 min que evita 90% dos problemas):**
 - Módulos de CPU (fundamentos + toda a Fase 2) → [`00-setup.md`](00-setup.md)
 - Customização com modelos reais no Mac → [`00-setup-mac.md`](00-setup-mac.md)
+- Customização com GPU NVIDIA/CUDA → [`00-setup-gpu.md`](00-setup-gpu.md)
 
 **3. Clone e prepare (no Mac, após instalar o `gh`):**
 ```bash
@@ -146,7 +151,7 @@ Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada
 
 ## Nota de honestidade
 
-Os labs de **CPU** (`lab_cpu.py`, todos os fundamentos e toda a Fase 2) foram **executados e validados** durante a escrita — e essa execução pegou dezenas de erros que teriam passado. Os labs **`lab_mlx.py`** (Apple Silicon, módulos 5–11) foram escritos com os comandos verificados contra a documentação oficial, mas **não foram executados** no ambiente de autoria (Windows sem GPU). Espere que alguns precisem de pequenos ajustes de versão na primeira execução no Mac — eles estão marcados no topo de cada arquivo.
+Os labs de **CPU** foram executados durante a escrita, mas uma execução passada não garante reprodução futura: dependências, modelos e dados podem mudar. Os labs acelerados por **MLX** ou **CUDA** foram escritos contra as APIs documentadas e têm validação estática e modo `--dry-run`, mas só podem ser considerados reproduzidos depois de uma execução registrada no hardware correspondente. O registro vivo de validação e limitações está em [EVIDENCIAS.md](EVIDENCIAS.md).
 
 O fio que atravessa tudo, e o que vale acima de qualquer técnica: **desconfie de todo número que você não mediu.**
 

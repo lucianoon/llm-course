@@ -31,7 +31,7 @@ from rag import FORA_DA_BASE, PERGUNTAS, IndiceRAG
 
 # Constrói apenas o índice. Importar lab_cpu executaria também as avaliações e
 # manteria um Qwen PyTorch residente junto do modelo MLX.
-indice_rag = IndiceRAG(RAIZ)
+indice_rag = IndiceRAG(RAIZ, ate_modulo=12)
 CHUNKS = indice_rag.chunks
 buscar_hibrida = indice_rag.buscar_hibrida
 

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import math
 import re
+import unicodedata
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
@@ -59,6 +60,75 @@ class Chunk:
     texto: str
 
 
+@dataclass(frozen=True)
+class Evidencia:
+    """Critério verificável para uma passagem que sustenta uma resposta."""
+
+    modulo: str
+    termos: tuple[str, ...]
+
+
+# O módulo correto é metadado útil, mas não prova relevância: um README pode gerar
+# vários chunks sobre assuntos diferentes. Cada item abaixo exige também termos que
+# aparecem juntos na passagem que contém a resposta. Isso evita contar um chunk
+# irrelevante do módulo correto como hit.
+GABARITO_PASSAGENS = {
+    PERGUNTAS[0][0]: (Evidencia("modulo-03-treino", ("AdamW", "16 bytes")),),
+    PERGUNTAS[1][0]: (Evidencia("modulo-02-attention", ("MLP", "87,7%")),),
+    PERGUNTAS[2][0]: (Evidencia("modulo-08-dpo", ("loss", "ln 2", "passo 0")),),
+    PERGUNTAS[3][0]: (Evidencia("modulo-02-attention", ("kv_heads=2",)),),
+    PERGUNTAS[4][0]: (Evidencia("modulo-09-rl", ("DeepSeek", "GRPO")),),
+    PERGUNTAS[5][0]: (Evidencia("modulo-06-lora", ("NF4", "NormalFloat")),),
+    PERGUNTAS[6][0]: (Evidencia("modulo-03-treino", ("FLOPs", "6 · N · D")),),
+    PERGUNTAS[7][0]: (Evidencia("modulo-01-fundamentos", ("Chinchilla", "20 tokens")),),
+    PERGUNTAS[8][0]: (Evidencia("modulo-05-sft", ("--mask-prompt",)),),
+    PERGUNTAS[9][0]: (Evidencia("modulo-03-treino", ("β₂ = 0,95",)),),
+    PERGUNTAS[10][0]: (Evidencia("modulo-02-attention", ("GQA", "KV heads")),),
+    PERGUNTAS[11][0]: (Evidencia("modulo-06-lora", ("B = 0", "Identidade no passo 0")),),
+    PERGUNTAS[12][0]: (Evidencia("modulo-06-lora", ("Literatura em português", "+17,4%")),),
+    PERGUNTAS[13][0]: (Evidencia("modulo-02-attention", ("attention sink", "primeiro token")),),
+    PERGUNTAS[14][0]: (Evidencia("modulo-04-dados", ("LIMA", "1.000")),),
+    PERGUNTAS[15][0]: (Evidencia("modulo-09-rl", ("GRPO", "k3")),),
+    PERGUNTAS[16][0]: (
+        Evidencia("modulo-11-inferencia", ("loss auxiliar de balanceamento", "Switch")),
+    ),
+    PERGUNTAS[17][0]: (Evidencia("modulo-11-inferencia", ("taxa de aceitação", "59%")),),
+    PERGUNTAS[18][0]: (Evidencia("modulo-04-dados", ("-100", "tokens da resposta")),),
+    PERGUNTAS[19][0]: (Evidencia("modulo-07-reasoning", ("GSM8K", "gabarito")),),
+    PERGUNTAS[20][0]: (Evidencia("modulo-03-treino", ("bf16", "expoente", "fp32")),),
+    PERGUNTAS[21][0]: (Evidencia("modulo-04-dados", ("13-gramas",)),),
+    PERGUNTAS[22][0]: (
+        Evidencia("modulo-05-sft", ("domínio estreito", "desempenho em tudo o mais")),
+    ),
+    PERGUNTAS[23][0]: (Evidencia("modulo-11-inferencia", ("MoE substitui", "MLP", "experts")),),
+    PERGUNTAS[24][0]: (
+        Evidencia("modulo-10-distillation", ("rejection sampling", "resposta final", "gabarito")),
+    ),
+}
+
+
+def _normalizar_evidencia(texto: str) -> str:
+    sem_acentos = "".join(
+        caractere
+        for caractere in unicodedata.normalize("NFKD", texto)
+        if not unicodedata.combining(caractere)
+    )
+    return " ".join(sem_acentos.casefold().split())
+
+
+def passagem_relevante(pergunta: str, modulo: str, texto: str) -> bool:
+    """Retorna True somente se a passagem contiver evidência para a resposta."""
+    criterios = GABARITO_PASSAGENS.get(pergunta)
+    if criterios is None:
+        raise KeyError(f"pergunta sem gabarito de passagem: {pergunta}")
+    texto_normalizado = _normalizar_evidencia(texto)
+    return any(
+        criterio.modulo == modulo
+        and all(_normalizar_evidencia(termo) in texto_normalizado for termo in criterio.termos)
+        for criterio in criterios
+    )
+
+
 def extrair_chunks(md_path: Path, alvo_palavras: int = 220, overlap: int = 40) -> list[Chunk]:
     """Corta um README por seções e subdivide seções longas com sobreposição."""
     if not 0 <= overlap < alvo_palavras:
@@ -83,12 +153,19 @@ def extrair_chunks(md_path: Path, alvo_palavras: int = 220, overlap: int = 40) -
     return chunks
 
 
-def carregar_chunks(raiz: Path, excluir_modulos: set[str] | None = None) -> list[Chunk]:
-    """Carrega os READMEs, opcionalmente excluindo módulos para evitar vazamento."""
+def carregar_chunks(
+    raiz: Path,
+    excluir_modulos: set[str] | None = None,
+    ate_modulo: int | None = None,
+) -> list[Chunk]:
+    """Carrega READMEs, com filtros opcionais para evitar vazamento temporal."""
     excluidos = excluir_modulos or set()
     chunks: list[Chunk] = []
     for md_path in sorted(raiz.glob("modulo-*/README.md")):
         if md_path.parent.name in excluidos:
+            continue
+        match = re.match(r"modulo-(\d+)-", md_path.parent.name)
+        if ate_modulo is not None and (match is None or int(match.group(1)) > ate_modulo):
             continue
         chunks.extend(extrair_chunks(md_path))
     if not chunks:
@@ -143,6 +220,7 @@ class IndiceRAG:
         raiz: Path,
         modelo_embeddings: str = "intfloat/multilingual-e5-small",
         excluir_modulos: set[str] | None = None,
+        ate_modulo: int | None = None,
     ):
         import torch
         from torch.nn import functional
@@ -150,7 +228,11 @@ class IndiceRAG:
 
         self._torch = torch
         self._functional = functional
-        self.chunks = carregar_chunks(raiz, excluir_modulos=excluir_modulos)
+        self.chunks = carregar_chunks(
+            raiz,
+            excluir_modulos=excluir_modulos,
+            ate_modulo=ate_modulo,
+        )
         self.bm25 = BM25([chunk.texto for chunk in self.chunks])
         self.tokenizer = AutoTokenizer.from_pretrained(modelo_embeddings)
         self.encoder = AutoModel.from_pretrained(modelo_embeddings)

@@ -2,15 +2,15 @@
 # # Módulo 14 — Laboratório: estatística de avaliação, contra o próprio curso
 #
 # **Roda em CPU (Windows ou Mac), ~8 minutos.** Este lab tem um alvo especial: as
-# conclusões DESTE CURSO. O "densa > BM25" do módulo 13 sobrevive a um teste pareado
-# com n=25? Um juiz de 0.5B serve para alguma coisa? Quanto uma seleção de checkpoint
-# infla resultados?
+# conclusões DESTE CURSO. A comparação densa vs BM25 do módulo 13 recebe gabarito no
+# nível de passagem: o resultado se sustenta com n=25? Um juiz de 0.5B serve para alguma
+# coisa? Quanto uma seleção de checkpoint infla resultados?
 #
 # | Lab | Assunto |
 # |---|---|
 # | 1 | Acurácia é estimativa: o custo do n pequeno, simulado |
 # | 2 | Pareado vs não pareado: o poder, medido |
-# | 3 | **Auditoria do módulo 13: "92% > 84%" é significativo?** |
+# | 3 | **Auditoria do módulo 13: métrica válida e comparação pareada** |
 # | 4 | **Auditoria de um juiz LLM: acurácia e viés de posição** |
 # | 5 | Comparações múltiplas: fabricando melhoras |
 # | 6 | Calibração: o Qwen sabe quando não sabe? (ECE) |
@@ -28,7 +28,7 @@ AQUI = Path(__file__).resolve().parent if "__file__" in globals() else Path.cwd(
 RAIZ = AQUI.parent
 sys.path.insert(0, str(RAIZ / "tools"))
 
-from rag import PERGUNTAS, IndiceRAG
+from rag import PERGUNTAS, IndiceRAG, passagem_relevante
 
 # %% [markdown]
 # ## Lab 1 — O custo do n pequeno
@@ -116,21 +116,24 @@ for corr in [0.0, 0.5, 0.8, 0.95]:
 #
 # ## Lab 3 — Auditoria do módulo 13
 #
-# O curso afirmou: densa (92% hit@1) > BM25 (84%). Foi medido em n=25. Reutilizamos a
-# MESMA infraestrutura do módulo 13 e aplicamos o rigor deste módulo à conclusão.
+# Uma versão anterior afirmou densa > BM25 usando o módulo de origem como gabarito.
+# Agora reutilizamos o gabarito no nível de passagem do módulo 13: o top-1 só é acerto
+# quando contém a evidência da resposta.
 
 # %%
 # O próprio módulo 14 fica fora do índice para não revelar as respostas da auditoria.
-indice_rag = IndiceRAG(RAIZ, excluir_modulos={"modulo-14-avaliacao"})
+indice_rag = IndiceRAG(RAIZ, ate_modulo=12)
 CHUNKS = indice_rag.chunks
 print(f"{len(CHUNKS)} chunks | {len(PERGUNTAS)} perguntas (banco compartilhado)")
 
 hits_bm, hits_dn = [], []
-for pergunta, _, fontes in PERGUNTAS:
+for pergunta, _, _ in PERGUNTAS:
     ordem_bm, _ = indice_rag.bm25.buscar(pergunta, k=1)
     ordem_dn, _ = indice_rag.buscar_densa(pergunta, k=1)
-    hits_bm.append(1 if CHUNKS[ordem_bm[0]].modulo in fontes else 0)
-    hits_dn.append(1 if CHUNKS[ordem_dn[0]].modulo in fontes else 0)
+    chunk_bm = CHUNKS[ordem_bm[0]]
+    chunk_dn = CHUNKS[ordem_dn[0]]
+    hits_bm.append(1 if passagem_relevante(pergunta, chunk_bm.modulo, chunk_bm.texto) else 0)
+    hits_dn.append(1 if passagem_relevante(pergunta, chunk_dn.modulo, chunk_dn.texto) else 0)
 
 acc_bm, acc_dn = sum(hits_bm) / len(hits_bm), sum(hits_dn) / len(hits_dn)
 print(f"hit@1 — BM25: {acc_bm:.0%} | densa: {acc_dn:.0%} (n={len(PERGUNTAS)})")
@@ -161,11 +164,11 @@ print(f"bootstrap pareado: Δ = {acc_dn - acc_bm:+.0%}, IC95 = [{lo:+.0%}, {hi:+
 print(f"\nVEREDITO: a diferença {'É' if p_valor < 0.05 else 'NÃO é'} significativa a 5% com n=25.")
 
 # %% [markdown]
-# **Este é o resultado mais importante do módulo.** Se o IC da diferença cruza zero (e
-# com n=25 e Δ=8pp, quase certamente cruza), a conclusão honesta do módulo 13 vira:
-# *"a densa venceu NESTA amostra; a evidência é insuficiente para afirmar superioridade
-# geral."* Nada no módulo 13 está errado — o que muda é a FORÇA da afirmação permitida.
-# n=25 constrói e depura; não conclui com margens de um dígito.
+# **Este é o resultado mais importante do módulo.** Leia os números produzidos nesta
+# execução, não os valores históricos do README. Se o IC cruza zero, a evidência é
+# insuficiente para afirmar superioridade geral. E, mesmo quando não cruza, a conclusão
+# se limita a este corpus, este gabarito e estes sistemas. n=25 constrói e depura; não
+# sustenta generalizações amplas com margens pequenas.
 #
 # ## Lab 4 — Auditoria de um juiz LLM
 #

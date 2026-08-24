@@ -134,6 +134,8 @@ Mesmo adaptando **todas** as camadas lineares com `r=8`, você treina menos de 1
 
 ### Por que NF4 e não int4
 
+**NF4 significa NormalFloat de 4 bits.**
+
 Quantizar para 4 bits significa representar cada peso com um de **16 valores**. A pergunta é onde colocá-los.
 
 - **int4 linear** — 16 níveis igualmente espaçados entre `−absmax` e `+absmax`.
@@ -257,4 +259,4 @@ Mas a lição de engenharia vale: **verifique no seu caso.** Se o seu LoRA está
 
 ---
 
-Comece pelo **`lab_cpu.py`** — ele roda no Windows e no Mac, e é onde tudo isso foi verificado. Depois o **`lab_mlx.py`**, que aplica no seu M4 com modelos de verdade.
+Comece pelo **`lab_cpu.py`** — ele roda no Windows e no Mac, e é onde tudo isso foi verificado. Depois escolha **`lab_mlx.py`** no Apple Silicon ou **`../modulo-05-sft/lab_cuda.py`** em GPU NVIDIA. O **`lab_adapters.py`** demonstra versionamento, compatibilidade e troca de múltiplos adaptadores PEFT.

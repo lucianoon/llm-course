@@ -17,6 +17,7 @@ modelo-*/
 fused_model/
 qwen*bit/
 config-*.yaml
+runs/
 
 # notebooks são derivados do lab*.py (python tools/build_notebooks.py)
 *.ipynb

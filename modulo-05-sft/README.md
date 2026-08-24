@@ -231,4 +231,4 @@ Cara, lenta, e o padrão-ouro. Para uma aplicação real, 100 comparações huma
 - [ ] Qual é a baseline correta para comparar seu modelo fine-tuned?
 - [ ] Seu modelo responde certo e continua falando sozinho. Causa e correção?
 
-Depois, `preparar_dados.py` e `lab.py`.
+Depois, `preparar_dados.py` e `lab.py`. Em GPU NVIDIA, use `lab_cuda.py` para comparar full fine-tuning, LoRA e QLoRA com revisão imutável do modelo e registro local do experimento.

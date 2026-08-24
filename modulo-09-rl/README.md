@@ -230,4 +230,4 @@ E a regra de ouro da era R1: **RL de verdade exige que o modelo já acerte às v
 - [ ] "A curva de recompensa está subindo" — por que isso não basta, e qual é a verificação que basta?
 - [ ] Seu modelo nunca acerta a tarefa. RL resolve? O que fazer antes?
 
-Depois: `lab_cpu.py` (GRPO do zero, executado), `preparar_dados.py`, `lab_mlx.py` (a receita do R1 no seu M4).
+Depois: `lab_cpu.py` (GRPO do zero, executado), `preparar_dados.py`, `lab_mlx.py` (Apple Silicon) ou `lab_cuda.py` (TRL/PEFT em GPU NVIDIA, com recompensas separadas de exatidão e formato).

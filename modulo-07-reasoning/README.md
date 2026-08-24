@@ -165,4 +165,4 @@ Um modelo de reasoning que gera 10× mais tokens custa ~10× mais por resposta (
 - [ ] O CoT escrito é evidência confiável do processo interno do modelo? Cite o contra-exemplo.
 - [ ] Quando reasoning NÃO compensa em produção?
 
-Depois: `dados.py`, `lab_cpu.py` (executado e validado), `lab_mlx.py` no M4.
+Depois: `dados.py`, `lab_cpu.py` (executado e validado), `lab_process_supervision.py` para comparar supervisão de resultado e de processo, e `lab_mlx.py` no M4.

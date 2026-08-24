@@ -177,4 +177,4 @@ Escolha um circuito documentado e reproduza-o no Qwen (ou num GPT-2, mais estuda
 
 Entregue: o circuito identificado (quais componentes, que papel cada um), a validação por ablação E patching, e a honestidade sobre o que você NÃO conseguiu explicar (todo circuito real tem partes que resistem).
 
-É o rito de passagem da interpretabilidade — e a ponte direta para o módulo 19 (reproduzir papers) e para trabalho de pesquisa real na área. Se você fizer isto bem, tem um projeto de portfólio que abre portas em times de safety.
+É o rito de passagem da interpretabilidade — e a ponte direta para a etapa 1 da trilha de pesquisa (reproduzir papers) e para trabalho de pesquisa real na área. Se você fizer isto bem, tem um projeto de portfólio que abre portas em times de safety.

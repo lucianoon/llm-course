@@ -85,6 +85,10 @@ L_DPO = −E[ log σ( β·(log π(y_w)/π_ref(y_w) − log π(y_l)/π_ref(y_l)) 
 
 **Quatro quantidades, todas computáveis com forwards simples:** log-prob do chosen e do rejected, na política e na referência congelada. Sem RM, sem sampling, sem PPO. O RL virou uma classificação binária.
 
+No passo 0, política e referência são iguais, a margem é zero e a loss inicial é
+`−log σ(0) = ln 2 ≈ 0,693`. Um valor inicial diferente é um teste de sanidade que
+aponta para erro no formato dos pares ou no cálculo das log-probs.
+
 ### A recompensa implícita
 
 O subproduto conceitual mais importante: o DPO define
