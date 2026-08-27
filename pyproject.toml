@@ -47,7 +47,7 @@ tracking = [
   "wandb>=0.21,<1",
 ]
 dev = [
-  "pytest>=8,<9",
+  "pytest>=9.0.3,<10",
   "ruff>=0.9,<1",
 ]
 test = [
@@ -60,6 +60,9 @@ packages = []
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# `tools/` fica na raiz do repositório e os testes o importam por nome; sem isto
+# a raiz não entra no sys.path e a coleta falha com ModuleNotFoundError.
+pythonpath = ["."]
 # O extra CPU traz AnyIO via Jupyter; estes testes são síncronos e não precisam do
 # plugin, que pode bloquear a coleta em alguns ambientes macOS.
 addopts = "-q -p no:anyio"

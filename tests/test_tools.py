@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -31,6 +32,11 @@ from tools.rag import (
 )
 from tools.respostas import extrair_numero
 from tools.serving import AmostraServing, percentil, resumir_carga
+
+# Os labs imprimem acentos e setas (→). No Windows o filho herda um stdout em
+# cp1252 e falha ao *emitir* esses caracteres, então UTF-8 é forçado nas duas
+# pontas: PYTHONIOENCODING no filho e encoding= na decodificação aqui.
+_ENV_UTF8 = {**os.environ, "PYTHONIOENCODING": "utf-8"}
 
 
 class TestBuildNotebooks(unittest.TestCase):
@@ -64,6 +70,8 @@ class TestBuildNotebooks(unittest.TestCase):
             cwd=ROOT,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            env=_ENV_UTF8,
             check=False,
         )
         self.assertEqual(resultado.returncode, 0, resultado.stderr)
@@ -180,8 +188,8 @@ class TestExperimentos(unittest.TestCase):
             registro.registrar(0, loss=1.2)
             resultado = registro.concluir(acuracia=0.8)
             self.assertTrue((registro.pasta / "metadados.json").exists())
-            self.assertEqual(json.loads(registro.metricas.read_text())["loss"], 1.2)
-            self.assertEqual(json.loads(resultado.read_text())["acuracia"], 0.8)
+            self.assertEqual(json.loads(registro.metricas.read_text(encoding="utf-8"))["loss"], 1.2)
+            self.assertEqual(json.loads(resultado.read_text(encoding="utf-8"))["acuracia"], 0.8)
 
     def test_rejeita_nome_que_escapa_do_destino(self):
         with tempfile.TemporaryDirectory() as temp, self.assertRaises(ValueError):
@@ -213,7 +221,7 @@ class TestGovernanca(unittest.TestCase):
                 licenca="proprietária/autorizada",
                 finalidade="teste unitário",
             )
-            manifesto = json.loads(destino.read_text())
+            manifesto = json.loads(destino.read_text(encoding="utf-8"))
             self.assertEqual(manifesto["licenca"], "proprietária/autorizada")
             self.assertEqual(len(manifesto["arquivos"][0]["sha256"]), 64)
 
@@ -272,6 +280,8 @@ class TestLabsExternos(unittest.TestCase):
                     cwd=ROOT,
                     capture_output=True,
                     text=True,
+                    encoding="utf-8",
+                    env=_ENV_UTF8,
                     check=False,
                 )
                 self.assertEqual(resultado.returncode, 0, resultado.stderr)
