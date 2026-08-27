@@ -29,7 +29,10 @@ jobs:
       - name: Sincronizar ambiente pelo lockfile
         run: uv sync --extra dev --extra test --locked
       - name: Compilar fontes Python
-        run: uv run python -m compileall -q .
+        # -x exclui o .venv que o `uv sync` acabou de criar: ele traz arquivos de
+        # dependências com sintaxe de versões mais novas do Python (ex.: torch tem um
+        # módulo só de 3.12) e o job de 3.11 falhava neles, não em código deste repo.
+        run: uv run python -m compileall -q -x '(^|/)\.venv/' .
       - name: Gerar notebooks derivados
         run: uv run python tools/build_notebooks.py
       - name: Verificar qualidade estática

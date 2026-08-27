@@ -12,10 +12,16 @@ Uso:
 from __future__ import annotations
 
 import json
+import sys
 import urllib.request
 from pathlib import Path
 
 AQUI = Path(__file__).parent
+sys.path.insert(0, str(AQUI.parent / "tools"))
+
+# Import depois do sys.path acima, como nos demais labs do curso.
+from modulos import importar_por_caminho
+
 DATA = AQUI / "data"
 ALPACA = DATA / "alpaca.json"
 ALPACA_URL = "https://raw.githubusercontent.com/tatsu-lab/stanford_alpaca/main/alpaca_data.json"
@@ -36,9 +42,9 @@ def carregar_alpaca() -> list[dict]:
 def carregar_corpus() -> str:
     """Corpus literário do Módulo 3 (baixa-o se ainda não existir)."""
     if not CORPUS_M3.exists():
-        import sys
-        sys.path.insert(0, str(CORPUS_M3.parent.parent))
-        import dados as dados_m3  # modulo-03-treino/dados.py
+        # Por caminho, não por nome: quem chega aqui via lab.py já importou o
+        # `dados` DESTE módulo, e um `import dados` devolveria ele mesmo.
+        dados_m3 = importar_por_caminho(CORPUS_M3.parent.parent / "dados.py", "dados_modulo_03")
         return dados_m3.carregar()
     return CORPUS_M3.read_text(encoding="utf-8")
 

@@ -21,6 +21,7 @@ from tools.execucao import executar_modulo
 from tools.experimentos import RegistroExperimento
 from tools.governanca import anonimizar_texto, auditar_pii, criar_manifesto_dataset
 from tools.jsonl import preparar_jsonl_retomavel
+from tools.modulos import importar_por_caminho
 from tools.rag import (
     BM25,
     GABARITO_PASSAGENS,
@@ -327,6 +328,38 @@ class TestMiniGPT(unittest.TestCase):
         minigpt.avaliar(modelo, fonte, n=2, batch=2, seed=7)
         self.assertTrue(torch.equal(estado, torch.random.get_rng_state()))
         self.assertFalse(modelo.training)
+
+
+class TestImportarPorCaminho(unittest.TestCase):
+    def test_ignora_modulo_homonimo_ja_em_sys_modules(self):
+        """O bug real: `import dados` devolvia o `dados.py` errado pelo cache."""
+        with tempfile.TemporaryDirectory() as tmp:
+            outro = Path(tmp) / "dados.py"
+            outro.write_text("QUEM = 'impostor'\n", encoding="utf-8")
+            alvo = Path(tmp) / "verdadeiro.py"
+            alvo.write_text("QUEM = 'alvo'\n", encoding="utf-8")
+
+            impostor = importar_por_caminho(outro, "dados")
+            sys.modules["dados"] = impostor
+            self.addCleanup(sys.modules.pop, "dados", None)
+
+            carregado = importar_por_caminho(alvo, "dados")
+            self.assertEqual(carregado.QUEM, "alvo")
+
+    def test_nao_registra_o_modulo_carregado_em_sys_modules(self):
+        importar_por_caminho(ROOT / "modulo-03-treino" / "dados.py", "dados_modulo_03")
+        self.assertNotIn("dados_modulo_03", sys.modules)
+
+    def test_modulo_04_alcanca_o_carregador_de_corpus_do_modulo_03(self):
+        """Sem isto, `modulo-04-dados/lab.py` morre em AttributeError num clone limpo."""
+        dados_m4 = importar_por_caminho(ROOT / "modulo-04-dados" / "dados.py", "dados")
+        self.addCleanup(sys.modules.pop, "dados", None)
+        sys.modules["dados"] = dados_m4  # o estado que lab.py cria ao fazer `import dados`
+
+        dados_m3 = importar_por_caminho(
+            dados_m4.CORPUS_M3.parent.parent / "dados.py", "dados_modulo_03"
+        )
+        self.assertTrue(hasattr(dados_m3, "carregar"))
 
 
 if __name__ == "__main__":
