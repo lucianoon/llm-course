@@ -1,0 +1,28 @@
+{
+  "problema": "Resuma o problema em uma frase: que comportamento muda para quem?",
+  "metrica": {
+    "nome": "ex.: acuracia, hit@1, taxa_de_abstencao",
+    "gabarito": "./data/exemplos_de_ouro.json",
+    "direcao": "maior_eh_melhor",
+    "piso": 0.0
+  },
+  "baselines": ["./data/baseline_prompt_simples.json", "./data/baseline_rag.json"],
+  "dados": {
+    "origem": "fonte + licenca + como coletou",
+    "pipeline": "./scripts/preparar.py",
+    "splits": {"treino": 0.8, "validacao": 0.1, "teste": 0.1},
+    "manifesto": "./data/dataset-manifest.json"
+  },
+  "modelo": {
+    "base": "organizacao/modelo-com-revisao-imutavel",
+    "revision": "sha256-do-artefato",
+    "tecnica": "lora",
+    "hiperparametros": {"r": 8, "alpha": 16, "dropout": 0.05}
+  },
+  "serving": {
+    "quantizacao": "int8",
+    "max_tokens": 200,
+    "orcamento_usd_por_requisicao": 0.0005,
+    "origem_contrato": "modulo-19-producao (guardião/disjuntor)"
+  }
+}

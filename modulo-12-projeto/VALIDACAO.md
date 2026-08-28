@@ -1,5 +1,10 @@
 # Validação do projeto final
 
+Este roteiro é o protocolo de aceite do módulo 12. Ele está escrito como uma **revisão
+técnica de indústria** — o que um engenheiro sênior olharia antes de aprovar uma entrega
+— e não como uma defesa de tese. A diferença importa: banca premia quem *defende*;
+tech review premia quem *entrega o que outra pessoa consegue reproduzir*.
+
 O diretório do projeto deve conter:
 
 ```text
@@ -18,10 +23,28 @@ projeto/
 ```
 
 `resultados.json` precisa declarar `baseline`, `modelo_final`, `n`, `metrica`, intervalo
-de confiança quando aplicável, commit, revisão do modelo, seed e hardware. A banca deve
+de confiança quando aplicável, commit, revisão do modelo, seed e hardware. O revisor deve
 conseguir regenerá-lo executando os scripts, sem editar caminhos à mão.
 
-## Rubric de banca (100 pontos)
+## Como um revisor técnico olha para isso
+
+Um engenheiro sênior não pergunta "o que você fez?", pergunta as cinco coisas que decidem
+se ele daria o seu OK:
+
+1. **Por que esta solução?** — qual falha ela resolve, e por que prompt/RAG/treino aqui?
+2. **Como sabemos que funciona?** — baseline justa, métrica testada em exemplo de ouro,
+   leitura manual de erros. Sem isso, o número é anedota.
+3. **Quanto custa?** — latência (p50/p95), throughput, custo por milhão de tokens, e a
+   camada de produção do módulo 19 (guardião/disjuntor) para não estourar.
+4. **Como falha?** — casos conhecidos de erro, comportamento de recusa, e o que NÃO
+   funcionou documentado. Golpe baixo é a matriz de uma entrega honesta.
+5. **Outra pessoa reproduz?** — ambiente, comandos, manifestos de dados e modelo,
+   `resultados.json` regenerável. Se não, é um slide, não um projeto.
+
+É o mesmo código de ética do curso aplicado à entrega: **nada sobe sem um número, um teste
+e um jeito fácil de cair.**
+
+## Rubric de revisão técnica (100 pontos)
 
 | Critério | Pontos | Falha eliminatória |
 |---|---:|---|

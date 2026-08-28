@@ -2,7 +2,9 @@
 
 > **Pergunta central:** você consegue atravessar o pipeline inteiro — problema → dados → treino → alinhamento → serving — tomando cada decisão por medição, e defendê-la?
 
-Não há lab neste módulo. Há um projeto, um contrato de entrega, e os critérios pelos quais você mesmo vai se avaliar. Tudo o que o projeto exige já foi construído nos módulos 1–11; o trabalho aqui é **integração e julgamento**. Antes de concluir, use o protocolo de aceite em [`VALIDACAO.md`](VALIDACAO.md).
+Não há lab neste módulo. Há um projeto, um contrato de entrega, e os critérios pelos quais você mesmo vai se avaliar. Tudo o que o projeto exige já foi construído nos módulos 1–11 e 19; o trabalho aqui é **integração e julgamento**. Antes de concluir, use o protocolo de aceite em [`VALIDACAO.md`](VALIDACAO.md).
+
+> **Novo — referência rodável:** [`projeto-template/`](projeto-template/) é um esqueleto mínimo e executável do contrato (config, scripts `preparar/treinar/avaliar/servir`, manifestos). Não é o seu projeto — é o ponto de partida. Clone, renomeie e preencha com o seu problema.
 
 ---
 
@@ -43,8 +45,8 @@ O escopo certo cabe em **duas a três semanas** de trabalho parcial. Errar o esc
  7. Avaliar                   → a métrica do passo 2 + leitura manual
                                  + efeitos colaterais (forgetting, drift)     (mód. 5–9)
  8. Iterar UMA variável       → por vez, com registro                        (todos)
- 9. Preparar para servir      → quantizar, medir degradação NO SEU domínio,
-                                 TTFT/TPOT, custo/Mtok                        (mód. 6, 11)
+ 9. Preparar para servir      → medir degradação NO SEU domínio, TTFT/TPOT,
+                                  custo/Mtok e a camada de produção do mód. 19  (mód. 6, 11, 19)
 10. Relatório                 → seção 4, incluindo o que NÃO funcionou
 ```
 
@@ -114,10 +116,12 @@ Um projeto está pronto quando você responde **sim** a todas:
 
 ## 5. Depois do curso
 
-O que você construiu aqui — a pasta `llm-course` — é um portfólio: onze módulos com implementações do zero verificadas numericamente, e um projeto final reproduzível. Três direções naturais:
+O que você construiu aqui — a pasta `llm-course` — é um portfólio: doze módulos com implementações do zero verificadas numericamente, a camada de produção (módulo 19) e um projeto final reproduzível. Três direções naturais:
 
 - **Aprofundar a teoria:** os papers das leituras de cada módulo, agora com as mãos calejadas. O curso do Karpathy (nanoGPT → nanochat) e o CS336 de Stanford (Language Modeling from Scratch) são as sequências naturais.
 - **Escalar a prática:** repetir o pipeline do seu projeto num modelo de 7–14B com GPU alugada (o `00-setup.md` original tem a tabela de custos) — as receitas são as mesmas, os zeros a mais também.
-- **Especializar:** interpretabilidade (o transformer-circuits do módulo 2), avaliação (a subárea que mais falta gente), ou inference systems (vLLM/SGLang por dentro).
+- **Especializar:** interpretabilidade (o transformer-circuits do módulo 2), avaliação (a subárea que mais falta gente), production/inference systems (vLLM/SGLang por dentro), ou a trilha de pesquisa da [FASE-3-MAESTRIA.md](../FASE-3-MAESTRIA.md).
+
+**Para o mercado:** publique o projeto como três repositórios pequenos (fundamento, customização, sistema) e use o [mapa competência → cargo](../MAPA-CARGOS.md) para alinhar o que estudou ao que a vaga pede. Cada projeto deve caber numa conversa técnica de 10 minutos — problema, decisão, experimento, resultado, erro e próximo passo.
 
 E o hábito que vale mais que qualquer conteúdo: **desconfie de todo número que você não mediu.** Este curso corrigiu o próprio material uma dúzia de vezes porque a execução desmentiu a teoria escrita de memória. É o método.

@@ -14,7 +14,7 @@ reais e evita exigir temas de pesquisa antes de você saber construir um sistema
 | 0 | Computação, Python e matemática mínima | Programa testado e documentado | 20–30 h |
 | 1 | Como LLMs representam e aprendem | MiniGPT treinado e explicado | 60–80 h |
 | 2 | Dados e customização eficiente | Dataset + LoRA reproduzível | 60–80 h |
-| 3 | Inferência, RAG, avaliação e agentes | Assistente medido com ferramentas | 60–80 h |
+| 3 | Inferência, RAG, avaliação, agentes e produção | Assistente medido e servido com ferramentas | 60–80 h |
 | 4 | Projeto profissional | Repositório executável e auditável | 60–100 h |
 
 Em um ritmo de 8–10 horas por semana, espere aproximadamente **6–9 meses**. Tempo é uma
@@ -90,7 +90,8 @@ Estude:
 
 1. [`modulo-13-rag/`](modulo-13-rag/) — recuperação e conhecimento externo;
 2. [`modulo-14-avaliacao/`](modulo-14-avaliacao/) — amostragem, incerteza e comparação;
-3. [`modulo-15-agentes/`](modulo-15-agentes/) — ferramentas, loops e limites de segurança.
+3. [`modulo-15-agentes/`](modulo-15-agentes/) — ferramentas, loops e limites de segurança;
+4. [`modulo-19-producao/`](modulo-19-producao/) — servir, medir, orçar e proteger o sistema.
 
 Princípios que importam:
 
@@ -98,12 +99,15 @@ Princípios que importam:
 - toda métrica é uma estimativa sobre uma amostra;
 - uma ferramenta precisa de contrato, validação e limite;
 - falhar explicitamente é melhor que produzir resultado silenciosamente errado;
-- logs e casos de erro são parte da avaliação.
+- logs e casos de erro são parte da avaliação;
+- **custo, latência e falha são propriedades do sistema, não do modelo** — e se medem e protegem.
 
 **Entrega:** assistente RAG com citação, abstenção, conjunto de avaliação e uma ferramenta
-segura. Registre casos em que ele funciona e em que deve recusar.
+segura, servido com **medição de p50/p95 e custo** e protegido por guardião/disjuntor.
+Registre casos em que ele funciona e em que deve recusar.
 
-**Gate:** comparação pareada contra uma baseline simples e análise manual dos erros.
+**Gate:** comparação pareada contra uma baseline simples, análise manual dos erros e um
+extrato de tráfego (latência, throughput, custo, sucesso) que outra pessoa consegue ler.
 
 ---
 

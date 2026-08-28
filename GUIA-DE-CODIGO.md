@@ -238,6 +238,36 @@ resultado = executar_modulo("mlx_lm", "lora", "--train", ..., mostrar=2000)
 
 ---
 
+## 12. O padrão de produção (módulo 19)
+
+`tools/producao.py` tem as peças que o lab de engenharia de produção reutiliza:
+
+- `calcular_custo(tokens_entrada, tokens_saida, precos)` — o custo como função determinística;
+- `contar_tokens(texto)` — contagem de **brinquedo** (aviso no docstring: troque pelo tokenizer real);
+- `LinhaDeTrafego` + `resumir_trafego(...)` — o extrato p50/p95/throughput de sucesso/custo;
+- `Disjuntor(...)` — o circuit breaker em três estados.
+
+O desenho que eles servem:
+
+```python
+if not disjuntor.permitir():
+    return 503_fast_fail              # não gasta um token
+custo_max = calcular_custo(tok_entrada, max_tokens)
+if custo_max > orcamento:
+    return 403_orcamento              # recusa ANTES de gerar
+resposta = modelo.gerar(...)          # o trabalho caro, só aqui
+```
+
+**O que importa:** o desenho não muda quando o brinquedo vira produção — muda o número.
+É o mesmo princípio do curso: **escalar o modelo, não a lógica**. E o aprendizado que vale:
+o custo está na **saída** e na **recusa** — não na entrada e não no retreino.
+
+> ⚠️ **A armadilha do brinquedo:** `contar_tokens` e o `time.sleep` simulam o comportamento para
+> o lab ser mensurável. Usar a função de brinquedo para *cobrar* ou para uma conta que decide
+> algo é o erro que o módulo chama de "escala de brinquedo com aviso de escala".
+
+---
+
 ## Como usar este guia
 
 Na primeira leitura de cada lab, mantenha este arquivo aberto ao lado. Quando um bloco de código parecer opaco, procure o padrão aqui (são sempre estes 11). Na segunda leitura, você não vai mais precisar dele — e essa é a medida de que o curso está funcionando.

@@ -4,7 +4,7 @@ Um curso completo e autônomo sobre como modelos de linguagem funcionam e como c
 
 Não é uma coletânea de tutoriais. É a área inteira reconstruída peça por peça — tokenizer, transformer, treino, fine-tuning, RL, RAG, agentes, interpretabilidade — cada uma implementada do zero e medida, com atenção especial ao que muda **em português**.
 
-> **Fase 0 + 18 módulos · trilha de pesquisa em 3 etapas · 34 scripts de laboratório**
+> **Fase 0 + 19 módulos · trilha de pesquisa em 3 etapas · 35 scripts de laboratório**
 > Fundamentos e ciência rodam em **CPU**. Customização com modelos reais tem rotas para **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
 
 Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md).
@@ -12,6 +12,21 @@ Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas
 > 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
 > Você não precisa concluir todos os temas avançados para começar a trabalhar bem.
+
+---
+
+## Dois cursos num só repositório
+
+Este material não escolhe entre academia e mercado — porque a mesma base serve às duas. A distinção é **o que você pretende fazer com isso**, e há uma rota clara para cada uma:
+
+| Trilha | Meta | Para quem | Onde está |
+|---|---|---|---|
+| **Engenharia (mercado)** | Colocar sistemas de LLM de pé, medidos e protegidos | Quem quer o primeiro nível profissional e entregar de verdade | [trilha essencial](TRILHA-ESSENCIAL.md) → [módulo 19](modulo-19-producao/) |
+| **Pesquisa (academia)** | Reproduzir, questionar e estender o estado da arte | Quem quer produzir conhecimento e publicar | [FASE-3-MAESTRIA.md](FASE-3-MAESTRIA.md) |
+
+O que muda é a **ordem** e o que você **omite**. Para o mercado, a rota termina com um projeto que **roda, custa e se reproduz** (módulo 12), passando pela **camada de produção** — servir, medir, orçar, proteger (módulo 19). Para a pesquisa, a rota atravessa interpretabilidade, arquiteturas e a trilha de papers.
+
+**Não sabe qual é a sua?** Veja o [**mapa competência → cargo**](MAPA-CARGOS.md): ele liga cada módulo ao que um profissional faz no trabalho, para você estudar com propósito, e não "porque o tema existe".
 
 ---
 
@@ -45,11 +60,12 @@ com um preditor de próxima palavra, sem baixar modelos.
 
 Para chegar ao primeiro nível profissional, siga esta ordem:
 
-`Fase 0 → módulos 1–6 → módulo 11 → módulos 13–15 → projeto (módulo 12)`
+`Fase 0 → módulos 1–6 → módulo 11 → módulos 13–15 → módulo 19 (produção) → projeto (módulo 12)`
 
-Essa rota ensina a construir, testar, avaliar, documentar e entregar sistemas de LLM.
-Os demais módulos continuam disponíveis como especializações. Veja os gates e projetos
-em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md).
+Essa rota ensina a construir, testar, avaliar, **servir sob controle de custo**, documentar e
+entregar sistemas de LLM. Os demais módulos continuam disponíveis como especializações. Veja os
+gates e projetos em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md) e o mapeamento por cargo em
+[MAPA-CARGOS.md](MAPA-CARGOS.md).
 
 ### 🔵 Fase 1 — Fundação (módulos 1–12) · *o pipeline completo, do zero*
 
@@ -78,6 +94,17 @@ em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md).
 | 16 | [Interpretabilidade mecanicista](modulo-16-interpretabilidade/) | O que acontece DENTRO do modelo — e como intervir? | Especialização |
 | 17 | [Sistemas de treino em escala](modulo-17-sistemas/) | Como treinar em 1.000 GPUs o que não cabe em uma? | Especialização |
 | 18 | [Fronteira de arquiteturas](modulo-18-arquiteturas/) | O que vem depois do transformer? | Especialização |
+
+### 🧰 Módulo 19 — A camada de produção (o elo com o mercado)
+
+| # | Módulo | Pergunta central | Rota | HW |
+|---|---|---|---|---|
+| 19 | [Engenharia de produção](modulo-19-producao/) | Como servir um modelo de forma medida, barata e que não derruba o orçamento quando quebra? | **Essencial** | CPU |
+
+Este é o módulo que transforma "treinei um modelo" em "**sistema**": servir e medir (p50/p95,
+throughput), orçar o custo e recusar cedo, proteger com disjuntor, avaliar como portão de
+**CI**, observar com logs estruturados (PII fora do log) e versionar prompt/modelo com rollback.
+É o que o módulo 12 descrevia sem receita — e o que a maioria das formações esquece.
 
 ### 🟣 Fase 3 — Trilha de pesquisa em 3 etapas · *especialização opcional*
 

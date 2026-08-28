@@ -3,7 +3,7 @@
 Cada verbete tem três partes: **a ideia em linguagem comum** (muitas vezes uma analogia), a definição precisa, e onde aparece no curso. Está organizado na ordem em que os conceitos surgem nos módulos — dá para ler de ponta a ponta como um "curso em miniatura" — e o índice alfabético abaixo serve para consulta rápida.
 
 **Índice alfabético:**
-[Adaptador](#adaptador-lora) · [AdamW](#adamw) · [Alucinação](#alucinação) · [Atenção](#atenção-self-attention) · [Attention sink](#attention-sink) · [Baseline (avaliação)](#baseline-de-avaliação) · [Baseline (RL)](#baseline-e-vantagem-rl) · [Batch](#batch) · [Benchmark](#benchmark) · [bf16/fp16](#precisão-numérica-fp32-fp16-bf16) · [BPE](#bpe) · [Catastrophic forgetting](#catastrophic-forgetting) · [Chain-of-thought](#chain-of-thought-cot) · [Chat template](#chat-template) · [Checkpoint](#checkpoint) · [Chosen/rejected](#chosen--rejected) · [Contaminação](#contaminação-de-benchmark) · [Contexto](#janela-de-contexto) · [Cross-entropy](#loss-e-cross-entropy) · [Dark knowledge](#dark-knowledge) · [Decode](#prefill-e-decode) · [Deduplicação](#deduplicação) · [Distillation](#distillation-destilação) · [DPO](#dpo) · [Draft model](#decodificação-especulativa-e-draft-model) · [Embedding](#embedding) · [EOS](#eos) · [Época](#época) · [Expert](#moe-mixture-of-experts) · [Fine-tuning](#fine-tuning) · [FLOPs](#flops) · [Forward/backward](#forward-e-backward) · [GQA](#gqa) · [Gradiente](#gradiente) · [Gradient accumulation](#gradient-accumulation) · [Gradient clipping](#gradient-clipping) · [Greedy](#estratégias-de-decodificação-greedy-top-k-top-p) · [GRPO](#grpo) · [Hiperparâmetro](#hiperparâmetro) · [Inferência](#inferência) · [KL (divergência)](#divergência-kl) · [KV cache](#kv-cache) · [Learning rate](#learning-rate) · [LLM-as-judge](#llm-as-judge) · [Logit](#logit) · [LoRA](#adaptador-lora) · [Loss](#loss-e-cross-entropy) · [Masking](#masking-de-loss--100) · [Máscara causal](#máscara-causal) · [MLP](#mlp-feed-forward) · [MoE](#moe-mixture-of-experts) · [Modelo base/instruct](#modelo-base-instruct-e-reasoning) · [Overfitting](#overfitting) · [Parâmetros/pesos](#parâmetros-pesos) · [pass@k](#passk) · [Perplexidade](#perplexidade-ppl) · [Política](#política-policy) · [PPO](#ppo) · [Prefill](#prefill-e-decode) · [Pré-treino](#pré-treino) · [Prompt](#prompt) · [Quantização](#quantização) · [Rank](#rank-posto) · [Recompensa](#recompensa-e-recompensa-verificável) · [Reward hacking](#reward-hacking) · [Reward model](#reward-model) · [RLHF](#rlhf) · [RoPE](#rope) · [Roteador](#moe-mixture-of-experts) · [Sampling](#estratégias-de-decodificação-greedy-top-k-top-p) · [Self-consistency](#self-consistency) · [SFT](#sft-supervised-fine-tuning) · [Softmax](#softmax) · [Soft target](#soft-target) · [Split](#split-treinovalidaçãoteste) · [Temperatura](#temperatura) · [Token](#token) · [Tokenizer](#tokenizer) · [Transformer](#transformer) · [TTFT/TPOT](#ttft-e-tpot) · [Vazamento](#vazamento-de-dados) · [Verificador](#recompensa-e-recompensa-verificável) · [Vocabulário](#vocabulário) · [Warmup](#warmup)
+[Adaptador](#adaptador-lora) · [AdamW](#adamw) · [Alucinação](#alucinação) · [Atenção](#atenção-self-attention) · [Attention sink](#attention-sink) · [Baseline (avaliação)](#baseline-de-avaliação) · [Baseline (RL)](#baseline-e-vantagem-rl) · [Batch](#batch) · [Benchmark](#benchmark) · [bf16/fp16](#precisão-numérica-fp32-fp16-bf16) · [BPE](#bpe) · [Catastrophic forgetting](#catastrophic-forgetting) · [Chain-of-thought](#chain-of-thought-cot) · [Chat template](#chat-template) · [Checkpoint](#checkpoint) · [Chosen/rejected](#chosen--rejected) · [Contaminação](#contaminação-de-benchmark) · [Contexto](#janela-de-contexto) · [Cross-entropy](#loss-e-cross-entropy) · [Dark knowledge](#dark-knowledge) · [Decode](#prefill-e-decode) · [Deduplicação](#deduplicação) · [Distillation](#distillation-destilação) · [DPO](#dpo) · [Draft model](#decodificação-especulativa-e-draft-model) · [Embedding](#embedding) · [EOS](#eos) · [Época](#época) · [Expert](#moe-mixture-of-experts) · [Fine-tuning](#fine-tuning) · [FLOPs](#flops) · [Forward/backward](#forward-e-backward) · [GQA](#gqa) · [Gradiente](#gradiente) · [Gradient accumulation](#gradient-accumulation) · [Gradient clipping](#gradient-clipping) · [Greedy](#estratégias-de-decodificação-greedy-top-k-top-p) · [GRPO](#grpo) · [Hiperparâmetro](#hiperparâmetro) · [Inferência](#inferência) · [KL (divergência)](#divergência-kl) · [KV cache](#kv-cache) · [Learning rate](#learning-rate) · [LLM-as-judge](#llm-as-judge) · [Logit](#logit) · [LoRA](#adaptador-lora) · [Loss](#loss-e-cross-entropy) · [Masking](#masking-de-loss--100) · [Máscara causal](#máscara-causal) · [MLP](#mlp-feed-forward) · [MoE](#moe-mixture-of-experts) · [Modelo base/instruct](#modelo-base-instruct-e-reasoning) · [Overfitting](#overfitting) · [Parâmetros/pesos](#parâmetros-pesos) · [pass@k](#passk) · [Perplexidade](#perplexidade-ppl) · [Política](#política-policy) · [PPO](#ppo) · [Prefill](#prefill-e-decode) · [Pré-treino](#pré-treino) · [Prompt](#prompt) · [Quantização](#quantização) · [Rank](#rank-posto) · [Recompensa](#recompensa-e-recompensa-verificável) · [Reward hacking](#reward-hacking) · [Reward model](#reward-model) · [RLHF](#rlhf) · [RoPE](#rope) · [Roteador](#moe-mixture-of-experts) · [Sampling](#estratégias-de-decodificação-greedy-top-k-top-p) · [Self-consistency](#self-consistency) · [SFT](#sft-supervised-fine-tuning) · [Softmax](#softmax) · [Soft target](#soft-target) · [Split](#split-treinovalidaçãoteste) · [Temperatura](#temperatura) · [Token](#token) · [Tokenizer](#tokenizer) · [Transformer](#transformer) · [TTFT/TPOT](#ttft-e-tpot) · [Vazamento](#vazamento-de-dados) · [Verificador](#recompensa-e-recompensa-verificável) · [Vocabulário](#vocabulário) · [Warmup](#warmup) · [Conjunto dourado](#conjunto-dourado-eval) · [Disjuntor](#disjuntor-circuit-breaker) · [Guardião de custo](#guardião-de-custo) · [Log estruturado](#log-estruturado-observabilidade) · [p50/p95](#p50-p95-percentis-de-latência) · [Registry de prompt/modelo](#registry-de-promptmodelo) · [Throughput](#throughput)
 
 ---
 
@@ -638,3 +638,42 @@ Cada verbete tem três partes: **a ideia em linguagem comum** (muitas vezes uma 
 **A ideia:** o número que "congela o acaso": com a mesma seed, o sorteio sai igual toda vez — e o experimento fica reproduzível. Todo lab do curso fixa a seed por isso.
 **Precisão:** estado inicial do gerador pseudoaleatório.
 **Onde:** todos os labs (`torch.manual_seed(...)`).
+
+---
+
+## Engenharia de produção (módulo 19)
+
+### Conjunto dourado (eval)
+**A ideia:** um "gabarito de prova" do sistema: um punhado de (pergunta, resposta esperada) que você roda a cada mudança. Se a acurácia cai abaixo do piso, não sobe para produção.
+**Precisão:** conjunto de exemplos com resposta esperada, executado como portão de CI; o juiz pode ser determinístico (gabarito exato) ou um LLM-as-judge (critério subjetivo, com viés).
+**Onde:** módulo 19, Lab 5 (e a auditoria de juiz no módulo 14).
+
+### Disjuntor (circuit breaker)
+**A ideia:** o "interruptor de segurança" do serviço: quando o modelo começa a falhar em série, o disjuntor abre e passa a recusar TUDO rápido, em vez de gastar dinheiro para falhar devagar.
+**Precisão:** máquina de três estados (fechado → aberto → meio aberto). Abre quando a taxa de falha numa janela passa do limiar (com mínimo de amostras); recusa em microssegundos; após resfriamento, deixa UMA prova decidir entre fechar ou reabrir.
+**Onde:** módulo 19, Lab 4 (o `tools.producao.Disjuntor`).
+
+### Guardião de custo
+**A ideia:** o porteiro que olha o preço ANTES de deixar entrar: estima o custo máximo da requisição e, se passar do orçamento, recusa sem gastar um token.
+**Precisão:** calcula `custo_max` usando entrada real + teto de tokens de saída; recusa cedo (gasto zero) quando excede o orçamento por requisição.
+**Onde:** módulo 19, Lab 3 (e o custo como função no Lab 2).
+
+### Log estruturado (observabilidade)
+**A ideia:** nada de texto solto no console: cada requisição vira um JSON com `trace_id`, modelo, status, latência, tokens, custo — para filtrar e correlacionar. E PII nunca entra no log.
+**Precisão:** emissão de registros em JSONL com campos tipados e um id de correlação; a presença de PII se registra, o valor não.
+**Onde:** módulo 19, Lab 6 (governança do módulo 4 aplicada à telemetria).
+
+### p50 / p95 (percentis de latência)
+**A ideia:** a média esconde a cauda. p50 é o tempo típico; p95 é o que 5% dos usuários sentem. Otimizar p50 sem olhar p95 é enfeitar o que não dói.
+**Precisão:** percentis de latência — p95 = valor abaixo do qual ficam 95% das medições. Reportar p50 e p95 separadamente, e nunca misturar recusas rápidas com sucessos na mesma conta.
+**Onde:** módulo 19, Lab 1 (`resumir_trafego`).
+
+### Registry de prompt/modelo
+**A ideia:** prompt e modelo são código de configuração que muda a qualidade — versionar os dois para poder voltar atrás rápido quando algo regride.
+**Precisão:** tabela versionada (config_id → modelo, sistema, max_tokens) validada por eval; o rollback é pinar a versão anterior, sem retreino.
+**Onde:** módulo 19, Lab 7.
+
+### Throughput
+**A ideia:** quantos tokens (ou requisições) o serviço entrega por segundo — o teto do teu orçamento de recurso. Latência mede UM; throughput mede a VEZÉS.
+**Precisão:** tokens gerados por segundo, ou requisições por segundo, sob concorrência.
+**Onde:** módulo 19, Lab 1.

@@ -49,7 +49,12 @@ confirma o resultado dentro da tolerância declarada.
 
 ## Próximos passos
 
-- [ ] Versionar a primeira execução de referência de cada resultado destacado.
+A infraestrutura para registrar reproduções já existe — use o helper
+`tools.reproducao.registrar_reproducao`, que grava no esquema acima em
+`resultados/<experimento>/<data>-<commit>.json` (veja [`resultados/README.md`](resultados/README.md)).
+Falta o trabalho de hardware, que nenhuma função substitui:
+
+- [ ] Executar E REGISTRAR (`resultados/`) a primeira reprodução de cada resultado destacado.
 - [ ] Fixar `revision` nos modelos do Hugging Face usados pelos labs.
 - [ ] Registrar checksum e licença dos textos baixados.
 - [ ] Executar e registrar os labs MLX em Apple Silicon.
