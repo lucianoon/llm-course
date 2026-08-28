@@ -22,6 +22,7 @@ from tools.experimentos import RegistroExperimento
 from tools.governanca import anonimizar_texto, auditar_pii, criar_manifesto_dataset
 from tools.jsonl import preparar_jsonl_retomavel
 from tools.modulos import importar_por_caminho
+from tools.producao import Disjuntor, LinhaDeTrafego, calcular_custo, contar_tokens, resumir_trafego
 from tools.rag import (
     BM25,
     GABARITO_PASSAGENS,
@@ -31,6 +32,7 @@ from tools.rag import (
     extrair_chunks,
     passagem_relevante,
 )
+from tools.reproducao import registrar_reproducao
 from tools.respostas import extrair_numero
 from tools.serving import AmostraServing, percentil, resumir_carga
 
@@ -360,6 +362,74 @@ class TestImportarPorCaminho(unittest.TestCase):
             dados_m4.CORPUS_M3.parent.parent / "dados.py", "dados_modulo_03"
         )
         self.assertTrue(hasattr(dados_m3, "carregar"))
+
+
+class TestProducao(unittest.TestCase):
+    def test_contar_tokens_e_deterministico(self):
+        self.assertEqual(contar_tokens(""), 0)
+        self.assertGreater(contar_tokens("mais palavras aqui"), contar_tokens("."))
+    def test_calcular_custo_usando_padrao(self):
+        # 1 milhão de tokens de entrada + 1 milhão de saída na tabela padrão.
+        self.assertAlmostEqual(calcular_custo(1_000_000, 1_000_000), 0.30 + 0.60)
+
+    def test_custo_rejeita_contagem_negativa(self):
+        with self.assertRaises(ValueError):
+            calcular_custo(-1, 0)
+
+    def test_resumo_de_trafego_so_considera_sucesso_na_latencia(self):
+        linhas = [
+            LinhaDeTrafego(1, True, 0.10, 5, 20, 0.0001, "gpt-x", 200),
+            LinhaDeTrafego(2, True, 0.20, 5, 20, 0.0001, "gpt-x", 200),
+            LinhaDeTrafego(3, False, 0.01, 0, 0, 0.0, "gpt-x", 503, "orcamento_excedido"),
+        ]
+        resumo = resumir_trafego(linhas)
+        self.assertAlmostEqual(resumo["sucesso"], (2 / 3), places=2)
+        self.assertEqual(resumo["motivo_falha_comum"], "orcamento_excedido")
+        self.assertAlmostEqual(resumo["custo_total"], 0.0002)
+
+    def test_disjuntor_abre_fecha_e_nao_deixa_prova_dobrada(self):
+        d = Disjuntor(limiar_falha=0.5, janela_s=60.0, resfriamento_s=30.0, amostras_minimas=5)
+        base = 100.0
+        for i in range(5):
+            self.assertTrue(d.permitir(base + i))
+            d.registrar_falha(base + i)
+        self.assertTrue(d._aberto)
+        self.assertFalse(d.permitir(base + 5))  # aberto: recusa até o resfriamento
+        # Após o resfriamento entra em meio aberto e deixa UMA prova.
+        self.assertTrue(d.permitir(base + 40))
+        self.assertFalse(d.permitir(base + 41))  # a segunda é recusada
+        d.registrar_sucesso(base + 41)
+        self.assertFalse(d._aberto)
+        self.assertFalse(d._meio_aberto)
+
+
+class TestEvalCi(unittest.TestCase):
+    def test_portao_de_producao_passa(self):
+        from tools.eval_ci import main
+
+        self.assertEqual(main(), 0)
+
+
+class TestReproducao(unittest.TestCase):
+    def test_grava_no_esquema_e_retorna_caminho(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            arquivo = registrar_reproducao(
+                raiz,
+                experimento="modulo-01/lab",
+                comando="uv run python modulo-01/lab.py",
+                metricas={"bit_exact": True},
+            )
+            self.assertEqual(arquivo.parent, raiz / "resultados" / "modulo-01" / "lab")
+            self.assertEqual(arquivo.parent.parent.parent, raiz / "resultados")
+            registro = json.loads(arquivo.read_text(encoding="utf-8"))
+            self.assertEqual(registro["experimento"], "modulo-01/lab")
+            self.assertIn("executado_em", registro)
+            self.assertEqual(registro["metricas"], {"bit_exact": True})
+
+    def test_rejeita_nome_de_experimento_invalido(self):
+        with self.assertRaises(ValueError):
+            registrar_reproducao(Path("."), experimento="simples", comando="x")
 
 
 if __name__ == "__main__":
