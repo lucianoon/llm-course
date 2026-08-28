@@ -24,7 +24,10 @@ import sys
 from pathlib import Path
 
 AQUI = Path(__file__).parent
-sys.path.insert(0, str(AQUI.parent / "modulo-04-dados"))
+sys.path.insert(0, str(AQUI.parent / "tools"))
+
+# Import depois do sys.path acima, como nos demais labs do curso.
+from modulos import importar_por_caminho
 
 random.seed(42)
 
@@ -200,8 +203,9 @@ def pontuar(exemplo: dict) -> float:
 
 
 def montar_alpaca(n=1200) -> list[dict]:
-    import dados as dados_m4
-
+    dados_m4 = importar_por_caminho(
+        AQUI.parent / "modulo-04-dados" / "dados.py", "dados_modulo_04"
+    )
     alpaca = dados_m4.carregar_alpaca()
 
     # dedup exata por instrução (o MinHash completo fica como exercício)

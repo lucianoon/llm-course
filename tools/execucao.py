@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import time
@@ -25,10 +26,14 @@ def executar_modulo(
 ) -> ResultadoExecucao:
     """Executa ``python -m modulo`` e padroniza log, tempo e tratamento de falhas."""
     inicio = time.perf_counter()
+    # Os labs imprimem acentos e setas (→). Sem UTF-8 nas duas pontas, o filho
+    # falha ao emitir esses caracteres e a decodificação aqui os corrompe.
     processo = subprocess.run(
         [sys.executable, "-m", modulo, *args],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
         check=False,
     )
     segundos = time.perf_counter() - inicio
