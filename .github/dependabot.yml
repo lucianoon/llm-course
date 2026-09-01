@@ -10,6 +10,20 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    # Os limites superiores destas dependências no pyproject são intencionais:
+    # trl, pandas e mlx-lm-lora são usados em labs que o CI não executa, então
+    # um bump de versão major precisa de revisão manual dos labs, não de PR automático.
+    ignore:
+      - dependency-name: "trl"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "pandas"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "mlx-lm-lora"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "mlx-lm"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "mlx"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"

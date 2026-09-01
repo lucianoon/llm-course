@@ -27,7 +27,12 @@ jobs:
         with:
           enable-cache: true
       - name: Sincronizar ambiente pelo lockfile
-        run: uv sync --extra dev --extra test --locked
+        # O extra cpu entra para que bumps de pandas, transformers, datasets e
+        # matplotlib sejam de fato instalados e importados no CI. Antes, PRs do
+        # Dependabot para essas libs passavam verdes sem que elas fossem sequer instaladas.
+        run: uv sync --extra dev --extra test --extra cpu --locked
+      - name: Importar dependências dos labs CPU
+        run: uv run python -c "import pandas, transformers, datasets, matplotlib, accelerate; print('pandas', pandas.__version__, '| transformers', transformers.__version__, '| datasets', datasets.__version__)"
       - name: Compilar fontes Python
         # -x exclui o .venv que o `uv sync` acabou de criar: ele traz arquivos de
         # dependências com sintaxe de versões mais novas do Python (ex.: torch tem um
