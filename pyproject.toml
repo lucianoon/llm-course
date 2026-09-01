@@ -47,7 +47,7 @@ gpu = [
   "datasets>=5.0.1,<6",
   "accelerate>=1,<2",
   "peft>=0.17,<1",
-  "trl>=0.25,<1",
+  "trl>=0.25,<2",
   "bitsandbytes>=0.46,<1",
   "huggingface-hub>=0.34,<2",
 ]
