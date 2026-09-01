@@ -1,7 +1,7 @@
 # 00 — Setup do ambiente (Windows / CPU)
 
 > 🌱 **Começando sem experiência em programação?** Faça primeiro a
-> [`Fase 0 — iniciante absoluto`](00-iniciante-zero/). Este guia prepara o ambiente;
+> [`Fase 0 — ponte para iniciantes`](00-iniciante-zero/). Este guia prepara o ambiente;
 > a Fase 0 ensina o vocabulário e as operações usadas nos comandos abaixo.
 
 > ℹ️ **Este documento cobre os módulos 1–4 (CPU) e a estratégia de GPU em nuvem.** A trilha

@@ -1,0 +1,17 @@
+{
+  "Qwen/Qwen2.5-0.5B-Instruct": {
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "licenca": "Apache-2.0",
+    "fonte": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct/tree/7ae557604adf67be50417f59c2c2f167def9a775"
+  },
+  "openai-community/gpt2": {
+    "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "licenca": "MIT",
+    "fonte": "https://huggingface.co/openai-community/gpt2/tree/607a30d783dfa663caf39e06633721c8d4cfcd7e"
+  },
+  "intfloat/multilingual-e5-small": {
+    "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "licenca": "MIT",
+    "fonte": "https://huggingface.co/intfloat/multilingual-e5-small/tree/614241f622f53c4eeff9890bdc4f31cfecc418b3"
+  }
+}

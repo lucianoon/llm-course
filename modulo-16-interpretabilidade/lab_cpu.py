@@ -25,10 +25,17 @@ torch.manual_seed(0)
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
-tok = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+REVISAO_QWEN = "7ae557604adf67be50417f59c2c2f167def9a775"
+tok = AutoTokenizer.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct", revision=REVISAO_QWEN
+)
 # eager é obrigatório para output_attentions (Lab 4)
-model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct",
-                                             attn_implementation="eager", **DTYPE_KW)
+model = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision=REVISAO_QWEN,
+    attn_implementation="eager",
+    **DTYPE_KW,
+)
 model.eval()
 N_CAMADAS = model.config.num_hidden_layers
 print(f"Qwen2.5-0.5B: {N_CAMADAS} camadas, d={model.config.hidden_size}")

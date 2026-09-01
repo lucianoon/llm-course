@@ -328,7 +328,10 @@ print(f"recall da detecção        : {len(detectados)/len(vazados):.1%}")
 # %%
 from transformers import AutoTokenizer
 
-tok = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+tok = AutoTokenizer.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+)
 
 def formatar(exemplo):
     usuario = exemplo["instruction"]

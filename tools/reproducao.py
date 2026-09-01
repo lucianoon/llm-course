@@ -28,6 +28,61 @@ def _commit_atual(raiz: Path) -> str:
     return processo.stdout.strip() if processo.returncode == 0 else "sem-git"
 
 
+def _arvore_suja(raiz: Path) -> bool | None:
+    processo = subprocess.run(
+        ["git", "status", "--porcelain"],
+        cwd=raiz,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return bool(processo.stdout.strip()) if processo.returncode == 0 else None
+
+
+def criar_registro(
+    raiz: Path,
+    *,
+    experimento: str,
+    comando: str,
+    seed: int = 0,
+    modelos: list[dict[str, str]] | None = None,
+    dados: list[dict[str, str]] | None = None,
+    amostra_n: int = 0,
+    metricas: dict[str, Any] | None = None,
+    observacoes: str = "",
+    python: str | None = None,
+    plataforma: str | None = None,
+    hardware: str | None = None,
+    executado_em: str | None = None,
+) -> dict[str, Any]:
+    """Monta um registro no schema comum sem gravá-lo."""
+    if not experimento or "/" not in experimento:
+        raise ValueError("experimento deve ter a forma 'modulo-NN/nome-do-lab'")
+    if not comando.strip():
+        raise ValueError("comando não pode ser vazio")
+    if amostra_n < 0:
+        raise ValueError("amostra_n não pode ser negativo")
+    raiz = Path(raiz)
+    agora = datetime.now(UTC)
+    return {
+        "schema_version": 1,
+        "experimento": experimento,
+        "commit": _commit_atual(raiz),
+        "working_tree_dirty": _arvore_suja(raiz),
+        "executado_em": executado_em or agora.isoformat(),
+        "comando": comando,
+        "python": python or sys.version.split()[0],
+        "plataforma": plataforma or f"{platform.system()}-{platform.machine()}",
+        "hardware": hardware or f"CPU-{platform.machine()}",
+        "seed": seed,
+        "modelos": modelos or [],
+        "dados": dados or [],
+        "amostra_n": amostra_n,
+        "metricas": metricas or {},
+        "observacoes": observacoes,
+    }
+
+
 def registrar_reproducao(
     raiz: Path,
     *,
@@ -41,27 +96,27 @@ def registrar_reproducao(
     observacoes: str = "",
     python: str | None = None,
     plataforma: str | None = None,
+    hardware: str | None = None,
     executado_em: str | None = None,
 ) -> Path:
     """Grava o registro de reprodução e devolve o caminho do arquivo criado."""
-    if not experimento or "/" not in experimento:
-        raise ValueError("experimento deve ter a forma 'modulo-NN/nome-do-lab'")
     raiz = Path(raiz)
     agora = datetime.now(UTC)
-    registro = {
-        "experimento": experimento,
-        "commit": _commit_atual(raiz),
-        "executado_em": executado_em or agora.isoformat(),
-        "comando": comando,
-        "python": python or sys.version.split()[0],
-        "plataforma": plataforma or f"{platform.system()}-{platform.machine()}",
-        "seed": seed,
-        "modelos": modelos or [],
-        "dados": dados or [],
-        "amostra_n": amostra_n,
-        "metricas": metricas or {},
-        "observacoes": observacoes,
-    }
+    registro = criar_registro(
+        raiz,
+        experimento=experimento,
+        comando=comando,
+        seed=seed,
+        modelos=modelos,
+        dados=dados,
+        amostra_n=amostra_n,
+        metricas=metricas,
+        observacoes=observacoes,
+        python=python,
+        plataforma=plataforma,
+        hardware=hardware,
+        executado_em=executado_em,
+    )
     pasta = raiz / "resultados" / experimento
     pasta.mkdir(parents=True, exist_ok=True)
     arquivo = pasta / f"{agora.strftime('%Y%m%d')}-{registro['commit'][:8]}.json"

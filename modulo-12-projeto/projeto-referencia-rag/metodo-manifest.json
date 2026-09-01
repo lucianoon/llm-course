@@ -1,0 +1,17 @@
+{
+  "tecnica": "RAG extrativo com BM25",
+  "treino": false,
+  "justificativa": "A falha é conhecimento externo mutável. Treinar esconderia a proveniência, aumentaria custo e exigiria novo treino a cada atualização.",
+  "alternativas_descartadas": [
+    "SFT",
+    "LoRA",
+    "DPO"
+  ],
+  "hiperparametros": {
+    "metodo": "bm25",
+    "k1": 1.5,
+    "b": 0.75,
+    "top_k": 2,
+    "score_minimo": 1.0
+  }
+}

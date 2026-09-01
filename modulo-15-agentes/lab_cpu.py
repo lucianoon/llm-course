@@ -34,8 +34,13 @@ sys.path.insert(0, str(AQUI.parent / "tools"))
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
-tok = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
-model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct", **DTYPE_KW)
+REVISAO_QWEN = "7ae557604adf67be50417f59c2c2f167def9a775"
+tok = AutoTokenizer.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct", revision=REVISAO_QWEN
+)
+model = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct", revision=REVISAO_QWEN, **DTYPE_KW
+)
 model.eval()
 
 # %% [markdown]

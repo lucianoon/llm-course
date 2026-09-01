@@ -6,6 +6,11 @@ Não há lab neste módulo. Há um projeto, um contrato de entrega, e os critér
 
 > **Novo — referência rodável:** [`projeto-template/`](projeto-template/) é um esqueleto mínimo e executável do contrato (config, scripts `preparar/treinar/avaliar/servir`, manifestos). Não é o seu projeto — é o ponto de partida. Clone, renomeie e preencha com o seu problema.
 
+> **Exemplo concluído:** [`projeto-referencia-rag/`](projeto-referencia-rag/) mostra o padrão
+> preenchido: dados fictícios versionados, baseline, RAG com citação e abstenção, avaliação
+> pareada, intervalo de confiança, serving local, resultados negativos e limitações. Ele é uma
+> referência de processo, não prova de desempenho em produção.
+
 ---
 
 ## 1. O contrato
@@ -54,7 +59,7 @@ O escopo certo cabe em **duas a três semanas** de trabalho parcial. Errar o esc
 
 | Diagnóstico | Técnica | Módulo |
 |---|---|---|
-| Falta conhecimento (volátil ou volumoso) | RAG — e talvez o projeto nem precise de treino | 4 |
+| Falta conhecimento (volátil ou volumoso) | RAG — e talvez o projeto nem precise de treino | 13 |
 | Formato/tom inconsistente com prompt bom | SFT/LoRA, 200–1.000 exemplos | 5, 6 |
 | Precisa raciocinar em passos | dados de CoT; destilar de um reasoner | 7, 10 |
 | Escolhe mal entre respostas plausíveis | DPO/KTO sobre amostras do próprio modelo | 8 |

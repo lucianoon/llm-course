@@ -22,23 +22,26 @@ from __future__ import annotations
 import json
 import random
 import re
-import urllib.request
+import sys
 from pathlib import Path
 
 AQUI = Path(__file__).parent
 DATA = AQUI / "data"
-BASE_URL = "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data"
+sys.path.insert(0, str(AQUI.parent / "tools"))
+
+from dados_externos import carregar_ou_baixar
 
 random.seed(42)
 
 
 def baixar(split: str) -> list[dict]:
     destino = DATA / f"gsm8k_{split}.jsonl"
-    if not destino.exists():
-        DATA.mkdir(exist_ok=True)
-        req = urllib.request.Request(f"{BASE_URL}/{split}.jsonl",
-                                     headers={"User-Agent": "Mozilla/5.0"})
-        destino.write_bytes(urllib.request.urlopen(req, timeout=120).read())
+    artefato_id = {"train": "gsm8k-train", "test": "gsm8k-test"}.get(split)
+    if artefato_id is None:
+        raise ValueError(f"split GSM8K desconhecido: {split}")
+    existia = destino.exists()
+    carregar_ou_baixar(artefato_id, destino)
+    if not existia:
         print(f"  baixado: {destino.name} ({destino.stat().st_size // 1024} KB)")
     return [json.loads(l) for l in destino.read_text(encoding="utf-8").strip().split("\n")]
 

@@ -33,8 +33,9 @@ V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
 
 MODELO = "Qwen/Qwen2.5-0.5B-Instruct"
-tok = AutoTokenizer.from_pretrained(MODELO)
-model = AutoModelForCausalLM.from_pretrained(MODELO, **DTYPE_KW)
+REVISAO_MODELO = "7ae557604adf67be50417f59c2c2f167def9a775"
+tok = AutoTokenizer.from_pretrained(MODELO, revision=REVISAO_MODELO)
+model = AutoModelForCausalLM.from_pretrained(MODELO, revision=REVISAO_MODELO, **DTYPE_KW)
 model.eval()
 
 gabarito = [json.loads(l) for l in

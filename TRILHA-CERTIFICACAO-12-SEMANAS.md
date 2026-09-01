@@ -1,7 +1,11 @@
-# Trilha de certificação — 12 semanas, 36 horas
+# Trilha intensiva de customização — 12 semanas, 36 horas
 
 Esta trilha seleciona o subconjunto que cabe em 3 horas semanais. O restante do
 repositório é aprofundamento. Cada encontro produz uma evidência, não apenas leitura.
+
+> Esta é uma trilha de conclusão autônoma, não uma certificação profissional emitida,
+> supervisionada ou acreditada. “Concluir” abaixo significa preservar as evidências e
+> satisfazer a rubrica; uma certificação formal exigiria avaliação por uma banca identificada.
 
 | Semana | Preparação | Encontro/lab obrigatório | Entregável |
 |---|---|---|---|
@@ -25,7 +29,7 @@ repositório é aprofundamento. Cada encontro produz uma evidência, não apenas
 - 90 min: laboratório em pares.
 - 15 min: registro de evidência e próximos passos.
 
-## Critério de certificação
+## Critério de conclusão
 
 - 70%: projeto final reproduzível e medido.
 - 20%: evidências semanais executadas.

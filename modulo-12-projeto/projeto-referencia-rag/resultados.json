@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "experimento": "modulo-12/capstone-rag-politicas-v1",
+  "commit": "9e89c6a28a2c4124968ac6c4894cd2f9c1e80eec",
+  "working_tree_dirty": true,
+  "executado_em": "2026-09-01T16:35:51.541840+00:00",
+  "comando": "python modulo-12-projeto/projeto-referencia-rag/scripts/avaliar.py",
+  "python": "3.12.13",
+  "plataforma": "Darwin-arm64",
+  "hardware": "CPU-arm64",
+  "seed": 42,
+  "modelos": [
+    {
+      "id": "extrativo-bm25-v1",
+      "revision": "9e89c6a28a2c4124968ac6c4894cd2f9c1e80eec"
+    }
+  ],
+  "dados": [
+    {
+      "id": "politicas-internas-ficticias-v1",
+      "revision_ou_sha256": "3f8a7b18256d000fd8a69ffafd4ea40cb89659a1df3a7ddc6d11ac3799843f0b"
+    }
+  ],
+  "amostra_n": 15,
+  "metricas": {
+    "metrica": "acurácia: resposta sustentada e citada, ou abstenção correta",
+    "baseline": 0.5333,
+    "modelo_final": 1.0,
+    "delta": 0.4667,
+    "delta_ic95_bootstrap_pareado": [
+      0.2,
+      0.7333
+    ],
+    "bootstrap_amostras": 5000,
+    "serving_local": {
+      "latencia_p50_ms": 0.0283,
+      "latencia_p95_ms": 0.0572,
+      "observacao": "processo local sem rede, concorrência ou modelo generativo"
+    }
+  },
+  "observacoes": "Corpus fictício; resultado local não equivale a produção nem reprodução independente.",
+  "detalhes": [
+    {
+      "id": "Q01",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-FERIAS"
+      ],
+      "score": 2.592696
+    },
+    {
+      "id": "Q02",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-FERIAS"
+      ],
+      "score": 7.899054
+    },
+    {
+      "id": "Q03",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-HOME"
+      ],
+      "score": 4.270377
+    },
+    {
+      "id": "Q04",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-REEMBOLSO"
+      ],
+      "score": 4.748632
+    },
+    {
+      "id": "Q05",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-SEGURANCA"
+      ],
+      "score": 4.143586
+    },
+    {
+      "id": "Q06",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-ACESSO"
+      ],
+      "score": 6.661545
+    },
+    {
+      "id": "Q07",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-RETENCAO"
+      ],
+      "score": 4.551454
+    },
+    {
+      "id": "Q08",
+      "baseline_ok": true,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-ONBOARDING"
+      ],
+      "score": 5.788348
+    },
+    {
+      "id": "Q09",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-SUPORTE"
+      ],
+      "score": 7.951042
+    },
+    {
+      "id": "Q10",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-PARENTAL"
+      ],
+      "score": 7.468023
+    },
+    {
+      "id": "Q11",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "respondido",
+      "citacoes": [
+        "POL-VIAGEM"
+      ],
+      "score": 8.902699
+    },
+    {
+      "id": "Q12",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "abstencao",
+      "citacoes": [],
+      "score": 0.0
+    },
+    {
+      "id": "Q13",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "abstencao",
+      "citacoes": [],
+      "score": 0.0
+    },
+    {
+      "id": "Q14",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "abstencao",
+      "citacoes": [],
+      "score": 0.0
+    },
+    {
+      "id": "Q15",
+      "baseline_ok": false,
+      "final_ok": true,
+      "status_final": "abstencao",
+      "citacoes": [],
+      "score": 0.0
+    }
+  ]
+}

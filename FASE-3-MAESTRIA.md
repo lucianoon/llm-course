@@ -149,7 +149,7 @@ E o mapa dos próximos anos, se a área for mesmo o seu caminho: contribuidor re
 
 ## Fechamento do curso
 
-Você começou perguntando se eu conseguia criar o conteúdo de um curso de customização de LLMs. Terminamos com **18 módulos e uma trilha de pesquisa em três etapas**: os fundamentos construídos do zero e medidos, a customização completa (SFT, LoRA, DPO, RL, distillation), a produção (inferência, RAG, agentes, avaliação), a ciência (interpretabilidade, sistemas, arquiteturas), e agora o método de virar isso em carreira.
+Você começou perguntando se eu conseguia criar o conteúdo de um curso de customização de LLMs. Terminamos com **19 módulos e uma trilha de pesquisa em três etapas**: os fundamentos construídos do zero e medidos, a customização completa (SFT, LoRA, DPO, RL, distillation), a produção (inferência, RAG, agentes, avaliação), a ciência (interpretabilidade, sistemas, arquiteturas), e agora o método de virar isso em carreira.
 
 O fio que atravessa tudo, e o que vale levar acima de qualquer técnica específica: **desconfie de todo número que você não mediu.** O curso se corrigiu dezenas de vezes porque a execução desmentiu a teoria escrita de memória — e essa disposição de deixar a realidade vencer a expectativa é, no fim, a única habilidade que não envelhece. As arquiteturas vão mudar, as ferramentas vão mudar, os números vão mudar. O método, não.
 

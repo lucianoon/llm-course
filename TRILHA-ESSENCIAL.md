@@ -153,7 +153,7 @@ Faça somente quando um projeto real exigir ou quando quiser aprofundar pesquisa
 | Interpretabilidade | 16 | Precisa investigar mecanismos internos |
 | Treino distribuído | 17 | Trabalha com modelos que não cabem em uma máquina |
 | Novas arquiteturas | 18 | Pesquisa alternativas ao transformer |
-| Pesquisa própria | 19–21 | Já reproduz resultados e quer produzir conhecimento |
+| Pesquisa própria | [Fase 3 — Maestria](FASE-3-MAESTRIA.md) | Já reproduz resultados e quer produzir conhecimento |
 
 O profissional não é quem estudou todas as técnicas. É quem reconhece qual técnica não
 precisa usar.

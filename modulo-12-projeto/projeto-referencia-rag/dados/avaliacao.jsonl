@@ -1,0 +1,15 @@
+{"id":"Q01","pergunta":"Qual o prazo para pedir férias?","respondivel":true,"documento_esperado":"POL-FERIAS","termos_esperados":["30 dias de antecedência"]}
+{"id":"Q02","pergunta":"Quantos dias de férias existem após 12 meses?","respondivel":true,"documento_esperado":"POL-FERIAS","termos_esperados":["30 dias de férias"]}
+{"id":"Q03","pergunta":"Quantos dias de home office são permitidos?","respondivel":true,"documento_esperado":"POL-HOME","termos_esperados":["3 dias por semana"]}
+{"id":"Q04","pergunta":"Qual o prazo de reembolso de despesas?","respondivel":true,"documento_esperado":"POL-REEMBOLSO","termos_esperados":["15 dias corridos"]}
+{"id":"Q05","pergunta":"Para onde devo comunicar um incidente de segurança?","respondivel":true,"documento_esperado":"POL-SEGURANCA","termos_esperados":["seguranca@example.org"]}
+{"id":"Q06","pergunta":"Com que frequência os acessos são revisados?","respondivel":true,"documento_esperado":"POL-ACESSO","termos_esperados":["90 dias"]}
+{"id":"Q07","pergunta":"Por quanto tempo ficam os logs de auditoria?","respondivel":true,"documento_esperado":"POL-RETENCAO","termos_esperados":["365 dias"]}
+{"id":"Q08","pergunta":"Quando o checklist de onboarding deve terminar?","respondivel":true,"documento_esperado":"POL-ONBOARDING","termos_esperados":["5 dias úteis"]}
+{"id":"Q09","pergunta":"Qual o tempo de primeira resposta de um chamado P1?","respondivel":true,"documento_esperado":"POL-SUPORTE","termos_esperados":["15 minutos"]}
+{"id":"Q10","pergunta":"Quantos dias recebe a pessoa cuidadora principal?","respondivel":true,"documento_esperado":"POL-PARENTAL","termos_esperados":["180 dias"]}
+{"id":"Q11","pergunta":"Quando uma viagem pode usar classe executiva?","respondivel":true,"documento_esperado":"POL-VIAGEM","termos_esperados":["8 horas ou mais"]}
+{"id":"Q12","pergunta":"A empresa oferece vale-estacionamento?","respondivel":false,"documento_esperado":null,"termos_esperados":[]}
+{"id":"Q13","pergunta":"Qual é a faixa salarial de engenharia?","respondivel":false,"documento_esperado":null,"termos_esperados":[]}
+{"id":"Q14","pergunta":"Posso levar animais para o escritório?","respondivel":false,"documento_esperado":null,"termos_esperados":[]}
+{"id":"Q15","pergunta":"Existe auxílio para academia?","respondivel":false,"documento_esperado":null,"termos_esperados":[]}

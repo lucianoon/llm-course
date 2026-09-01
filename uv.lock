@@ -1979,6 +1979,7 @@ serving = [
 ]
 test = [
     { name = "numpy" },
+    { name = "tokenizers" },
     { name = "torch" },
 ]
 tracking = [
@@ -2006,6 +2007,7 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=9.0.3,<10" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.9,<1" },
     { name = "tokenizers", marker = "extra == 'cpu'", specifier = ">=0.20,<1" },
+    { name = "tokenizers", marker = "extra == 'test'", specifier = ">=0.20,<1" },
     { name = "torch", marker = "extra == 'cpu'", specifier = ">=2.4,<3" },
     { name = "torch", marker = "extra == 'gpu'", specifier = ">=2.4,<3" },
     { name = "torch", marker = "extra == 'test'", specifier = ">=2.4,<3" },

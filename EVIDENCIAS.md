@@ -32,12 +32,15 @@ Crie um arquivo em `resultados/<experimento>/<data>-<commit>.json` com este esqu
 
 ```json
 {
+  "schema_version": 1,
   "experimento": "modulo-XX/nome-do-lab",
   "commit": "sha completo",
   "executado_em": "AAAA-MM-DDTHH:MM:SSZ",
   "comando": "uv run python modulo-XX/lab_cpu.py",
   "python": "3.12.x",
-  "plataforma": "sistema, arquitetura e hardware",
+  "plataforma": "sistema e arquitetura",
+  "hardware": "CPU/GPU e memória relevantes",
+  "working_tree_dirty": false,
   "seed": 0,
   "modelos": [{"id": "organizacao/modelo", "revision": "commit"}],
   "dados": [{"id": "fonte", "revision_ou_sha256": "valor"}],
@@ -59,10 +62,22 @@ A infraestrutura para registrar reproduções já existe — use o helper
 Falta o trabalho de hardware, que nenhuma função substitui:
 
 - [ ] Executar E REGISTRAR (`resultados/`) a primeira reprodução de cada resultado destacado.
-- [ ] Fixar `revision` nos modelos do Hugging Face usados pelos labs.
-- [ ] Registrar checksum e licença dos textos baixados.
+- [x] Fixar `revision` nos modelos do Hugging Face usados pelos labs. O manifesto central está
+  em [`MODELOS.json`](MODELOS.json), e `tools/validar_revisoes.py` bloqueia novas chamadas
+  Transformers sem `revision` no CI.
+- [x] Registrar checksum e licença dos textos baixados. As fontes externas usadas diretamente
+  pelos scripts estão em [`DADOS_EXTERNOS.json`](DADOS_EXTERNOS.json); downloads passam por
+  `tools/dados_externos.py` e são recusados quando tamanho ou SHA-256 divergem.
 - [ ] Executar e registrar os labs MLX em Apple Silicon.
-- [ ] Fazer o CI validar o esquema dos JSONs e os números citados na documentação.
+- [x] Fazer o CI validar o esquema dos JSONs preservados. O portão é
+  `tools/validar_resultados.py`; vincular automaticamente cada número citado na documentação
+  ao seu artefato ainda é uma etapa separada.
+
+## Resultado demonstrativo do capstone
+
+O projeto de referência do módulo 12 preserva dois artefatos no schema v1: avaliação offline e
+carga HTTP local. Eles são regenerados pelos testes, mas **não contam como reprodução
+independente** enquanto estiverem associados a uma árvore Git suja ou a uma única execução.
 
 ## Status da nova rota CUDA
 

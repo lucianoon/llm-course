@@ -30,6 +30,7 @@ torch.manual_seed(42)
 torch.set_grad_enabled(False)
 
 QWEN = "Qwen/Qwen2.5-0.5B-Instruct"
+REVISAO_QWEN = "7ae557604adf67be50417f59c2c2f167def9a775"
 
 # A API do transformers mudou na v5: `torch_dtype` virou `dtype`, e `config.rope_theta`
 # migrou para `config.rope_parameters["rope_theta"]`. Estes dois helpers mantêm o lab
@@ -44,8 +45,10 @@ def obter_rope_theta(cfg):
 
 # attn_implementation="eager" é necessário para extrair mapas de atenção (Lab 7)
 # e garante comparação numérica limpa no Lab 8.
-tok = AutoTokenizer.from_pretrained(QWEN)
-model = AutoModelForCausalLM.from_pretrained(QWEN, attn_implementation="eager", **DTYPE_KW)
+tok = AutoTokenizer.from_pretrained(QWEN, revision=REVISAO_QWEN)
+model = AutoModelForCausalLM.from_pretrained(
+    QWEN, revision=REVISAO_QWEN, attn_implementation="eager", **DTYPE_KW
+)
 model.eval()
 cfg = model.config
 

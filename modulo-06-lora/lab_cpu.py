@@ -333,8 +333,15 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
 
-qwen = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct", **DTYPE_KW)
-tok_qwen = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+qwen = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+    **DTYPE_KW,
+)
+tok_qwen = AutoTokenizer.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+)
 qcfg = qwen.config
 print(f"Qwen2.5-0.5B: {sum(p.numel() for p in qwen.parameters()):,} parâmetros")
 

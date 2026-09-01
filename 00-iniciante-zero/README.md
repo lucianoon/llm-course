@@ -1,7 +1,12 @@
-# Fase 0 — Comece aqui se você nunca programou
+# Fase 0 — Ponte para quem está começando
 
 Esta fase não presume Python, matemática de ensino superior, terminal ou machine learning.
 Ela ensina apenas o necessário para você entender e modificar os laboratórios do curso.
+
+> **Limite desta fase:** isto é uma ponte concentrada, não um curso completo de programação.
+> Se variáveis, arquivos e mensagens de erro ainda exigirem consulta constante ao final, faça
+> prática adicional de Python e terminal antes do módulo 1. Avance pela entrega e pelo checklist,
+> não apenas porque terminou a leitura.
 
 > A meta não é decorar Python. É aprender a transformar um problema em dados, passos,
 > verificações e uma explicação que outra pessoa consiga reproduzir.

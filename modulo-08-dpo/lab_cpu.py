@@ -291,9 +291,16 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
-qwen = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct", **DTYPE_KW)
+qwen = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+    **DTYPE_KW,
+)
 qwen.eval()
-tok_q = AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+tok_q = AutoTokenizer.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+)
 
 def lp_qwen(contexto, resposta):
     ids_ctx = tok_q(contexto, return_tensors="pt")["input_ids"]

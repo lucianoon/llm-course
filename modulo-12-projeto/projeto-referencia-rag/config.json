@@ -1,0 +1,22 @@
+{
+  "projeto": "assistente-politicas-internas-ficticias",
+  "seed": 42,
+  "retrieval": {
+    "metodo": "bm25",
+    "k1": 1.5,
+    "b": 0.75,
+    "top_k": 2,
+    "score_minimo": 1.0
+  },
+  "serving": {
+    "modelo": "extrativo-bm25-v1",
+    "precos_por_milhao_tokens": {
+      "entrada": 0.3,
+      "saida": 0.6
+    }
+  },
+  "avaliacao": {
+    "bootstrap_amostras": 5000,
+    "confianca": 0.95
+  }
+}

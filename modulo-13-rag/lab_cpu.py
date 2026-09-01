@@ -149,8 +149,14 @@ for i, s in zip(ordem, scores):
 # %%
 from transformers import AutoModel, AutoTokenizer
 
-tok_e5 = AutoTokenizer.from_pretrained("intfloat/multilingual-e5-small")
-e5 = AutoModel.from_pretrained("intfloat/multilingual-e5-small")
+tok_e5 = AutoTokenizer.from_pretrained(
+    "intfloat/multilingual-e5-small",
+    revision="614241f622f53c4eeff9890bdc4f31cfecc418b3",
+)
+e5 = AutoModel.from_pretrained(
+    "intfloat/multilingual-e5-small",
+    revision="614241f622f53c4eeff9890bdc4f31cfecc418b3",
+)
 e5.eval()
 
 @torch.no_grad()
@@ -270,9 +276,16 @@ from transformers import AutoTokenizer as AT
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
-qwen = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct", **DTYPE_KW)
+qwen = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+    **DTYPE_KW,
+)
 qwen.eval()
-tok_q = AT.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+tok_q = AT.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+)
 
 def logprob_resposta(contexto_rag: str | None, pergunta: str, resposta: str) -> float:
     conteudo = (f"Contexto:\n{contexto_rag}\n\nPergunta: {pergunta}" if contexto_rag

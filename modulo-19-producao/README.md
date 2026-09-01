@@ -141,7 +141,7 @@ Honestidade de fronteira. O lab constrói o **padrão** em CPU com um brinquedo.
 | O lab mostra (padrão) | A produção real usa |
 |---|---|
 | `time.sleep` para simular geração | `vllm` / `mlx-lm` com tokens reais, `--served-model-name` |
-| função `solicitar` | `FastAPI` + rota `/v1/chat/completions` (contrato OpenAI-compatível) |
+| função `solicitar` | API HTTP + contrato versionado; FastAPI/uvicorn quando o projeto exigir |
 | `ThreadPoolExecutor` para concorrência | uvicorn + workers, balanceador, rate limiting |
 | extrato em dict | Prometheus/Grafana, tracing distribuído (OpenTelemetry), dashboards |
 | registry em dict | registry de prompts (registro imutável, hash), HuggingFace/vllm registry |
@@ -149,6 +149,11 @@ Honestidade de fronteira. O lab constrói o **padrão** em CPU com um brinquedo.
 | "rollback" manual | canary, blue-green, pin de versão + artefato |
 
 A linha que fica: **saber o nome da ferramenta não é engenharia; saber onde ela entra no desenho, é.** O lab te dá o desenho; a ferramenta você troca quando o projeto real pedir.
+
+O [`capstone de referência`](../modulo-12-projeto/projeto-referencia-rag/) fecha parte dessa
+lacuna com biblioteca padrão: endpoint HTTP, health check, API key, limite de payload, logs
+estruturados sem a pergunta e um teste de carga concorrente. Ainda não substitui deploy, proxy,
+TLS, rate limiting distribuído ou observabilidade externa.
 
 ---
 

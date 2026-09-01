@@ -37,14 +37,20 @@ jobs:
         run: uv run python tools/build_notebooks.py
       - name: Verificar qualidade estática
         run: uv run ruff check .
+      - name: Validar revisões imutáveis dos modelos
+        run: uv run python tools/validar_revisoes.py
+      - name: Validar proveniência dos datasets externos
+        run: uv run python tools/validar_dados_externos.py
+      - name: Validar schema dos resultados preservados
+        run: uv run python tools/validar_resultados.py
+      - name: Validar requisitos de execução dos labs
+        run: uv run python tools/validar_execucao_labs.py
       - name: Executar testes sem downloads de modelos
         run: uv run python -m pytest
       - name: Executar portão de produção (módulo 19)
         # Avaliação como portão: reexecuta o lab de produção e valida que o conjunto
         # dourado passa do piso, o serviço mantém sucesso e o disjuntor abre.
         run: uv run python tools/eval_ci.py
-      - name: Executar novos labs CPU de supervisão e QAT
+      - name: Executar labs CPU offline de ponta a ponta
         if: matrix.os == 'ubuntu-latest' && matrix.python == '3.11'
-        run: |
-          uv run python modulo-07-reasoning/lab_process_supervision.py
-          uv run python modulo-11-inferencia/lab_qat.py
+        run: uv run python tools/smoke_labs.py --timeout 60

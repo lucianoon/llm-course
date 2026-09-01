@@ -182,9 +182,16 @@ from transformers import AutoTokenizer as AT
 
 V5 = int(transformers.__version__.split(".")[0]) >= 5
 DTYPE_KW = {"dtype": torch.float32} if V5 else {"torch_dtype": torch.float32}
-qwen = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct", **DTYPE_KW)
+qwen = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+    **DTYPE_KW,
+)
 qwen.eval()
-tok_q = AT.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")
+tok_q = AT.from_pretrained(
+    "Qwen/Qwen2.5-0.5B-Instruct",
+    revision="7ae557604adf67be50417f59c2c2f167def9a775",
+)
 
 PARES_GABARITO = [
     ("Quanto é 15% de 200?", "30", "45"),

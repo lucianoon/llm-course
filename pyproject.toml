@@ -65,6 +65,7 @@ dev = [
 test = [
   "numpy>=1.26,<3",
   "torch>=2.4,<3",
+  "tokenizers>=0.20,<1",
 ]
 
 [tool.setuptools]

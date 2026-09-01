@@ -22,8 +22,9 @@ projeto/
     servir.py
 ```
 
-`resultados.json` precisa declarar `baseline`, `modelo_final`, `n`, `metrica`, intervalo
-de confiança quando aplicável, commit, revisão do modelo, seed e hardware. O revisor deve
+`resultados.json` segue o schema v1 de `tools/reproducao.py`: `metricas` precisa declarar
+`baseline`, `modelo_final`, a métrica e o intervalo de confiança quando aplicável; o registro
+também inclui `amostra_n`, commit, estado da árvore Git, revisões, seed e hardware. O revisor deve
 conseguir regenerá-lo executando os scripts, sem editar caminhos à mão.
 
 ## Como um revisor técnico olha para isso

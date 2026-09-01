@@ -3,7 +3,8 @@
 Este diretório guarda as **reproduções** dos resultados citados no curso, no schema que
 [`EVIDENCIAS.md`](../EVIDENCIAS.md) exige. Uma alegação só passa de "executada na autoria"
 para **reproduzida** quando há aqui um arquivo com commit, ambiente, hardware, seed e
-métricas preservadas.
+métricas preservadas. `tools/validar_resultados.py` verifica o schema no CI; passar no schema
+significa “artefato íntegro”, não “resultado confirmado por execução independente”.
 
 ## Como registrar uma reprodução
 
@@ -29,7 +30,7 @@ resultados/
     <AAAA-MM-DD>-<commit8>.json ← uma execução por arquivo (mesma data/commit = reexecução)
 ```
 
-O JSON guarda as métricas estruturadas; stdout, tabelas completas ou gráficos ficam ao
-lado. Um resultado só é **reproduzido** quando outra execução preservada confirma o
+O JSON guarda `schema_version`, estado da árvore Git, hardware e métricas estruturadas;
+stdout, tabelas completas ou gráficos ficam ao lado. Um resultado só é **reproduzido** quando outra execução preservada confirma o
 mesmo número dentro da tolerância declarada (o espelho do que o módulo 14 ensina: todo
 número que decide algo carrega o tamanho da amostra e o intervalo).

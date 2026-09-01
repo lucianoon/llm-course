@@ -29,8 +29,10 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 torch.manual_seed(42)
 torch.set_grad_enabled(False)  # nada aqui precisa de gradiente
 
-GPT2 = "gpt2"
+GPT2 = "openai-community/gpt2"
+REVISAO_GPT2 = "607a30d783dfa663caf39e06633721c8d4cfcd7e"
 QWEN = "Qwen/Qwen2.5-0.5B-Instruct"
+REVISAO_QWEN = "7ae557604adf67be50417f59c2c2f167def9a775"
 
 print("torch", torch.__version__, "| device: cpu")
 
@@ -41,8 +43,8 @@ print("torch", torch.__version__, "| device: cpu")
 # custa a mais que o inglês?**
 
 # %%
-tok_gpt2 = AutoTokenizer.from_pretrained(GPT2)
-tok_qwen = AutoTokenizer.from_pretrained(QWEN)
+tok_gpt2 = AutoTokenizer.from_pretrained(GPT2, revision=REVISAO_GPT2)
+tok_qwen = AutoTokenizer.from_pretrained(QWEN, revision=REVISAO_QWEN)
 
 for name, tk in [("gpt2", tok_gpt2), ("qwen2.5", tok_qwen)]:
     print(f"{name:10} vocabulário = {tk.vocab_size:,}")
@@ -120,7 +122,9 @@ for numero in ["7", "42", "1234", "12345", "3.14159", "1000000"]:
 # Carregando o modelo e lendo dele os números que decidem hardware.
 
 # %%
-model = AutoModelForCausalLM.from_pretrained(QWEN, torch_dtype=torch.float32)
+model = AutoModelForCausalLM.from_pretrained(
+    QWEN, revision=REVISAO_QWEN, torch_dtype=torch.float32
+)
 model.eval()
 cfg = model.config
 

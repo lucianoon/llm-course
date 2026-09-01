@@ -219,6 +219,7 @@ class IndiceRAG:
         self,
         raiz: Path,
         modelo_embeddings: str = "intfloat/multilingual-e5-small",
+        revisao_modelo: str = "614241f622f53c4eeff9890bdc4f31cfecc418b3",
         excluir_modulos: set[str] | None = None,
         ate_modulo: int | None = None,
     ):
@@ -234,8 +235,12 @@ class IndiceRAG:
             ate_modulo=ate_modulo,
         )
         self.bm25 = BM25([chunk.texto for chunk in self.chunks])
-        self.tokenizer = AutoTokenizer.from_pretrained(modelo_embeddings)
-        self.encoder = AutoModel.from_pretrained(modelo_embeddings)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            modelo_embeddings, revision=revisao_modelo
+        )
+        self.encoder = AutoModel.from_pretrained(
+            modelo_embeddings, revision=revisao_modelo
+        )
         self.encoder.eval()
         self.embeddings = self._embed(
             [f"passage: {chunk.texto}" for chunk in self.chunks]

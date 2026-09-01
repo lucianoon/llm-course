@@ -64,7 +64,7 @@ A convenção: 🟢 essencial · 🟡 importante · ⚪ quando o projeto real pe
 | Implementar do zero para entender | Módulos 1–3 🟢 |
 | Interpretabilidade mecanicista e intervenção | Módulo 16 🟢 |
 | Novas arquiteturas (SSM, MLA, híbridos) | Módulo 18 🟢 |
-| Treino distribuído e kernels | Módulo 17 🟢 |
+| Fundamentos de sistemas de treino distribuído | Módulo 17 🟢 |
 | **Trilha de pesquisa** (reproduzir, contribuir, publicar) | FASE-3-MAESTRIA 🟢 |
 
 ---

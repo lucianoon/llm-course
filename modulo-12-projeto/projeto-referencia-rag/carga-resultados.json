@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experimento": "modulo-12/carga-http-local-v1",
+  "commit": "9e89c6a28a2c4124968ac6c4894cd2f9c1e80eec",
+  "working_tree_dirty": true,
+  "executado_em": "2026-09-01T16:30:50.913509+00:00",
+  "comando": "python modulo-12-projeto/projeto-referencia-rag/scripts/carga.py",
+  "python": "3.12.13",
+  "plataforma": "Darwin-arm64",
+  "hardware": "CPU-arm64",
+  "seed": 0,
+  "modelos": [
+    {
+      "id": "extrativo-bm25-v1",
+      "revision": "9e89c6a28a2c4124968ac6c4894cd2f9c1e80eec"
+    }
+  ],
+  "dados": [
+    {
+      "id": "politicas-internas-ficticias-v1",
+      "revision_ou_sha256": "3f8a7b18256d000fd8a69ffafd4ea40cb89659a1df3a7ddc6d11ac3799843f0b"
+    }
+  ],
+  "amostra_n": 45,
+  "metricas": {
+    "requisicoes": 45,
+    "concorrencia": 8,
+    "probe_sem_api_key_status": 401,
+    "sucesso": 1.0,
+    "latencia_p50_s": 0.002126,
+    "latencia_p95_s": 0.034355,
+    "throughput_tokens_s": 51867.01382,
+    "requisicoes_s": 1064.302609
+  },
+  "observacoes": "Servidor e cliente locais; não representa rede ou modelo generativo."
+}

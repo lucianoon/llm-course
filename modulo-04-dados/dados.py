@@ -13,29 +13,26 @@ from __future__ import annotations
 
 import json
 import sys
-import urllib.request
 from pathlib import Path
 
 AQUI = Path(__file__).parent
 sys.path.insert(0, str(AQUI.parent / "tools"))
 
 # Import depois do sys.path acima, como nos demais labs do curso.
+from dados_externos import carregar_ou_baixar
 from modulos import importar_por_caminho
 
 DATA = AQUI / "data"
 ALPACA = DATA / "alpaca.json"
-ALPACA_URL = "https://raw.githubusercontent.com/tatsu-lab/stanford_alpaca/main/alpaca_data.json"
-
 CORPUS_M3 = AQUI.parent / "modulo-03-treino" / "data" / "corpus.txt"
 
 
 def carregar_alpaca() -> list[dict]:
     if not ALPACA.exists():
-        DATA.mkdir(exist_ok=True)
-        req = urllib.request.Request(ALPACA_URL, headers={"User-Agent": "Mozilla/5.0"})
-        bruto = urllib.request.urlopen(req, timeout=120).read()
-        ALPACA.write_bytes(bruto)
+        bruto = carregar_ou_baixar("stanford-alpaca", ALPACA)
         print(f"  alpaca baixado: {len(bruto):,} bytes -> {ALPACA}")
+    else:
+        carregar_ou_baixar("stanford-alpaca", ALPACA)
     return json.loads(ALPACA.read_text(encoding="utf-8"))
 
 

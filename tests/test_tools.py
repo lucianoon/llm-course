@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -17,6 +18,7 @@ from tools.adapters import (
 )
 from tools.build_notebooks import ROOT, descobrir_labs, notebook_bootstrap, parse_percent
 from tools.calculadora import calcular
+from tools.dados_externos import validar_bytes
 from tools.execucao import executar_modulo
 from tools.experimentos import RegistroExperimento
 from tools.governanca import anonimizar_texto, auditar_pii, criar_manifesto_dataset
@@ -35,11 +37,185 @@ from tools.rag import (
 from tools.reproducao import registrar_reproducao
 from tools.respostas import extrair_numero
 from tools.serving import AmostraServing, percentil, resumir_carga
+from tools.smoke_labs import LABS_OFFLINE, LABS_OFFLINE_LONGOS, executar_lab
+from tools.validar_dados_externos import validar_downloads_diretos
+from tools.validar_dados_externos import validar_repositorio as validar_dados_repositorio
+from tools.validar_execucao_labs import validar_manifesto as validar_execucao_labs
+from tools.validar_resultados import validar_repositorio as validar_resultados_repositorio
+from tools.validar_resultados import validar_resultado
+from tools.validar_revisoes import carregar_manifesto as carregar_manifesto_modelos
+from tools.validar_revisoes import validar_arquivo, validar_repositorio
 
 # Os labs imprimem acentos e setas (→). No Windows o filho herda um stdout em
 # cp1252 e falha ao *emitir* esses caracteres, então UTF-8 é forçado nas duas
 # pontas: PYTHONIOENCODING no filho e encoding= na decodificação aqui.
 _ENV_UTF8 = {**os.environ, "PYTHONIOENCODING": "utf-8"}
+_PROJETO_REFERENCIA = ROOT / "modulo-12-projeto" / "projeto-referencia-rag"
+
+
+class TestDocumentacao(unittest.TestCase):
+    def test_links_markdown_locais_apontam_para_artefatos_existentes(self):
+        links_quebrados = []
+
+        for documento in ROOT.rglob("*.md"):
+            relativo = documento.relative_to(ROOT)
+            if any(parte.startswith(".") for parte in relativo.parts):
+                continue
+
+            texto = documento.read_text(encoding="utf-8")
+            for destino in re.findall(r"!?\[[^]]*\]\(([^)\s]+)", texto):
+                if destino.startswith(("http://", "https://", "mailto:", "#")):
+                    continue
+
+                caminho = destino.split("#", maxsplit=1)[0]
+                if caminho and not (documento.parent / caminho).exists():
+                    links_quebrados.append(f"{relativo}: {destino}")
+
+        self.assertEqual(links_quebrados, [], "Links locais quebrados:\n" + "\n".join(links_quebrados))
+
+    def test_total_anunciado_de_modulos_corresponde_as_pastas(self):
+        modulos = [pasta for pasta in ROOT.glob("modulo-[0-9][0-9]-*") if pasta.is_dir()]
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn(f"Fase 0 + {len(modulos)} módulos", readme)
+
+
+class TestRevisoesImutaveis(unittest.TestCase):
+    def test_repositorio_nao_tem_download_de_modelo_sem_revision(self):
+        self.assertEqual(validar_repositorio(), [])
+
+    def test_detector_rejeita_from_pretrained_sem_revision(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            caminho = Path(tmp) / "lab.py"
+            caminho.write_text(
+                'AutoTokenizer.from_pretrained("Qwen/Qwen2.5-0.5B-Instruct")\n',
+                encoding="utf-8",
+            )
+            violacoes = validar_arquivo(caminho, carregar_manifesto_modelos())
+        self.assertEqual(len(violacoes), 1)
+        self.assertIn("sem revision", violacoes[0].mensagem)
+
+    def test_detector_rejeita_modelo_literal_fora_do_manifesto(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            caminho = Path(tmp) / "lab.py"
+            caminho.write_text(
+                'AutoModel.from_pretrained("org/novo-modelo", revision="' + "a" * 40 + '")\n',
+                encoding="utf-8",
+            )
+            violacoes = validar_arquivo(caminho, carregar_manifesto_modelos())
+        self.assertEqual(len(violacoes), 1)
+        self.assertIn("ausente de MODELOS.json", violacoes[0].mensagem)
+
+
+class TestDadosExternos(unittest.TestCase):
+    def test_manifesto_e_downloads_do_repositorio_sao_auditaveis(self):
+        self.assertEqual(validar_dados_repositorio(), [])
+
+    def test_checksum_rejeita_conteudo_alterado(self):
+        with self.assertRaisesRegex(ValueError, "checksum divergente"):
+            validar_bytes("stanford-alpaca", b"conteudo alterado")
+
+    def test_detector_rejeita_urlopen_fora_do_helper(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            caminho = Path(tmp) / "dados.py"
+            caminho.write_text(
+                'urllib.request.urlopen("https://example.org/dados.json")\n',
+                encoding="utf-8",
+            )
+            violacoes = validar_downloads_diretos(Path(tmp))
+        self.assertEqual(len(violacoes), 1)
+        self.assertIn("urlopen direto", violacoes[0].mensagem)
+
+
+class TestSchemaResultados(unittest.TestCase):
+    def test_resultados_preservados_seguem_schema(self):
+        self.assertEqual(validar_resultados_repositorio(), [])
+
+    def test_detector_rejeita_resultado_incompleto(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            caminho = Path(tmp) / "resultado.json"
+            caminho.write_text('{"experimento":"modulo-01/lab"}\n', encoding="utf-8")
+            violacoes = validar_resultado(caminho)
+        self.assertTrue(any("campo ausente" in item.mensagem for item in violacoes))
+
+
+class TestSmokeLabs(unittest.TestCase):
+    def test_todos_os_labs_tem_perfil_de_execucao(self):
+        self.assertEqual(validar_execucao_labs(), [])
+
+    def test_catalogos_sao_disjuntos_e_apontam_para_labs_existentes(self):
+        self.assertTrue(set(LABS_OFFLINE).isdisjoint(LABS_OFFLINE_LONGOS))
+        for caminho in LABS_OFFLINE + LABS_OFFLINE_LONGOS:
+            self.assertTrue((ROOT / caminho).is_file(), caminho)
+
+    def test_runner_distingue_sucesso_falha_e_timeout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            (raiz / "sucesso.py").write_text('print("ok")\n', encoding="utf-8")
+            (raiz / "falha.py").write_text("raise SystemExit(3)\n", encoding="utf-8")
+            (raiz / "lento.py").write_text(
+                "import time\ntime.sleep(1)\n",
+                encoding="utf-8",
+            )
+
+            sucesso = executar_lab("sucesso.py", raiz=raiz, timeout_s=1)
+            falha = executar_lab("falha.py", raiz=raiz, timeout_s=1)
+            timeout = executar_lab("lento.py", raiz=raiz, timeout_s=0.01)
+
+        self.assertEqual(sucesso.status, "passou")
+        self.assertEqual(falha.status, "falhou")
+        self.assertEqual(timeout.status, "timeout")
+
+
+class TestProjetoReferencia(unittest.TestCase):
+    def executar(self, script: str, *argumentos: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            [sys.executable, str(_PROJETO_REFERENCIA / "scripts" / script), *argumentos],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            env=_ENV_UTF8,
+            check=False,
+        )
+
+    def test_pipeline_regenera_manifestos_e_supera_baseline(self):
+        for script in ("preparar.py", "treinar.py", "avaliar.py"):
+            resultado = self.executar(script)
+            self.assertEqual(resultado.returncode, 0, resultado.stderr)
+
+        manifesto = json.loads((_PROJETO_REFERENCIA / "dataset-manifest.json").read_text())
+        resultados = json.loads((_PROJETO_REFERENCIA / "resultados.json").read_text())
+        self.assertTrue(all(len(arquivo["sha256"]) == 64 for arquivo in manifesto["arquivos"]))
+        self.assertEqual(resultados["metricas"]["modelo_final"], 1.0)
+        self.assertGreater(
+            resultados["metricas"]["modelo_final"], resultados["metricas"]["baseline"]
+        )
+        self.assertGreater(resultados["metricas"]["delta_ic95_bootstrap_pareado"][0], 0)
+
+    def test_serving_cita_e_se_abstem_sem_evidencia(self):
+        respondida = self.executar("servir.py", "Qual o prazo para pedir férias?")
+        abstencao = self.executar("servir.py", "A empresa oferece vale-estacionamento?")
+        self.assertEqual(respondida.returncode, 0, respondida.stderr)
+        self.assertEqual(abstencao.returncode, 0, abstencao.stderr)
+
+        resposta = json.loads(respondida.stdout)
+        sem_evidencia = json.loads(abstencao.stdout)
+        self.assertEqual(resposta["citacoes"], ["POL-FERIAS"])
+        self.assertEqual(sem_evidencia["status"], "abstencao")
+        self.assertEqual(sem_evidencia["citacoes"], [])
+
+    def test_servidor_http_suporta_carga_e_exige_autenticacao(self):
+        resultado = self.executar("carga.py")
+        if resultado.returncode != 0 and "Operation not permitted" in resultado.stderr:
+            self.skipTest("ambiente não permite abrir socket de loopback")
+        self.assertEqual(resultado.returncode, 0, resultado.stderr)
+        carga = json.loads((_PROJETO_REFERENCIA / "carga-resultados.json").read_text())
+        self.assertEqual(carga["metricas"]["probe_sem_api_key_status"], 401)
+        self.assertEqual(carga["metricas"]["requisicoes"], 45)
+        self.assertEqual(carga["metricas"]["sucesso"], 1.0)
+        self.assertGreater(carga["metricas"]["requisicoes_s"], 0)
+
 
 
 class TestBuildNotebooks(unittest.TestCase):
@@ -423,8 +599,11 @@ class TestReproducao(unittest.TestCase):
             self.assertEqual(arquivo.parent, raiz / "resultados" / "modulo-01" / "lab")
             self.assertEqual(arquivo.parent.parent.parent, raiz / "resultados")
             registro = json.loads(arquivo.read_text(encoding="utf-8"))
+            self.assertEqual(registro["schema_version"], 1)
             self.assertEqual(registro["experimento"], "modulo-01/lab")
             self.assertIn("executado_em", registro)
+            self.assertIn("hardware", registro)
+            self.assertIn("working_tree_dirty", registro)
             self.assertEqual(registro["metricas"], {"bit_exact": True})
 
     def test_rejeita_nome_de_experimento_invalido(self):

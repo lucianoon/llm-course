@@ -11,15 +11,19 @@ Uso:
 from __future__ import annotations
 
 import re
-import urllib.request
+import sys
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data"
 CORPUS = DATA / "corpus.txt"
+AQUI = Path(__file__).resolve().parent
+sys.path.insert(0, str(AQUI.parent / "tools"))
+
+from dados_externos import baixar_bytes_verificados, validar_arquivo
 
 OBRAS = {
-    "Dom Casmurro": "https://www.gutenberg.org/cache/epub/55752/pg55752.txt",
-    "Memórias Póstumas de Brás Cubas": "https://www.gutenberg.org/cache/epub/54829/pg54829.txt",
+    "Dom Casmurro": "gutenberg-dom-casmurro",
+    "Memórias Póstumas de Brás Cubas": "gutenberg-memorias-postumas",
 }
 
 
@@ -39,19 +43,20 @@ def limpar_gutenberg(texto: str) -> str:
 def carregar() -> str:
     """Devolve o corpus, baixando na primeira chamada."""
     if CORPUS.exists():
+        validar_arquivo("machado-corpus-limpo", CORPUS)
         return CORPUS.read_text(encoding="utf-8")
 
     DATA.mkdir(exist_ok=True)
     partes = []
-    for titulo, url in OBRAS.items():
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        bruto = urllib.request.urlopen(req, timeout=60).read().decode("utf-8")
+    for titulo, artefato_id in OBRAS.items():
+        bruto = baixar_bytes_verificados(artefato_id).decode("utf-8")
         limpo = limpar_gutenberg(bruto)
         print(f"  {titulo}: {len(bruto):,} -> {len(limpo):,} caracteres após limpeza")
         partes.append(limpo)
 
     texto = "\n\n".join(partes)
     CORPUS.write_text(texto, encoding="utf-8")
+    validar_arquivo("machado-corpus-limpo", CORPUS)
     print(f"  corpus salvo em {CORPUS} ({len(texto):,} caracteres)")
     return texto
 

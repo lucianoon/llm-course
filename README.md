@@ -19,11 +19,12 @@ programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilida
 > Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
 > **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
 
-Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md).
+Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [customização intensiva em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md).
 
-> 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
+> 🌱 **Nunca programou?** Comece pela [Fase 0 — ponte para iniciantes](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
-> Você não precisa concluir todos os temas avançados para começar a trabalhar bem.
+> Ela apresenta os pré-requisitos, mas pode precisar ser acompanhada por prática adicional de
+> Python e terminal. Você não precisa concluir todos os temas avançados para começar a trabalhar bem.
 
 ---
 
@@ -152,7 +153,9 @@ throughput), orçar o custo e recusar cedo, proteger com disjuntor, avaliar como
 
 [**FASE-3-MAESTRIA.md**](FASE-3-MAESTRIA.md) — reproduzir papers · contribuir e publicar · pesquisa própria · a trilha contínua.
 
-O currículo se mede contra **Stanford CS336/CS224N, ARENA, Berkeley CS294 e Karpathy** — ver o mapa completo em [PLANO-MESTRE.md](PLANO-MESTRE.md).
+O currículo usa **Stanford CS336/CS224N, ARENA, Berkeley CS294 e Karpathy como referências de
+escopo**, sem alegar equivalência de carga, profundidade ou avaliação — veja a comparação em
+[PLANO-MESTRE.md](PLANO-MESTRE.md).
 
 ---
 
@@ -181,6 +184,9 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 | 🎯 [**METODO-DE-ESTUDO.md**](METODO-DE-ESTUDO.md) | Como estudar isto para **reter** — ciência cognitiva aplicada, protocolo semanal. |
 | 🗂️ [**revisao/**](revisao/) | Baralho Anki de **140 cartões** + diário de erros. Conteúdo sem retenção é entretenimento. |
 | 🧾 [**EVIDENCIAS.md**](EVIDENCIAS.md) | Registro de alegações, reproduções, escopo e limitações. |
+| 📌 [**MODELOS.json**](MODELOS.json) | IDs, licenças e commits imutáveis dos modelos remotos usados nos labs. |
+| 🧬 [**DADOS_EXTERNOS.json**](DADOS_EXTERNOS.json) | URLs, licenças, tamanhos e SHA-256 dos datasets e textos baixados. |
+| 🧪 [**EXECUCAO_LABS.json**](EXECUCAO_LABS.json) | Ambiente e requisitos necessários para executar cada um dos 35 labs. |
 | 🔐 [**GOVERNANCA-DE-DADOS.md**](GOVERNANCA-DE-DADOS.md) | Proveniência, licença, checksum e auditoria de PII antes do treino. |
 
 ---
@@ -204,7 +210,9 @@ cd llm-course
 uv sync --extra dev --extra test --locked
 uv run python tools/build_notebooks.py      # gera notebooks derivados dos labs
 ```
-Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
+Os `dados.py` de cada módulo baixam os datasets na primeira execução. Os arquivos grandes não
+precisam entrar no Git, mas a origem, licença, revisão ou checksum precisam aparecer no manifesto
+do experimento; modelos compartilhados estão fixados em [`MODELOS.json`](MODELOS.json).
 
 **4. Para cada módulo da sua rota:** leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman. Não avance com menos de 80% no checklist de saída. (O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).)
 
@@ -230,7 +238,10 @@ O fio que atravessa tudo, e o que vale acima de qualquer técnica: **desconfie d
 ## Status do projeto
 
 Este repositório está em **beta pública**. A infraestrutura compartilhada, os testes sem download
-de modelos e labs de CPU selecionados passam pelo CI. Isso não equivale a reproduzir todos os
+de modelos e sete labs de CPU offline passam de ponta a ponta pelo CI. O pré-treino do módulo 3 e
+os labs completos de GRPO e MoE também são offline, mas ficam na suíte longa
+(`tools/smoke_labs.py --incluir-longos`) porque excedem o orçamento de um minuto por lab. Isso não
+equivale a reproduzir todos os
 experimentos: as execuções aceleradas e os artefatos brutos indicados em
 [EVIDENCIAS.md](EVIDENCIAS.md) continuam em andamento. Relatos de instalação, erros conceituais
 e reproduções independentes são especialmente bem-vindos.

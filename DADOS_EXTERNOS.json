@@ -1,0 +1,47 @@
+{
+  "stanford-alpaca": {
+    "url": "https://raw.githubusercontent.com/tatsu-lab/stanford_alpaca/761dc5bfbdeeffa89b8bff5d038781a4055f796a/alpaca_data.json",
+    "sha256": "2eddafc6b977608d778aaab8dfc7e50e547b3af9826dfb9e909d9fc362e4a419",
+    "bytes": 22773992,
+    "licenca": "CC BY-NC 4.0; observar também os termos aplicáveis aos dados gerados pela API da OpenAI",
+    "imutavel": true
+  },
+  "gsm8k-train": {
+    "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/data/train.jsonl",
+    "sha256": "17f347dc51477c50d4efb83959dbb7c56297aba886e5544ee2aaed3024813465",
+    "bytes": 4166206,
+    "licenca": "MIT",
+    "imutavel": true
+  },
+  "gsm8k-test": {
+    "url": "https://raw.githubusercontent.com/openai/grade-school-math/3101c7d5072418e28b9008a6636bde82a006892c/grade_school_math/data/test.jsonl",
+    "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+    "bytes": 749738,
+    "licenca": "MIT",
+    "imutavel": true
+  },
+  "gutenberg-dom-casmurro": {
+    "url": "https://www.gutenberg.org/cache/epub/55752/pg55752.txt",
+    "sha256": "0fc3dbf384544d81d87e5a731e67b7976ac3a57acb378f0f354d12a3b52bd0c7",
+    "bytes": 418230,
+    "licenca": "Domínio público nos EUA; distribuição do arquivo sujeita aos termos do Project Gutenberg",
+    "imutavel": false
+  },
+  "gutenberg-memorias-postumas": {
+    "url": "https://www.gutenberg.org/cache/epub/54829/pg54829.txt",
+    "sha256": "edfe4370698ed5716a9692b980a8d6ee77b4ff8116503bb2e08675f1d10d303a",
+    "bytes": 403243,
+    "licenca": "Domínio público nos EUA; distribuição do arquivo sujeita aos termos do Project Gutenberg",
+    "imutavel": false
+  },
+  "machado-corpus-limpo": {
+    "derivado_de": [
+      "gutenberg-dom-casmurro",
+      "gutenberg-memorias-postumas"
+    ],
+    "sha256": "26ed1e771639c8156d595f6d4902a946039a26efa0460a173c0fac8cd3bf1e78",
+    "bytes": 765188,
+    "licenca": "Mesma situação de domínio público das obras de origem",
+    "imutavel": true
+  }
+}

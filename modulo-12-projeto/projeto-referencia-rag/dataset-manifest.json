@@ -1,0 +1,19 @@
+{
+  "nome": "politicas-internas-ficticias-v1",
+  "origem": "conteúdo sintético criado para este capstone",
+  "licenca": "CC0-1.0",
+  "pii": "nenhuma PII real; o e-mail usa example.org, reservado para exemplos",
+  "arquivos": [
+    {
+      "caminho": "dados/corpus.jsonl",
+      "sha256": "71f6ee605dfb6c8b7ce4e244ea14542dc8109d774e827085febbd45823b763f7",
+      "linhas": 10
+    },
+    {
+      "caminho": "dados/avaliacao.jsonl",
+      "sha256": "7a6804af175d879ddfa06b11c32e6cce28f12c562bf00ac868c3b704edcf6fee",
+      "linhas": 15
+    }
+  ],
+  "split": "corpus recuperável e perguntas de avaliação ficam em arquivos separados"
+}
