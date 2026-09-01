@@ -1,5 +1,7 @@
 # 🧠 Engenharia e Customização de LLMs em Português
 
+![Engenharia de LLMs em Português — do zero à produção, com evidência](.github/social-preview.png)
+
 [![CI](https://github.com/lucianoon/llm-course/actions/workflows/ci.yml/badge.svg)](https://github.com/lucianoon/llm-course/actions/workflows/ci.yml)
 [![Python 3.11–3.12](https://img.shields.io/badge/Python-3.11%E2%80%933.12-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![Licença Apache--2.0](https://img.shields.io/badge/licen%C3%A7a-Apache--2.0-blue.svg)](LICENSE)
