@@ -39,7 +39,7 @@ mlx = [
   "mlx-lm[train]<1",
 ]
 rl = [
-  "mlx-lm-lora<1",
+  "mlx-lm-lora<4",
 ]
 gpu = [
   "torch>=2.4,<3",
