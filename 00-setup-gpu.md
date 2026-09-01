@@ -24,8 +24,9 @@ uv sync --extra serving --locked
 ```
 
 O registro local não exige conta externa. Se quiser espelhar métricas, instale
-`uv sync --extra gpu --extra tracking --locked` e passe `--report-to wandb` ou
-`--report-to mlflow` aos labs SFT/GRPO.
+`uv sync --extra gpu --extra tracking --locked` e passe `--report-to wandb` aos labs
+SFT/GRPO. O suporte opcional a MLflow foi retirado temporariamente enquanto não existe versão
+corrigida para o alerta de SSRF `GHSA-h7x2-h6g9-p789`.
 
 ## Smoke tests sem gastar GPU
 

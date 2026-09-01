@@ -1,0 +1,37 @@
+name: Reprodução de experimento
+description: Registre uma reprodução independente ou uma divergência experimental.
+title: "[reprodução] "
+body:
+  - type: input
+    id: experiment
+    attributes:
+      label: Experimento
+      placeholder: modulo-XX/nome-do-lab
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit reproduzido
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Sistema, Python, hardware, modelo/revision, dataset/checksum e seed.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Resultado e diferença observada
+    validations:
+      required: true
+  - type: checkboxes
+    id: governance
+    attributes:
+      label: Governança
+      options:
+        - label: Os artefatos compartilhados não contêm credenciais, PII ou dados sem licença.
+          required: true

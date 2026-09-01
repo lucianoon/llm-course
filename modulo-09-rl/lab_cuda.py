@@ -20,7 +20,7 @@ def argumentos():
     parser.add_argument("--passos", type=int, default=150)
     parser.add_argument("--geracoes", type=int, default=4)
     parser.add_argument("--saida", type=Path, default=AQUI / "modelo-grpo-cuda")
-    parser.add_argument("--report-to", choices=("none", "wandb", "mlflow"), default="none")
+    parser.add_argument("--report-to", choices=("none", "wandb"), default="none")
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 

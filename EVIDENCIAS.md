@@ -10,7 +10,11 @@ Um número no curso é uma observação sob condições específicas, não uma p
 universal de LLMs. Ao atualizar uma medição, registre commit, data, ambiente, hardware,
 seed, revisão do modelo, dados, tamanho da amostra e saída bruta.
 
-## Resultados destacados
+## Resultados preliminares aguardando reprodução
+
+Os valores abaixo **não devem ser usados como alegações de divulgação** enquanto o status não
+for `Reproduzido`. Eles permanecem registrados porque são hipóteses úteis e porque apagar um
+resultado não confirmado esconderia o histórico científico do curso.
 
 | Alegação | Experimento e escopo | Status atual | Limitação principal |
 |---|---|---|---|

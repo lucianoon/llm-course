@@ -5,16 +5,29 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "llm-course-labs"
 version = "0.1.0"
-description = "Ambientes reproduzíveis para os laboratórios do curso de customização de LLMs"
+description = "Laboratórios reproduzíveis de engenharia e customização de LLMs em português"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Luciano de Oliveira Nunes" },
+]
+keywords = ["llm", "fine-tuning", "rag", "agents", "portuguese"]
 requires-python = ">=3.11,<3.13"
 dependencies = []
+
+
+[project.urls]
+Homepage = "https://github.com/lucianoon/llm-course"
+Repository = "https://github.com/lucianoon/llm-course"
+Issues = "https://github.com/lucianoon/llm-course/issues"
 
 [project.optional-dependencies]
 cpu = [
   "torch>=2.4,<3",
   "transformers>=4.46,<6",
   "tokenizers>=0.20,<1",
-  "datasets>=3,<5",
+  "datasets>=5.0.1,<6",
   "accelerate>=1,<2",
   "numpy>=1.26,<3",
   "matplotlib>=3.8,<4",
@@ -31,7 +44,7 @@ rl = [
 gpu = [
   "torch>=2.4,<3",
   "transformers>=5.2,<6",
-  "datasets>=3,<5",
+  "datasets>=5.0.1,<6",
   "accelerate>=1,<2",
   "peft>=0.17,<1",
   "trl>=0.25,<1",
@@ -43,7 +56,6 @@ serving = [
   "httpx>=0.28,<1",
 ]
 tracking = [
-  "mlflow>=3,<4",
   "wandb>=0.21,<1",
 ]
 dev = [

@@ -26,6 +26,8 @@ runs/
 __pycache__/
 *.pyc
 .venv/
+.uv-cache/
+.uv-tools/
 .ipynb_checkpoints/
 .pytest_cache/
 .ruff_cache/
