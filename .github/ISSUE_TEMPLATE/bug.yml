@@ -1,0 +1,52 @@
+name: Erro no material ou laboratório
+description: Relate um problema reproduzível no conteúdo, setup ou código.
+title: "[bug] "
+labels:
+  - bug
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Instalação
+        - Conteúdo conceitual
+        - Laboratório CPU
+        - Laboratório MLX
+        - Laboratório CUDA
+        - Exercícios
+        - Outro
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Arquivo ou módulo
+      placeholder: modulo-XX/arquivo.py
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: O que aconteceu?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Como reproduzir
+      description: Inclua comando, sistema, Python e hardware. Remova credenciais e dados pessoais.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Saída relevante
+      render: shell
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Segurança
+      options:
+        - label: Confirmei que este relato não contém segredos nem dados pessoais.
+          required: true

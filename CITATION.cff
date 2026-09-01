@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Se este curso ajudou seu trabalho, cite-o usando estes metadados."
+type: software
+title: "Engenharia e Customização de LLMs em Português"
+authors:
+  - family-names: "Nunes"
+    given-names: "Luciano de Oliveira"
+repository-code: "https://github.com/lucianoon/llm-course"
+url: "https://github.com/lucianoon/llm-course"
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-08-31
+keywords:
+  - large language models
+  - LLM engineering
+  - fine-tuning
+  - Portuguese

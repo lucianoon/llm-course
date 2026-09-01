@@ -1,17 +1,54 @@
-# 🧠 Customização de LLMs Curso Completo
+# 🧠 Engenharia e Customização de LLMs em Português
 
-Um curso completo e autônomo sobre como modelos de linguagem funcionam e como customizá-los — **construído de baixo para cima e verificado por medição.** Os resultados centrais têm laboratório correspondente e escopo documentado em [EVIDENCIAS.md](EVIDENCIAS.md); quando a medição desmente o texto, o material e o status da evidência precisam mudar.
+[![CI](https://github.com/lucianoon/llm-course/actions/workflows/ci.yml/badge.svg)](https://github.com/lucianoon/llm-course/actions/workflows/ci.yml)
+[![Python 3.11–3.12](https://img.shields.io/badge/Python-3.11%E2%80%933.12-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![Licença Apache--2.0](https://img.shields.io/badge/licen%C3%A7a-Apache--2.0-blue.svg)](LICENSE)
+[![Status: beta pública](https://img.shields.io/badge/status-beta%20p%C3%BAblica-orange.svg)](#status-do-projeto)
 
-Não é uma coletânea de tutoriais. É a área inteira reconstruída peça por peça — tokenizer, transformer, treino, fine-tuning, RL, RAG, agentes, interpretabilidade — cada uma implementada do zero e medida, com atenção especial ao que muda **em português**.
+Um curso aberto para entender, customizar, avaliar e servir modelos de linguagem —
+**construído de baixo para cima, em português, com laboratórios que tornam as hipóteses
+mensuráveis**.
+
+Não é necessário concluir tudo. Há uma rota curta para engenharia, uma fase para quem nunca
+programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilidade e sistemas.
 
 > **Fase 0 + 19 módulos · trilha de pesquisa em 3 etapas · 35 scripts de laboratório**
-> Fundamentos e ciência rodam em **CPU**. Customização com modelos reais tem rotas para **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
+>
+> Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
+> **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
 
 Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md).
 
 > 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
 > Você não precisa concluir todos os temas avançados para começar a trabalhar bem.
+
+---
+
+## Experimente em 10 minutos
+
+O primeiro laboratório não baixa modelos e percorre o ciclo usado no curso inteiro:
+entrada → transformação → previsão → avaliação.
+
+```bash
+git clone https://github.com/lucianoon/llm-course.git
+cd llm-course
+uv sync --extra dev --extra test --locked
+uv run python 00-iniciante-zero/lab.py
+uv run python -m pytest
+```
+
+Depois, escolha a [trilha essencial](TRILHA-ESSENCIAL.md) ou abra o
+[mapa completo](#o-mapa-completo). Para entender antes de instalar, leia a
+[Fase 0](00-iniciante-zero/) diretamente no GitHub.
+
+## O que você vai construir
+
+- componentes de um transformer e mecanismos de atenção, do zero;
+- pipelines de dados, SFT, LoRA/QLoRA, DPO, GRPO e distillation;
+- avaliações com baselines, intervalos de confiança e leitura manual de saídas;
+- sistemas com RAG, ferramentas, controle de custo, observabilidade e rollback;
+- um [projeto final reproduzível](modulo-12-projeto/) com contrato de entrega.
 
 ---
 
@@ -32,17 +69,20 @@ O que muda é a **ordem** e o que você **omite**. Para o mercado, a rota termin
 
 ## Por que este curso é diferente
 
-**Hipótese → lab → evidência → limite.** Os números abaixo são resultados de experimentos específicos, não leis universais. Consulte [EVIDENCIAS.md](EVIDENCIAS.md) para ambiente, amostra, status de reprodução e limitações.
+**Hipótese → lab → evidência → limite.** Cada alegação experimental precisa apontar para o
+laboratório que a produz e declarar ambiente, amostra e limitações. O curso distingue
+explicitamente três estados:
 
-| Achado | Módulo |
+| Estado | O que significa |
 |---|---|
-| No ambiente de referência float32/eager, uma camada do Qwen2.5 reconstruída do zero produziu saída **bit-exact** | 2 |
-| No Qwen2.5-0.5B e nos textos do lab, quantização 4-bit degradou **+17,4% na amostra literária em português** e +4,3% na inglesa | 6 |
-| No modelo e conjunto de prompts do lab, chain-of-thought tornou a resposta certa **38× mais provável** | 7 |
-| Na tarefa sintética do lab, GRPO levou a taxa de acerto de **27% → 90%** e expôs *reward hacking* | 9 |
-| Em 30 multiplicações de três dígitos, o agente com calculadora foi de **0% → 87%** | 15 |
-| No experimento de steering do módulo, uma direção de ativação **trocou o idioma da geração** sem treino | 16 |
-| A auditoria estatística **rebaixou uma conclusão do próprio curso** (n=25 não conclui) | 14 |
+| Lab disponível | O código e o protocolo existem |
+| Executado na autoria | Houve uma execução, mas o artefato pode não estar preservado |
+| Reproduzido | Versões, dados, ambiente e saída foram registrados no repositório |
+
+Os resultados numéricos preliminares — inclusive casos em que uma medição desmentiu o próprio
+material — ficam no [registro de evidências](EVIDENCIAS.md), e não são apresentados como leis
+gerais. A prioridade da beta pública é transformar os resultados destacados em reproduções
+versionadas sob [`resultados/`](resultados/).
 
 **O erro é first-class.** Os melhores trechos são as armadilhas: o teste de EOS mal construído, os TFLOPs com sparsity, a métrica de degeneração medida no modo de decoding errado, a simulação que desmentiu o próprio README. Aprender onde a intuição falha vale mais que decorar onde ela acerta.
 
@@ -155,11 +195,12 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 - Customização com modelos reais no Mac → [`00-setup-mac.md`](00-setup-mac.md)
 - Customização com GPU NVIDIA/CUDA → [`00-setup-gpu.md`](00-setup-gpu.md)
 
-**3. Clone e prepare (no Mac, após instalar o `gh`):**
+**3. Clone e prepare:**
 ```bash
-gh repo clone lucianoon/llm-course
+git clone https://github.com/lucianoon/llm-course.git
 cd llm-course
-python tools/build_notebooks.py      # gera os notebooks a partir dos labs
+uv sync --extra dev --extra test --locked
+uv run python tools/build_notebooks.py      # gera notebooks derivados dos labs
 ```
 Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
 
@@ -184,4 +225,17 @@ O fio que atravessa tudo, e o que vale acima de qualquer técnica: **desconfie d
 
 ---
 
-*Material de estudo pessoal, construído de forma autônoma. Feito para ser trabalhado, não só lido.*
+## Status do projeto
+
+Este repositório está em **beta pública**. A infraestrutura compartilhada, os testes sem download
+de modelos e labs de CPU selecionados passam pelo CI. Isso não equivale a reproduzir todos os
+experimentos: as execuções aceleradas e os artefatos brutos indicados em
+[EVIDENCIAS.md](EVIDENCIAS.md) continuam em andamento. Relatos de instalação, erros conceituais
+e reproduções independentes são especialmente bem-vindos.
+
+Veja [CONTRIBUTING.md](CONTRIBUTING.md) para contribuir, [SECURITY.md](SECURITY.md) para relatar
+vulnerabilidades e [CITATION.cff](CITATION.cff) para citar o projeto.
+
+Distribuído sob a [licença Apache-2.0](LICENSE).
+
+*Feito para ser trabalhado, questionado e medido — não só lido.*
