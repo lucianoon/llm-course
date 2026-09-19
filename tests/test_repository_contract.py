@@ -68,3 +68,18 @@ def test_dependency_security_floors_are_preserved() -> None:
     assert 'requires = ["setuptools>=83"]' in pyproject
     assert '"accelerate>=1.15,<2"' in pyproject
     assert 'override-dependencies = ["setuptools>=83"]' in pyproject
+
+
+def test_curriculum_counts_and_cross_references_are_consistent() -> None:
+    plano = (ROOT / "PLANO-MESTRE.md").read_text(encoding="utf-8")
+    trilha = (ROOT / "TRILHA-ESSENCIAL.md").read_text(encoding="utf-8")
+    fase3 = (ROOT / "FASE-3-MAESTRIA.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+
+    assert len(list(ROOT.glob("modulo-*/lab_mlx.py"))) == 8
+    assert "8 labs MLX" in plano
+    assert "19 módulos" in fase3
+    assert "19–21" not in trilha
+    assert "FASE-3-MAESTRIA.md · etapa 3" in trilha
+    assert "O módulo 12 é a exceção" in readme
+    assert "substitui o laboratório e os exercícios por um projeto" in readme

@@ -1,6 +1,6 @@
 # Plano Mestre — de curso espelhado a formação de elite
 
-O objetivo mudou: não é mais acompanhar um curso de 36h, é **se tornar referência na área**. Este documento é o novo norte: o currículo comparado com as melhores formações do mundo, as fases até a maestria, e o que separa quem *usa* a área de quem a *empurra*.
+O objetivo mudou: não é mais acompanhar apenas um curso introdutório de 36h, é **se tornar referência na área**. Este documento é o novo norte: o currículo comparado com as melhores formações do mundo, as fases até a maestria, e o que separa quem *usa* a área de quem a *empurra*.
 
 ## O benchmark — contra quem estamos nos medindo
 
@@ -21,13 +21,17 @@ O objetivo mudou: não é mais acompanhar um curso de 36h, é **se tornar refer�
 
 ## As três fases
 
-### FASE 1 — Fundação ✅ (módulos 1–12, completa)
+Os status abaixo distinguem **conteúdo publicado** de **execução reproduzida**. Uma fase pode
+estar completa como material didático e ainda ter experimentos pendentes de validação no
+hardware correspondente.
+
+### FASE 1 — Fundação (módulos 1–12, conteúdo publicado)
 
 O pipeline inteiro: fundamentos → treino → dados → SFT → LoRA/QLoRA → reasoning → DPO → RL → distillation → inferência → projeto. Com glossário, guia de código e método de estudo.
 
-**Pendência única:** executar os 7 labs MLX no M4 (semana 1 da fase 2).
+**Validação pendente:** executar os 8 labs MLX no hardware Apple Silicon correspondente.
 
-### FASE 2 — Expansão (módulos 13–18) ✅ COMPLETA
+### FASE 2 — Expansão (módulos 13–18, conteúdo publicado)
 
 O que as melhores formações têm e nós ainda não:
 
@@ -40,17 +44,19 @@ O que as melhores formações têm e nós ainda não:
 | 17 ✅ | **[Sistemas de treino em escala](modulo-17-sistemas/)** | Como se treina em 1.000 GPUs — autograd, DDP/FSDP, kernels | CS336 (trilha de sistemas), CMU | M4 + simulação |
 | 18 ✅ | **[Fronteira de arquiteturas](modulo-18-arquiteturas/)** | O que vem depois do transformer? SSMs/Mamba, MLA, híbridos, multimodal | papers 2024–2026 | M4 |
 
-Mesmo padrão da fase 1: teoria medida, `lab_cpu`/`lab_mlx`, exercícios com gabarito, tudo alimentando o glossário e o baralho de revisão.
+Mesmo padrão da fase 1: teoria medida, labs CPU e, quando houver, `lab_mlx`, exercícios com
+gabarito, tudo alimentando o glossário e o baralho de revisão. A existência do material não
+significa que cada execução acelerada já foi reproduzida.
 
-### FASE 3 — Maestria ✅ ([FASE-3-MAESTRIA.md](FASE-3-MAESTRIA.md))
+### FASE 3 — Maestria: roteiro de pesquisa ([FASE-3-MAESTRIA.md](FASE-3-MAESTRIA.md))
 
 O que separa os melhores não é conhecer mais técnicas — é o ciclo de pesquisa. Três músculos, treinados em sequência:
 
 | Etapa | Trilha | O músculo |
 |---|---|---|
-| 1 ✅ | **Ler e reproduzir papers** | Escolher um paper recente e **reproduzi-lo de ponta a ponta** — o rito de passagem de todo pesquisador. Aprende-se a ler criticamente, a identificar o que o paper esconde, e a distância entre "entendi" e "fiz funcionar". |
-| 2 ✅ | **Contribuir e publicar** | Uma contribuição real a um projeto aberto (mlx-lm, vllm, lm-eval-harness) + escrever tecnicamente em público (blog/relatórios). Quem é referência na área é **visível** na área. |
-| 3 ✅ | **Pesquisa própria** | Uma pergunta sua, não respondida na literatura, atacada com o método do curso: hipótese → experimento mínimo → medição → escrita. O projeto do módulo 12, elevado a pesquisa. |
+| 1 | **Ler e reproduzir papers** | Escolher um paper recente e **reproduzi-lo de ponta a ponta** — o rito de passagem de todo pesquisador. Aprende-se a ler criticamente, a identificar o que o paper esconde, e a distância entre "entendi" e "fiz funcionar". |
+| 2 | **Contribuir e publicar** | Uma contribuição real a um projeto aberto (mlx-lm, vllm, lm-eval-harness) + escrever tecnicamente em público (blog/relatórios). Quem é referência na área é **visível** na área. |
+| 3 | **Pesquisa própria** | Uma pergunta sua, não respondida na literatura, atacada com o método do curso: hipótese → experimento mínimo → medição → escrita. O projeto do módulo 12, elevado a pesquisa. |
 
 E a **trilha contínua**, sem fim: 2 papers/semana (método da etapa 1), o baralho de revisão diário, e o diário de erros — para sempre. Os melhores da área não "terminaram de estudar"; institucionalizaram o estudo.
 
@@ -62,13 +68,15 @@ Assumindo ~10–12 h/semana de estudo deliberado:
 
 | Período | O quê |
 |---|---|
-| Semanas 1–2 | Migração ao M4 + execução de TODOS os labs MLX (com correções) + início do método de estudo (revisão espaçada da fase 1) |
+| Semanas 1–2 | Migração ao M4 + execução dos 8 labs MLX (com correções) + início do método de estudo (revisão espaçada da fase 1) |
 | Semanas 3–10 | Fase 2, um módulo a cada ~10 dias, com intercalação da fase 1 (ver MÉTODO) |
 | Semanas 11–14 | Etapa 1 da trilha de pesquisa (reprodução de um paper) |
 | Contínuo a partir da semana 3 | Baralho diário (15 min) + sabatinas espaçadas |
 | Semana 15+ | Etapas 2–3 da trilha de pesquisa — e aqui o "curso" acaba e a carreira de especialista começa |
 
-**Sobre o I2A2 (out/2026–jan/2027):** com este plano, quando ele começar você estará na fase 3. Se mantiver a matrícula, ele vira o que universidades chamam de *seminário de auditoria* — você compara, questiona e extrai dos instrutores o que material nenhum contém. Se cancelar, nada essencial se perde.
+**Nota temporal:** a referência ao I2A2 (out/2026–jan/2027) é um registro contextual deste
+plano, não uma dependência do curso. Atualize ou remova este parágrafo se o cronograma externo
+mudar.
 
 ---
 

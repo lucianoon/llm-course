@@ -159,7 +159,9 @@ O currículo se mede contra **Stanford CS336/CS224N, ARENA, Berkeley CS294 e Kar
 ## Como cada módulo é organizado
 
 Cada pasta `modulo-NN-*/` tem a estrutura abaixo. A Fase 0 usa a mesma convenção com
-`README.md`, `lab.py`, `lab.ipynb` gerado e `exercicios.md`.
+`README.md`, `lab.py`, `lab.ipynb` gerado e `exercicios.md`. O módulo 12 é a exceção
+intencional: substitui o laboratório e os exercícios por um projeto, um contrato de entrega
+e um protocolo de validação.
 
 | Arquivo | O que é |
 |---|---|
