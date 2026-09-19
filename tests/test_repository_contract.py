@@ -61,3 +61,10 @@ def test_dry_run_manifest_points_to_existing_scripts() -> None:
         script = ROOT / relative
         assert script.is_file(), relative
         assert "--dry-run" in script.read_text(encoding="utf-8")
+
+
+def test_dependency_security_floors_are_preserved() -> None:
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert 'requires = ["setuptools>=83"]' in pyproject
+    assert '"accelerate>=1.15,<2"' in pyproject
+    assert 'override-dependencies = ["setuptools>=83"]' in pyproject

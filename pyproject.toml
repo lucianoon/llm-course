@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=77"]
+requires = ["setuptools>=83"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -28,7 +28,7 @@ cpu = [
   "transformers<6,>=5.2",
   "tokenizers>=0.20,<1",
   "datasets>=5.0.1,<6",
-  "accelerate>=1,<2",
+  "accelerate>=1.15,<2",
   "numpy>=1.26,<3",
   "matplotlib>=3.8,<4",
   "pandas>=2.2,<3",
@@ -45,7 +45,7 @@ gpu = [
   "torch>=2.4,<3",
   "transformers>=5.2,<6",
   "datasets>=5.0.1,<6",
-  "accelerate>=1,<2",
+  "accelerate>=1.15,<2",
   "peft>=0.17,<1",
   "trl>=0.25,<1",
   "bitsandbytes>=0.46,<1",
@@ -69,6 +69,11 @@ test = [
 
 [tool.setuptools]
 packages = []
+
+[tool.uv]
+# A dependência transitiva de vLLM ainda aceita setuptools vulnerável. O override
+# garante que todas as rotas do lockfile usem a versão corrigida.
+override-dependencies = ["setuptools>=83"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

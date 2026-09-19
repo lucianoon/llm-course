@@ -15,6 +15,8 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 - matriz de ambientes com comandos de instalação por rota;
 - testes de contrato para a estrutura dos módulos e dos laboratórios.
 - validador reutilizável de sintaxe e `--dry-run` para os laboratórios.
+- correções de dependências para `accelerate` e `setuptools` vulneráveis.
+- setup manual alinhado aos pisos de segurança do lockfile.
 
 ### Alterado
 

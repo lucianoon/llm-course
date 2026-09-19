@@ -53,7 +53,7 @@ Equivalente manual, se você não quiser instalar o projeto em modo editável:
 
 ```powershell
 pip install torch --index-url https://download.pytorch.org/whl/cpu
-pip install transformers tokenizers datasets accelerate
+pip install transformers tokenizers datasets "accelerate>=1.15" "setuptools>=83"
 pip install jupyter matplotlib numpy pandas
 ```
 
