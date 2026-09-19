@@ -14,6 +14,9 @@ por `uv`.
 | Serving com vLLM | Linux | NVIDIA compatível com vLLM | `serving` | contrato e métricas do módulo 19 |
 | Tracking opcional | qualquer rota compatível | — | `tracking` | integração depende de credenciais W&B |
 
+As faixas de VRAM são apenas um orçamento inicial; sequência, batch, quantização e arquitetura
+podem alterar o consumo. A tabela operacional detalhada está em [`00-setup-gpu.md`](00-setup-gpu.md).
+
 ## Instalação mínima por rota
 
 ### CPU
@@ -66,3 +69,13 @@ uv run python tools/validate_labs.py
 
 Esse comando analisa a sintaxe dos 35 labs e executa os seis scripts acelerados
 em modo `--dry-run`, sem baixar modelos ou datasets.
+
+Para diagnosticar uma instalação GPU ou serving:
+
+```bash
+uv run python tools/doctor.py --profile gpu --require-cuda
+uv run python tools/doctor.py --profile serving
+```
+
+O diagnóstico diferencia pacote ausente, falha de importação nativa e ausência de
+GPU. Um resultado `OK` não substitui a execução reproduzida do laboratório.

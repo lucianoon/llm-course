@@ -16,6 +16,7 @@ sys.path.insert(0, str(RAIZ / "tools"))
 def argumentos():
     parser = argparse.ArgumentParser()
     parser.add_argument("--modelo", default="Qwen/Qwen2.5-0.5B-Instruct")
+    parser.add_argument("--revision", default="RESOLVIDA_EM_RUNTIME")
     parser.add_argument("--dados", type=Path, default=AQUI / "gsm8k-grpo" / "train.jsonl")
     parser.add_argument("--passos", type=int, default=150)
     parser.add_argument("--geracoes", type=int, default=4)
@@ -41,6 +42,7 @@ def recompensa_formato(completions, **kwargs):
 def resumo(args):
     return {
         "modelo": args.modelo,
+        "revision": args.revision,
         "dados": str(args.dados),
         "passos": args.passos,
         "geracoes": args.geracoes,
@@ -59,16 +61,14 @@ def main():
     from cuda import descrever_cuda
     from datasets import load_dataset
     from experimentos import RegistroExperimento
-    from huggingface_hub import model_info
+    from modelos import resolver_revision
     from peft import LoraConfig
     from trl import GRPOConfig, GRPOTrainer
 
     gpu = descrever_cuda(torch)
     if not args.dados.exists():
         raise FileNotFoundError("rode `python modulo-09-rl/preparar_dados.py` primeiro")
-    revisao = model_info(args.modelo).sha
-    if not revisao:
-        raise RuntimeError("não foi possível resolver a revisão imutável do modelo")
+    revisao = resolver_revision(args.modelo, args.revision)
     dataset = load_dataset("json", data_files=str(args.dados), split="train")
     instrucao = (
         "Resolva passo a passo e termine exatamente com <answer>NUMERO</answer>.\n\n"

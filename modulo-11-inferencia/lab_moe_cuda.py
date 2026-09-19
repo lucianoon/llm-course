@@ -15,6 +15,7 @@ sys.path.insert(0, str(RAIZ / "tools"))
 def argumentos():
     parser = argparse.ArgumentParser()
     parser.add_argument("--modelo", default="Qwen/Qwen1.5-MoE-A2.7B-Chat")
+    parser.add_argument("--revision", default="RESOLVIDA_EM_RUNTIME")
     parser.add_argument("--alvo", choices=("attention", "experts"), default="attention")
     parser.add_argument("--dados", type=Path, default=RAIZ / "modulo-05-sft" / "suporte")
     parser.add_argument("--passos", type=int, default=100)
@@ -29,6 +30,7 @@ def resumo(args):
     ]
     return {
         "modelo": args.modelo,
+        "revision": args.revision,
         "alvo": args.alvo,
         "target_modules": alvos,
         "dados": str(args.dados),
@@ -48,7 +50,7 @@ def main():
     from cuda import descrever_cuda
     from datasets import load_dataset
     from experimentos import RegistroExperimento
-    from huggingface_hub import model_info
+    from modelos import resolver_revision
     from peft import LoraConfig
     from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
     from trl import SFTConfig, SFTTrainer
@@ -58,9 +60,7 @@ def main():
     if not all(Path(caminho).exists() for caminho in arquivos.values()):
         raise FileNotFoundError("rode `python modulo-05-sft/preparar_dados.py` primeiro")
     dataset = load_dataset("json", data_files=arquivos)
-    revisao = model_info(args.modelo).sha
-    if not revisao:
-        raise RuntimeError("não foi possível resolver a revisão imutável do modelo")
+    revisao = resolver_revision(args.modelo, args.revision)
 
     config_modelo = AutoConfig.from_pretrained(args.modelo, revision=revisao)
     config_modelo.output_router_logits = True

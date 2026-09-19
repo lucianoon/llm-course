@@ -17,6 +17,7 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 - validador reutilizável de sintaxe e `--dry-run` para os laboratórios.
 - correções de dependências para `accelerate` e `setuptools` vulneráveis.
 - setup manual alinhado aos pisos de segurança do lockfile.
+- diagnóstico de ambiente, verificação de documentação e validação de reproduções no CI.
 
 ### Alterado
 

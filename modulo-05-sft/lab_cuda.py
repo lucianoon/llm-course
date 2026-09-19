@@ -16,6 +16,7 @@ def argumentos():
     parser = argparse.ArgumentParser()
     parser.add_argument("--metodo", choices=("full", "lora", "qlora"), default="lora")
     parser.add_argument("--modelo", default="Qwen/Qwen3-0.6B")
+    parser.add_argument("--revision", default="RESOLVIDA_EM_RUNTIME")
     parser.add_argument("--dados", type=Path, default=AQUI / "suporte")
     parser.add_argument("--passos", type=int, default=200)
     parser.add_argument("--saida", type=Path, default=AQUI / "modelo-cuda")
@@ -28,6 +29,7 @@ def resumo(args):
     return {
         "metodo": args.metodo,
         "modelo": args.modelo,
+        "revision": args.revision,
         "dados": str(args.dados),
         "passos": args.passos,
         "saida": str(args.saida),
@@ -48,15 +50,13 @@ def main():
     from datasets import load_dataset
     from experimentos import RegistroExperimento
     from governanca import sha256_arquivo
-    from huggingface_hub import model_info
+    from modelos import resolver_revision
     from peft import LoraConfig
     from transformers import AutoModelForCausalLM, BitsAndBytesConfig
     from trl import SFTConfig, SFTTrainer
 
     gpu = descrever_cuda(torch)
-    revisao = model_info(args.modelo).sha
-    if not revisao:
-        raise RuntimeError("não foi possível resolver a revisão imutável do modelo")
+    revisao = resolver_revision(args.modelo, args.revision)
 
     arquivos = {nome: str(args.dados / f"{nome}.jsonl") for nome in ("train", "valid")}
     if not all(Path(caminho).exists() for caminho in arquivos.values()):

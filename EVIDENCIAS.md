@@ -64,8 +64,20 @@ Falta o trabalho de hardware, que nenhuma função substitui:
 - [ ] Executar e registrar os labs MLX em Apple Silicon.
 - [ ] Fazer o CI validar o esquema dos JSONs e os números citados na documentação.
 
+Valide os registros preservados com:
+
+```bash
+uv run python tools/validar_resultados.py
+```
+
+Para consultar um painel resumido dos experimentos já registrados:
+
+```bash
+uv run python tools/status_evidencias.py
+```
+
 ## Status da nova rota CUDA
 
-Os labs CUDA têm importação tardia, `--dry-run`, revisão imutável de modelo e registro em
+Os labs CUDA têm importação tardia, `--dry-run`, opção de revisão imutável de modelo e registro em
 `runs/`. A estrutura foi validada sem GPU; treino, consumo de VRAM, throughput e qualidade
 permanecem **não reproduzidos** até uma execução em hardware NVIDIA ser preservada aqui.

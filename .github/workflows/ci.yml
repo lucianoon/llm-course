@@ -33,6 +33,14 @@ jobs:
         run: uv sync --extra dev --extra test --extra cpu --locked
       - name: Importar dependências dos labs CPU
         run: uv run python -c "import pandas, transformers, datasets, matplotlib, accelerate; print('pandas', pandas.__version__, '| transformers', transformers.__version__, '| datasets', datasets.__version__)"
+      - name: Diagnosticar ambiente CPU
+        run: uv run python tools/doctor.py --profile cpu
+      - name: Verificar documentação
+        run: uv run python tools/check_docs.py
+      - name: Validar resultados preservados
+        run: uv run python tools/validar_resultados.py
+      - name: Exibir status das reproduções
+        run: uv run python tools/status_evidencias.py
       - name: Compilar fontes Python
         # -x exclui o .venv que o `uv sync` acabou de criar: ele traz arquivos de
         # dependências com sintaxe de versões mais novas do Python (ex.: torch tem um

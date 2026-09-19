@@ -11,6 +11,10 @@ import re
 from pathlib import Path
 
 from tools.validate_labs import DRY_RUN_SCRIPTS, laboratory_scripts
+from tools.check_docs import check_markdown
+from tools.modelos import RESOLVIDA_EM_RUNTIME, resolver_revision
+from tools.status_evidencias import registros
+from tools.validar_resultados import REQUIRED
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,3 +87,33 @@ def test_curriculum_counts_and_cross_references_are_consistent() -> None:
     assert "FASE-3-MAESTRIA.md · etapa 3" in trilha
     assert "O módulo 12 é a exceção" in readme
     assert "substitui o laboratório e os exercícios por um projeto" in readme
+
+
+def test_documentation_has_no_broken_local_references() -> None:
+    assert check_markdown() == []
+
+
+def test_reproduction_schema_has_required_fields() -> None:
+    assert REQUIRED == {
+        "experimento",
+        "commit",
+        "executado_em",
+        "comando",
+        "python",
+        "plataforma",
+        "seed",
+        "modelos",
+        "dados",
+        "amostra_n",
+        "metricas",
+        "observacoes",
+    }
+
+
+def test_model_revision_helper_preserves_explicit_revision() -> None:
+    assert RESOLVIDA_EM_RUNTIME == "RESOLVIDA_EM_RUNTIME"
+    assert resolver_revision("qualquer/modelo", "abc123") == "abc123"
+
+
+def test_evidence_status_reads_empty_repository_without_failure() -> None:
+    assert registros() == []

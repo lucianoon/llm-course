@@ -3,7 +3,8 @@
 Em uma máquina Linux com GPU NVIDIA:
 
 ```bash
-uv sync --extra serving --locked
+uv sync --extra serving --extra dev --locked
+uv run python tools/doctor.py --profile serving
 uv run vllm serve Qwen/Qwen2.5-1.5B-Instruct \
   --generation-config vllm \
   --enable-per-request-metrics \

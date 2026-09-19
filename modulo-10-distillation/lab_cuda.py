@@ -18,6 +18,8 @@ def argumentos():
     parser = argparse.ArgumentParser()
     parser.add_argument("--professor", default="Qwen/Qwen2.5-Math-1.5B-Instruct")
     parser.add_argument("--aluno", default="Qwen/Qwen2.5-0.5B-Instruct")
+    parser.add_argument("--revision-professor", default="RESOLVIDA_EM_RUNTIME")
+    parser.add_argument("--revision-aluno", default="RESOLVIDA_EM_RUNTIME")
     parser.add_argument("--problemas", type=int, default=200)
     parser.add_argument("--avaliacao", type=int, default=30)
     parser.add_argument("--passos", type=int, default=200)
@@ -38,6 +40,8 @@ def resumo(args):
     return {
         "professor": args.professor,
         "aluno": args.aluno,
+        "revision_professor": args.revision_professor,
+        "revision_aluno": args.revision_aluno,
         "problemas": args.problemas,
         "avaliacao": args.avaliacao,
         "passos": args.passos,
@@ -55,7 +59,7 @@ def main():
     from cuda import descrever_cuda
     from datasets import Dataset
     from experimentos import RegistroExperimento
-    from huggingface_hub import model_info
+    from modelos import resolver_revision
     from peft import LoraConfig
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from trl import SFTConfig, SFTTrainer
@@ -68,10 +72,8 @@ def main():
     treino = [json.loads(linha) for linha in treino_path.read_text().splitlines()]
     teste = [json.loads(linha) for linha in teste_path.read_text().splitlines()]
 
-    revisao_prof = model_info(args.professor).sha
-    revisao_aluno = model_info(args.aluno).sha
-    if not revisao_prof or not revisao_aluno:
-        raise RuntimeError("não foi possível resolver as revisões imutáveis dos modelos")
+    revisao_prof = resolver_revision(args.professor, args.revision_professor)
+    revisao_aluno = resolver_revision(args.aluno, args.revision_aluno)
     professor = AutoModelForCausalLM.from_pretrained(
         args.professor, revision=revisao_prof, dtype=torch.bfloat16, device_map="auto"
     )
