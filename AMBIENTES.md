@@ -57,3 +57,12 @@ substitui uma execução em Apple Silicon, GPU NVIDIA ou um servidor vLLM.
 
 Para saber se um resultado experimental foi realmente reproduzido, consulte
 [`EVIDENCIAS.md`](EVIDENCIAS.md).
+
+Para validar localmente os contratos baratos dos laboratórios:
+
+```bash
+uv run python tools/validate_labs.py
+```
+
+Esse comando analisa a sintaxe dos 35 labs e executa os seis scripts acelerados
+em modo `--dry-run`, sem baixar modelos ou datasets.

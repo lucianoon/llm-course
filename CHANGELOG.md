@@ -14,12 +14,14 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 - caminho de início rápido para a beta pública.
 - matriz de ambientes com comandos de instalação por rota;
 - testes de contrato para a estrutura dos módulos e dos laboratórios.
+- validador reutilizável de sintaxe e `--dry-run` para os laboratórios.
 
 ### Alterado
 
 - reposicionamento do README para engenharia e customização de LLMs em português;
 - separação explícita entre labs disponíveis, executados e reproduzidos.
 - onboarding com escolha rápida de trilha e instalação mínima de CPU.
+- CI executando os contratos baratos de todos os laboratórios.
 
 ## [0.1.0] - 2026-08-31
 

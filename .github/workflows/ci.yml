@@ -44,6 +44,8 @@ jobs:
         run: uv run ruff check .
       - name: Executar testes sem downloads de modelos
         run: uv run python -m pytest
+      - name: Validar contratos dos laboratórios
+        run: uv run python tools/validate_labs.py
       - name: Executar portão de produção (módulo 19)
         # Avaliação como portão: reexecuta o lab de produção e valida que o conjunto
         # dourado passa do piso, o serviço mantém sucesso e o disjuntor abre.

@@ -10,6 +10,8 @@ import ast
 import re
 from pathlib import Path
 
+from tools.validate_labs import DRY_RUN_SCRIPTS, laboratory_scripts
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MODULE_RE = re.compile(r"modulo-(\d{2})-")
@@ -45,10 +47,17 @@ def test_every_learning_module_has_a_python_entrypoint() -> None:
 
 
 def test_all_laboratory_scripts_parse_without_importing_dependencies() -> None:
-    scripts = [ROOT / "00-iniciante-zero" / "lab.py"]
-    scripts.extend(path for _, module in _modules() for path in module.glob("lab*.py"))
+    scripts = laboratory_scripts()
 
     # A new lab is welcome; removing an existing entry should not go unnoticed.
     assert len(scripts) >= 35
     for script in scripts:
         ast.parse(script.read_text(encoding="utf-8"), filename=str(script))
+
+
+def test_dry_run_manifest_points_to_existing_scripts() -> None:
+    assert len(DRY_RUN_SCRIPTS) == 6
+    for relative in DRY_RUN_SCRIPTS:
+        script = ROOT / relative
+        assert script.is_file(), relative
+        assert "--dry-run" in script.read_text(encoding="utf-8")
