@@ -19,7 +19,7 @@ programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilida
 > Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
 > **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
 
-Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md).
+Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md). Consulte também a [matriz de ambientes](AMBIENTES.md) antes de instalar.
 
 > 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
@@ -35,7 +35,7 @@ entrada → transformação → previsão → avaliação.
 ```bash
 git clone https://github.com/lucianoon/llm-course.git
 cd llm-course
-uv sync --extra dev --extra test --locked
+uv sync --extra cpu --extra dev --extra test --locked
 uv run python 00-iniciante-zero/lab.py
 uv run python -m pytest
 ```
@@ -187,6 +187,19 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 
 ## Começando
 
+### Escolha rápida
+
+| Se você... | Comece por | Instalação |
+|---|---|---|
+| nunca programou | [Fase 0](00-iniciante-zero/) | [`00-setup.md`](00-setup.md) |
+| já programa e quer entregar sistemas | [trilha essencial](TRILHA-ESSENCIAL.md) | [`AMBIENTES.md`](AMBIENTES.md) |
+| quer treinar no Mac Apple Silicon | módulos 5–11 | [`00-setup-mac.md`](00-setup-mac.md) |
+| quer usar servidores NVIDIA | módulos CUDA | [`00-setup-gpu.md`](00-setup-gpu.md) |
+
+Se esta é a primeira instalação, execute o caminho mínimo acima antes de instalar
+extras de MLX, CUDA ou serving. Assim você valida Git, `uv`, Python e o primeiro
+laboratório sem depender de hardware acelerado.
+
 **1. Escolha seu ponto de entrada:**
 - Nunca programou ou não conhece testes, Git e tensores → [`00-iniciante-zero/`](00-iniciante-zero/)
 - Já programa e quer a rota mais curta até projetos profissionais → [`TRILHA-ESSENCIAL.md`](TRILHA-ESSENCIAL.md)
@@ -201,7 +214,7 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 ```bash
 git clone https://github.com/lucianoon/llm-course.git
 cd llm-course
-uv sync --extra dev --extra test --locked
+uv sync --extra cpu --extra dev --extra test --locked
 uv run python tools/build_notebooks.py      # gera notebooks derivados dos labs
 ```
 Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
