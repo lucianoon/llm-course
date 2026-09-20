@@ -136,7 +136,11 @@ gates e projetos em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md) e o mapeamento po
 | 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | Mac |
 | 12 | [Projeto final](modulo-12-projeto/) | Fechar o ciclo ponta a ponta | Essencial, após o 15 | Mac |
 
-### 🟢 Fase 2 — Expansão (módulos 13–18) · *o que as melhores formações têm* — tudo em CPU
+### 🟢 Fase 2 — Expansão (módulos 13–18) · *o que as melhores formações têm* — núcleo em CPU
+
+O núcleo conceitual e os laboratórios principais rodam em CPU. Alguns módulos também oferecem
+rotas opcionais em Apple Silicon ou NVIDIA para experimentar modelos maiores; essas extensões
+não são pré-requisito da trilha profissional.
 
 | # | Módulo | Pergunta central | Rota |
 |---|---|---|---|

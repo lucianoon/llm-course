@@ -1,7 +1,9 @@
-# Trilha de certificação — 12 semanas, 36 horas
+# Trilha de certificação profissional — 12 semanas
 
-Esta trilha seleciona o subconjunto que cabe em 3 horas semanais. O restante do
-repositório é aprofundamento. Cada encontro produz uma evidência, não apenas leitura.
+Esta trilha seleciona a rota profissional essencial: 36 horas de encontros guiados,
+mais preparação individual e o projeto final. O restante do repositório é aprofundamento.
+Cada encontro produz uma evidência, não apenas leitura. GPU e Mac são extensões opcionais;
+os gates obrigatórios rodam em CPU.
 
 | Semana | Preparação | Encontro/lab obrigatório | Entregável |
 |---|---|---|---|
@@ -9,14 +11,14 @@ repositório é aprofundamento. Cada encontro produz uma evidência, não apenas
 | 2 | Módulo 2 §§1–7 | `modulo-02-attention/lab.py` | atenção causal reconstruída e teste de bug |
 | 3 | Módulo 3 §§2–10 | `modulo-03-treino/lab.py` | curva de treino interpretada |
 | 4 | Módulo 4 + governança | `modulo-04-dados/lab.py` e auditoria do dataset | manifesto de dataset sem PII pendente |
-| 5 | Módulo 5 | `lab_cpu.py` + leitura do caminho acelerado | baseline, modelo, métricas e run registrada |
-| 6 | Módulo 6 | `lab_cpu.py` + `lab_adapters.py` quando disponível | comparação de memória e manifesto do adapter |
-| 7 | Módulo 7 | `lab_cpu.py` + `lab_process_supervision.py` | outcome vs processo e análise de risco |
-| 8 | Módulo 8 | `lab_cpu.py`; DPO/ORPO em GPU quando disponível | preferência, PPL e inspeção de saídas |
-| 9 | Módulo 9 | `lab_cpu.py`; CUDA como extensão | curva de recompensa, KL e reward hacking auditado |
-| 10 | Módulo 10 | `lab_avancado.py`; CUDA como extensão | teacher/student antes/depois e conta de custo |
-| 11 | Módulo 11 | `lab_cpu.py` + benchmark disponível | utilização de experts e curva concorrência/latência |
-| 12 | Módulo 12 | projeto e banca | repositório, modelo, relatório e apresentação |
+| 5 | Módulo 5 | `lab.py` + leitura do caminho acelerado | baseline, modelo, métricas e run registrada |
+| 6 | Módulo 6 | `lab_cpu.py` + `lab_adapters.py` | comparação de memória e manifesto do adapter |
+| 7 | Módulo 11 | `lab_cpu.py` + benchmark disponível | memória, quantização e curva concorrência/latência |
+| 8 | Módulo 13 | `lab_cpu.py` | RAG com citação, abstenção e teste de recuperação |
+| 9 | Módulo 14 | `lab_cpu.py` | baseline, amostra, intervalo de confiança e análise de erro |
+| 10 | Módulo 15 | `lab_cpu.py` | ferramenta segura, limite de passos e trilha auditável |
+| 11 | Módulo 19 | `lab_cpu.py` | p50/p95, custo, logs, disjuntor e rollback |
+| 12 | Módulo 12 | projeto e banca | repositório, relatório, apresentação e revisão |
 
 ## Estrutura das três horas
 
@@ -35,3 +37,9 @@ Não há aprovação se o projeto não tiver baseline justa, manifesto de dados,
 imutável do modelo, teste sem vazamento, métricas antes/depois e limitações explícitas. A
 [rubrica completa](CERTIFICACAO.md) define os pesos, mínimos e o badge verificável. Mac e GPU
 são extensões de desempenho; a rota obrigatória deve continuar executável em CPU.
+
+## Depois da certificação
+
+Os módulos 7–10 (reasoning, DPO, RL e distillation) são especializações. Faça-os quando o
+projeto exigir preferência, recompensa verificável ou transferência de capacidade. A trilha de
+pesquisa e os módulos 16–18 continuam disponíveis em [FASE-3-MAESTRIA.md](FASE-3-MAESTRIA.md).
