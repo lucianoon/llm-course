@@ -6,6 +6,10 @@ de organização que fariam um clone novo perder módulos ou laboratórios.
 
 from __future__ import annotations
 
+# Ruff 0.16.5 oscila a ordenação entre estes módulos com nomes semelhantes.
+# O bloco permanece revisado manualmente e a exceção é restrita a este teste.
+# ruff: noqa: I001
+
 import ast
 import re
 from pathlib import Path
