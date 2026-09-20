@@ -13,8 +13,8 @@ from pathlib import Path
 from tools.check_docs import check_markdown
 from tools.modelos import RESOLVIDA_EM_RUNTIME, resolver_revision
 from tools.status_evidencias import registros
-from tools.validate_labs import DRY_RUN_SCRIPTS, laboratory_scripts
 from tools.validar_resultados import REQUIRED
+from tools.validate_labs import DRY_RUN_SCRIPTS, laboratory_scripts
 
 
 ROOT = Path(__file__).resolve().parents[1]
