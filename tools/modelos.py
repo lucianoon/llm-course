@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-
 RESOLVIDA_EM_RUNTIME = "RESOLVIDA_EM_RUNTIME"
 
 
