@@ -6,6 +6,10 @@ Não há lab neste módulo. Há um projeto, um contrato de entrega, e os critér
 
 > **Novo — referência rodável:** [`projeto-template/`](projeto-template/) é um esqueleto mínimo e executável do contrato (config, scripts `preparar/treinar/avaliar/servir`, manifestos). Não é o seu projeto — é o ponto de partida. Clone, renomeie e preencha com o seu problema.
 
+Antes de começar, faça o [mini-projeto intermediário](../PROJETO-INTERMEDIARIO.md) e use o
+[protocolo padrão de avaliação](../PROTOCOLO-DE-AVALIACAO.md). O projeto final deve demonstrar
+integração e julgamento, não ser a primeira vez em que você compara uma baseline.
+
 ---
 
 ## 1. O contrato
@@ -42,7 +46,7 @@ O escopo certo cabe em **duas a três semanas** de trabalho parcial. Errar o esc
  5. Escolher a técnica        → a tabela de decisão abaixo                   (mód. 5–10)
  6. Treinar                   → hiperparâmetros JUSTIFICADOS, épocas
                                  calculadas, curvas salvas                    (mód. 3, 6)
- 7. Avaliar                   → a métrica do passo 2 + leitura manual
+ 7. Avaliar                   → protocolo padrão + leitura manual
                                  + efeitos colaterais (forgetting, drift)     (mód. 5–9)
  8. Iterar UMA variável       → por vez, com registro                        (todos)
  9. Preparar para servir      → medir degradação NO SEU domínio, TTFT/TPOT,

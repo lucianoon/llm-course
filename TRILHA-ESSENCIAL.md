@@ -3,6 +3,10 @@
 Esta é a rota principal do curso. Ela contém os fundamentos que se repetem em projetos
 reais e evita exigir temas de pesquisa antes de você saber construir um sistema confiável.
 
+Use o [mapa de módulos](MAPA-MODULOS.md) para tempo e pré-requisitos, os [gates de
+aprendizagem](GATES-DE-APRENDIZAGEM.md) para decidir quando avançar e o [checklist de
+progresso](PROGRESSO.md) para registrar as evidências.
+
 > “Profissional” aqui significa: consegue receber um problema limitado, construir uma
 > solução de LLM reproduzível, medir qualidade e custo, explicar decisões e entregar o
 > projeto para outra pessoa executar. Não significa dominar toda a pesquisa da área.
@@ -79,6 +83,9 @@ Princípios que importam:
 - artefatos e versões precisam ser reproduzíveis.
 
 **Entrega:** dataset versionado por script, treino LoRA, baseline, avaliação e relatório de custo.
+
+Antes do projeto final, faça o [mini-projeto intermediário](PROJETO-INTERMEDIARIO.md) e use o
+[protocolo padrão de avaliação](PROTOCOLO-DE-AVALIACAO.md) para comparar as alternativas.
 
 **Gate:** outra pessoa consegue reproduzir o treino seguindo somente o README.
 

@@ -19,7 +19,7 @@ programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilida
 > Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
 > **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
 
-Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [equivalência](TRILHA-EQUIVALENCIA.md) · [agentes e context engineering](TRILHA-AGENTES-E-CONTEXT-ENGINEERING.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md). Consulte também a [matriz de ambientes](AMBIENTES.md) antes de instalar.
+Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [equivalência](TRILHA-EQUIVALENCIA.md) · [agentes e context engineering](TRILHA-AGENTES-E-CONTEXT-ENGINEERING.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md). Consulte também o [mapa de módulos](MAPA-MODULOS.md) e a [matriz de ambientes](AMBIENTES.md) antes de instalar.
 
 > 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
@@ -101,6 +101,10 @@ badge verificável](CERTIFICACAO.md), incluindo baseline, dados, reprodução, a
 e revisão técnica.
 
 ## O mapa completo
+
+Para escolher sem se perder, consulte o [mapa de módulos](MAPA-MODULOS.md), os [gates de
+aprendizagem](GATES-DE-APRENDIZAGEM.md) e o [checklist de progresso](PROGRESSO.md). Eles
+informam pré-requisitos, tempo, evidência e critério para avançar.
 
 ### ⚪ Fase 0 — Alfabetização técnica · *para quem nunca programou*
 
@@ -198,6 +202,11 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 | 🗂️ [**revisao/**](revisao/) | Baralho Anki de **140 cartões** + diário de erros. Conteúdo sem retenção é entretenimento. |
 | 🧾 [**EVIDENCIAS.md**](EVIDENCIAS.md) | Registro de alegações, reproduções, escopo e limitações. |
 | 🔐 [**GOVERNANCA-DE-DADOS.md**](GOVERNANCA-DE-DADOS.md) | Proveniência, licença, checksum e auditoria de PII antes do treino. |
+| 🧭 [**MAPA-MODULOS.md**](MAPA-MODULOS.md) | Pré-requisitos, tempo, dificuldade, ambiente e saída de cada módulo. |
+| ✅ [**GATES-DE-APRENDIZAGEM.md**](GATES-DE-APRENDIZAGEM.md) | Critérios observáveis para avançar sem confundir leitura com domínio. |
+| 🧪 [**PROJETO-INTERMEDIARIO.md**](PROJETO-INTERMEDIARIO.md) | Ensaio curto do ciclo prompt → RAG → fine-tuning antes do projeto final. |
+| 📏 [**PROTOCOLO-DE-AVALIACAO.md**](PROTOCOLO-DE-AVALIACAO.md) | Conjunto, baselines, métricas, incerteza e análise de erro padronizados. |
+| 📝 [**REGISTRO-DE-REVISAO.md**](REGISTRO-DE-REVISAO.md) | Controle de fontes, datas e escopo das afirmações que envelhecem. |
 
 ---
 
@@ -235,7 +244,7 @@ uv run python tools/build_notebooks.py      # gera notebooks derivados dos labs
 ```
 Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
 
-**4. Para cada módulo da sua rota:** leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman. Não avance com menos de 80% no checklist de saída. (O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).)
+**4. Para cada módulo da sua rota:** leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman → registre a evidência no [gate correspondente](GATES-DE-APRENDIZAGEM.md). Não avance com menos de 80% no checklist de saída. (O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).)
 
 **5. Estude para reter:** importe [`revisao/baralho-*.tsv`](revisao/) no [Anki](https://apps.ankiweb.net) e faça 15 min por dia a partir do módulo 1. Na Fase 0, priorize executar, errar e corrigir o código.
 
