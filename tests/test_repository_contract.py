@@ -14,7 +14,7 @@ import ast
 import re
 from pathlib import Path
 
-from tools.check_docs import check_markdown
+from tools.check_docs import check_markdown, check_module_conventions
 from tools.modelos import RESOLVIDA_EM_RUNTIME, resolver_revision
 from tools.status_evidencias import registros
 from tools.validar_resultados import REQUIRED
@@ -95,6 +95,10 @@ def test_curriculum_counts_and_cross_references_are_consistent() -> None:
 
 def test_documentation_has_no_broken_local_references() -> None:
     assert check_markdown() == []
+
+
+def test_modules_keep_the_minimum_learning_contract() -> None:
+    assert check_module_conventions() == []
 
 
 def test_reproduction_schema_has_required_fields() -> None:

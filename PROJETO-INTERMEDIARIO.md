@@ -39,3 +39,18 @@ melhor.
 
 O mini-projeto está pronto quando outra pessoa consegue executar o comando principal, entender
 por que a baseline foi escolhida e identificar pelo menos um caso em que o sistema deve recusar.
+
+## Rubrica rápida (100 pontos)
+
+| Critério | Pontos | Mínimo |
+|---|---:|---:|
+| Problema, usuário e métrica | 15 | 8 |
+| Dados, licença e separação do teste | 20 | 10 |
+| Baselines e comparação justa | 20 | 10 |
+| Implementação reproduzível | 20 | 10 |
+| Análise de erros e recusa | 15 | 8 |
+| Clareza do README | 10 | 5 |
+
+Considere o mini-projeto concluído com **70/100** e nenhum critério abaixo do mínimo. Se a
+solução simples vencer, isso conta como bom resultado: a competência avaliada é escolher com
+evidência, não justificar uma técnica mais complexa.

@@ -41,8 +41,24 @@ def check_markdown() -> list[str]:
     return errors
 
 
+def check_module_conventions() -> list[str]:
+    """Detecta módulos publicados sem os arquivos mínimos da experiência do curso."""
+    errors = []
+    for directory in sorted(ROOT.glob("modulo-*")):
+        if not directory.is_dir() or directory.name == "modulo-12-projeto":
+            continue
+        required = ("README.md", "exercicios.md")
+        missing = [name for name in required if not (directory / name).exists()]
+        has_lab = any(directory.glob("lab*.py"))
+        if missing:
+            errors.append(f"{directory.name}: arquivos obrigatórios ausentes: {', '.join(missing)}")
+        if not has_lab:
+            errors.append(f"{directory.name}: nenhum lab*.py encontrado")
+    return errors
+
+
 def main() -> int:
-    errors = check_markdown()
+    errors = check_markdown() + check_module_conventions()
     if errors:
         print("FALHA na documentação:")
         print("\n".join(f"  - {error}" for error in errors))
