@@ -19,7 +19,7 @@ programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilida
 > Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
 > **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
 
-Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md). Consulte também a [matriz de ambientes](AMBIENTES.md) antes de instalar.
+Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [equivalência](TRILHA-EQUIVALENCIA.md) · [agentes e context engineering](TRILHA-AGENTES-E-CONTEXT-ENGINEERING.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md). Consulte também a [matriz de ambientes](AMBIENTES.md) antes de instalar.
 
 > 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
 > e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
@@ -71,6 +71,10 @@ O que muda é a **ordem** e o que você **omite**. Para o mercado, a rota termin
 
 ## Por que este curso é diferente
 
+Veja o [comparativo com Stanford, Hugging Face, Full Stack Deep Learning, DeepLearning.AI e
+fast.ai](COMPARATIVO-CURSOS.md) e use a [trilha de equivalência](TRILHA-EQUIVALENCIA.md) se
+você já estudou em outra formação.
+
 **Hipótese → lab → evidência → limite.** Cada alegação experimental precisa apontar para o
 laboratório que a produz e declarar ambiente, amostra e limitações. O curso distingue
 explicitamente três estados:
@@ -89,6 +93,12 @@ versionadas sob [`resultados/`](resultados/).
 **O erro é first-class.** Os melhores trechos são as armadilhas: o teste de EOS mal construído, os TFLOPs com sparsity, a métrica de degeneração medida no modo de decoding errado, a simulação que desmentiu o próprio README. Aprender onde a intuição falha vale mais que decorar onde ela acerta.
 
 ---
+
+## Certificação verificável
+
+A certificação não é apenas presença: o projeto final é avaliado por uma [rubrica pública com
+badge verificável](CERTIFICACAO.md), incluindo baseline, dados, reprodução, avaliação, operação
+e revisão técnica.
 
 ## O mapa completo
 
