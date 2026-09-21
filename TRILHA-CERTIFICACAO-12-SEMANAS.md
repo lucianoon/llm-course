@@ -2,8 +2,9 @@
 
 Esta trilha seleciona a rota profissional essencial: 36 horas de encontros guiados,
 mais preparação individual e o projeto final. O restante do repositório é aprofundamento.
-Cada encontro produz uma evidência, não apenas leitura. GPU e Mac são extensões opcionais;
-os gates obrigatórios rodam em CPU.
+Cada encontro produz uma evidência, não apenas leitura. Os gates conceituais rodam em CPU;
+o laboratório de SFT da semana 5 exige Mac Apple Silicon ou GPU NVIDIA. Veja a instalação em
+[`AMBIENTES.md`](AMBIENTES.md) antes de iniciar.
 
 | Semana | Preparação | Encontro/lab obrigatório | Entregável |
 |---|---|---|---|
@@ -11,7 +12,7 @@ os gates obrigatórios rodam em CPU.
 | 2 | Módulo 2 §§1–7 | `modulo-02-attention/lab.py` | atenção causal reconstruída e teste de bug |
 | 3 | Módulo 3 §§2–10 | `modulo-03-treino/lab.py` | curva de treino interpretada |
 | 4 | Módulo 4 + governança | `modulo-04-dados/lab.py` e auditoria do dataset | manifesto de dataset sem PII pendente |
-| 5 | Módulo 5 | `lab.py` + leitura do caminho acelerado | baseline, modelo, métricas e run registrada |
+| 5 | Módulo 5 | `lab.py` em Mac/GPU + leitura do caminho acelerado | baseline, modelo, métricas e run registrada |
 | 6 | Módulo 6 | `lab_cpu.py` + `lab_adapters.py` | comparação de memória e manifesto do adapter |
 | 7 | Módulo 11 | `lab_cpu.py` + benchmark disponível | memória, quantização e curva concorrência/latência |
 | 8 | Módulo 13 | `lab_cpu.py` | RAG com citação, abstenção e teste de recuperação |
@@ -35,8 +36,9 @@ os gates obrigatórios rodam em CPU.
 
 Não há aprovação se o projeto não tiver baseline justa, manifesto de dados, revisão
 imutável do modelo, teste sem vazamento, métricas antes/depois e limitações explícitas. A
-[rubrica completa](CERTIFICACAO.md) define os pesos, mínimos e o badge verificável. Mac e GPU
-são extensões de desempenho; a rota obrigatória deve continuar executável em CPU.
+[rubrica completa](CERTIFICACAO.md) define os pesos, mínimos e o badge verificável. A rota
+obrigatória é majoritariamente executável em CPU, mas a evidência de SFT real da semana 5
+requer hardware acelerado; um dry-run não será apresentado como treino executado.
 
 ## Depois da certificação
 

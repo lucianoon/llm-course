@@ -123,7 +123,7 @@ entregar sistemas de LLM. Os demais módulos continuam disponíveis como especia
 gates e projetos em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md) e o mapeamento por cargo em
 [MAPA-CARGOS.md](MAPA-CARGOS.md).
 
-### 🔵 Fase 1 — Fundação (módulos 1–12) · *o pipeline completo, do zero*
+### 🔵 Fase 1 — Fundação (módulos 1–11) · *o pipeline completo, do zero*
 
 | # | Módulo | Pergunta central | Rota | HW |
 |---|---|---|---|---|
@@ -131,14 +131,13 @@ gates e projetos em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md) e o mapeamento po
 | 2 | [Transformers, Attention e QKV](modulo-02-attention/) | Como o contexto vira representação? | Essencial | CPU |
 | 3 | [Como um LLM é treinado](modulo-03-treino/) | Pré-treino, objetivo, escala, custo | Essencial | CPU |
 | 4 | [Curadoria de datasets](modulo-04-dados/) | Por que dado é o gargalo real | Essencial | CPU |
-| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Essencial | CPU núcleo; Mac/GPU ext. |
-| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Essencial | CPU núcleo; Mac/GPU ext. |
-| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Especialização | CPU núcleo; Mac/GPU ext. |
-| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Especialização | CPU núcleo; Mac/GPU ext. |
-| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Especialização | CPU núcleo; Mac/GPU ext. |
-| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Especialização | CPU núcleo; Mac/GPU ext. |
-| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | CPU núcleo; Mac/GPU ext. |
-| 12 | [Projeto final](modulo-12-projeto/) | Fechar o ciclo ponta a ponta | Essencial, após o 15 | conforme o projeto |
+| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Essencial | Mac/GPU |
+| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Essencial | CPU conceitual; Mac/GPU real |
+| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Especialização | CPU conceitual; Mac/GPU ext. |
+| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Especialização | CPU conceitual; Mac/GPU ext. |
+| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Especialização | CPU conceitual; Mac/GPU ext. |
+| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Especialização | CPU conceitual; Mac/GPU ext. |
+| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | CPU conceitual; GPU ext. |
 
 ### 🟢 Fase 2 — Expansão (módulos 13–18) · *o que as melhores formações têm* — núcleo em CPU
 
@@ -165,6 +164,11 @@ Este é o módulo que transforma "treinei um modelo" em "**sistema**": servir e 
 throughput), orçar o custo e recusar cedo, proteger com disjuntor, avaliar como portão de
 **CI**, observar com logs estruturados (PII fora do log) e versionar prompt/modelo com rollback.
 É o que o módulo 12 descrevia sem receita — e o que a maioria das formações esquece.
+
+### Projeto final — depois dos sistemas
+
+O [módulo 12](modulo-12-projeto/) fecha a rota depois dos módulos 13–15 e 19. Ele não adiciona
+um novo bloco de conteúdo: é a integração avaliada do pipeline.
 
 ### 🟣 Fase 3 — Trilha de pesquisa em 3 etapas · *especialização opcional*
 
@@ -231,7 +235,7 @@ laboratório sem depender de hardware acelerado.
 - Já domina os fundamentos e quer pesquisa → escolha uma especialização no mapa acima
 
 **2. Escolha o ambiente (a leitura de 5 min que evita 90% dos problemas):**
-- Módulos de CPU (fundamentos + toda a Fase 2) → [`00-setup.md`](00-setup.md)
+- Módulos de CPU (fundamentos, labs conceituais e toda a Fase 2) → [`00-setup.md`](00-setup.md)
 - Customização com modelos reais no Mac → [`00-setup-mac.md`](00-setup-mac.md)
 - Customização com GPU NVIDIA/CUDA → [`00-setup-gpu.md`](00-setup-gpu.md)
 

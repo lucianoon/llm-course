@@ -49,11 +49,16 @@ def check_module_conventions() -> list[str]:
             continue
         required = ("README.md", "exercicios.md")
         missing = [name for name in required if not (directory / name).exists()]
-        has_lab = any(directory.glob("lab*.py"))
+        labs = sorted(directory.glob("lab*.py"))
+        has_lab = bool(labs)
         if missing:
             errors.append(f"{directory.name}: arquivos obrigatórios ausentes: {', '.join(missing)}")
         if not has_lab:
             errors.append(f"{directory.name}: nenhum lab*.py encontrado")
+        if directory.name != "modulo-05-sft" and not any(
+            path.name in {"lab.py", "lab_cpu.py"} for path in labs
+        ):
+            errors.append(f"{directory.name}: nenhum lab.py ou lab_cpu.py conceitual encontrado")
     return errors
 
 

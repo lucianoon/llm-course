@@ -93,6 +93,15 @@ def test_curriculum_counts_and_cross_references_are_consistent() -> None:
     assert "substitui o laboratório e os exercícios por um projeto" in readme
 
 
+def test_sft_hardware_claim_is_explicit() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    mapa = (ROOT / "MAPA-MODULOS.md").read_text(encoding="utf-8")
+    certificacao = (ROOT / "TRILHA-CERTIFICACAO-12-SEMANAS.md").read_text(encoding="utf-8")
+    assert "| 5 | [Supervised Fine-Tuning]" in readme
+    assert "| Mac/GPU |" in mapa
+    assert "exige Mac Apple Silicon ou GPU NVIDIA" in certificacao
+
+
 def test_documentation_has_no_broken_local_references() -> None:
     assert check_markdown() == []
 

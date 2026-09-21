@@ -10,13 +10,13 @@ em ritmo individual; o gate, e não o relógio, define quando avançar.
 | 2 — Attention | Módulo 1 | 6–8 h | iniciante+ | CPU | attention causal reconstruída |
 | 3 — Treino | Módulos 1–2 | 8–12 h | intermediário | CPU | curva de treino interpretada |
 | 4 — Dados | Módulo 3 | 6–10 h | intermediário | CPU | dataset auditado e manifesto |
-| 5 — SFT | Módulos 1–4 | 8–12 h | intermediário | CPU no núcleo; Mac/GPU opcional | baseline, treino e métricas |
-| 6 — LoRA/QLoRA | Módulo 5 | 8–12 h | intermediário | CPU no núcleo; Mac/GPU opcional | adapter e comparação de memória |
-| 7 — Reasoning | Módulos 3–5 | 8–12 h | avançado | CPU no núcleo; Mac/GPU opcional | hipótese sobre raciocínio testada |
-| 8 — DPO | Módulos 4–6 | 8–12 h | avançado | CPU no núcleo; Mac/GPU opcional | preferências auditadas |
-| 9 — RL | Módulos 5–8 | 10–16 h | avançado | CPU no núcleo; Mac/GPU opcional | recompensa e efeitos colaterais medidos |
-| 10 — Distillation | Módulos 5–6 | 8–12 h | avançado | CPU no núcleo; Mac/GPU opcional | professor/aluno comparados |
-| 11 — Inferência | Módulos 1–6 | 8–12 h | intermediário | CPU; Mac/GPU opcional | memória, latência e custo |
+| 5 — SFT | Módulos 1–4 | 8–12 h | intermediário | Mac/GPU | baseline, treino e métricas |
+| 6 — LoRA/QLoRA | Módulo 5 | 8–12 h | intermediário | CPU conceitual; Mac/GPU real | adapter e comparação de memória |
+| 7 — Reasoning | Módulos 3–5 | 8–12 h | avançado | CPU conceitual; Mac/GPU opcional | hipótese sobre raciocínio testada |
+| 8 — DPO | Módulos 4–6 | 8–12 h | avançado | CPU conceitual; Mac/GPU opcional | preferências auditadas |
+| 9 — RL | Módulos 5–8 | 10–16 h | avançado | CPU conceitual; Mac/GPU opcional | recompensa e efeitos colaterais medidos |
+| 10 — Distillation | Módulos 5–6 | 8–12 h | avançado | CPU conceitual; Mac/GPU opcional | professor/aluno comparados |
+| 11 — Inferência | Módulos 1–6 | 8–12 h | intermediário | CPU conceitual; GPU opcional | memória, latência e custo |
 | 13 — RAG | Módulos 4 e 11 | 6–10 h | intermediário | CPU | recuperação com citação e abstenção |
 | 14 — Avaliação | Módulos 3–5 | 6–10 h | intermediário | CPU | baseline, IC e análise de erro |
 | 15 — Agentes | Módulos 13–14 | 6–10 h | intermediário+ | CPU | ferramenta segura e trilha auditável |
@@ -34,4 +34,7 @@ em ritmo individual; o gate, e não o relógio, define quando avançar.
 - **Travou:** não avance para outro tema; volte ao gate do módulo e registre o erro em
   [`revisao/diario-de-erros.md`](revisao/diario-de-erros.md).
 
-As horas não incluem downloads lentos, espera por GPU ou a leitura opcional de papers.
+“CPU conceitual” significa que o mecanismo pode ser estudado e verificado no lab CPU; não
+significa que o fine-tuning de um modelo real seja viável sem acelerador. O módulo 5 é a
+exceção explícita: o laboratório principal usa MLX e requer Mac Apple Silicon ou uma rota CUDA
+equivalente. As horas não incluem downloads lentos, espera por GPU ou a leitura opcional de papers.
