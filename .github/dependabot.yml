@@ -24,6 +24,11 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "mlx"
         update-types: ["version-update:semver-major"]
+      # vllm fixa versões exatas de torch e o resolvedor do Dependabot falha no
+      # split de plataforma do extra "serving" (s390x + darwin), então o job nunca
+      # converge. Atualização manual: uv lock --upgrade-package vllm.
+      - dependency-name: "vllm"
+      - dependency-name: "torch"
 
   - package-ecosystem: "github-actions"
     directory: "/"
