@@ -4,20 +4,21 @@
 > [`Fase 0 — iniciante absoluto`](00-iniciante-zero/). Este guia prepara o ambiente;
 > a Fase 0 ensina o vocabulário e as operações usadas nos comandos abaixo.
 
-> ℹ️ **Este documento cobre os módulos 1–4 (CPU) e a estratégia de GPU em nuvem.** A trilha
-> principal dos módulos 5–12 roda no **Mac M4 com MLX** — veja [`00-setup-mac.md`](00-setup-mac.md).
-> A seção 3 abaixo (Colab/Runpod) permanece como alternativa CUDA, útil se você quiser
-> reproduzir as receitas da indústria ou treinar modelos acima do teto do M4.
+> ℹ️ **Este documento cobre a rota de CPU:** Fase 0, módulos 1–4, o ciclo de SFT em
+> [`modulo-05-sft/lab_cpu.py`](modulo-05-sft/lab_cpu.py) e os labs de CPU dos módulos seguintes.
+> Repetir a customização num modelo real no Mac está em [`00-setup-mac.md`](00-setup-mac.md).
+> A seção 3 abaixo (Colab/Runpod) permanece como alternativa CUDA, útil para receitas da
+> indústria e para modelos acima do teto de uma máquina local.
 
 Para a nova rota NVIDIA reproduzível, com TRL, PEFT e vLLM, use [`00-setup-gpu.md`](00-setup-gpu.md).
 
 Seu ambiente detectado: **Windows 11**, **Python 3.11**, **sem GPU NVIDIA local**.
 
-Isso define a estratégia do curso: módulos 1–4 rodam inteiros na sua máquina (CPU basta para tokenizadores, inspeção de modelos pequenos e curadoria de dados). A partir do módulo 5 (SFT), você precisa de GPU — e a decisão de *qual* GPU é ela própria conteúdo do curso.
+Isso define a estratégia do curso: a rota de CPU fecha o ciclo na sua máquina, inclusive o SFT de brinquedo do módulo 5. Um modelo real, a partir desse módulo, pede acelerador — Mac com MLX ou NVIDIA com CUDA. A decisão de qual máquina usar é conteúdo do curso, e vem depois de a tabela do `lab_cpu.py` já ter sido lida.
 
 ---
 
-## 1. Ambiente local (módulos 1–4)
+## 1. Ambiente local (rota de CPU)
 
 ```powershell
 cd $HOME\llm-course

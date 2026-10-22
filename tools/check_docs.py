@@ -55,10 +55,10 @@ def check_module_conventions() -> list[str]:
             errors.append(f"{directory.name}: arquivos obrigatórios ausentes: {', '.join(missing)}")
         if not has_lab:
             errors.append(f"{directory.name}: nenhum lab*.py encontrado")
-        if directory.name != "modulo-05-sft" and not any(
-            path.name in {"lab.py", "lab_cpu.py"} for path in labs
-        ):
+        if not any(path.name in {"lab.py", "lab_cpu.py"} for path in labs):
             errors.append(f"{directory.name}: nenhum lab.py ou lab_cpu.py conceitual encontrado")
+        if directory.name == "modulo-05-sft" and not (directory / "lab_cpu.py").is_file():
+            errors.append("modulo-05-sft: falta lab_cpu.py, o ciclo de SFT sem acelerador")
     return errors
 
 

@@ -2,20 +2,22 @@
 
 O objetivo mudou: não é mais acompanhar apenas um curso introdutório de 36h, é **se tornar referência na área**. Este documento é o novo norte: o currículo comparado com as melhores formações do mundo, as fases até a maestria, e o que separa quem *usa* a área de quem a *empurra*.
 
+> **Quem está estudando:** a aula é o `README.md` do módulo, na ordem da [trilha essencial](TRILHA-ESSENCIAL.md). Este arquivo compara o currículo. Abra-o para se situar e volte para a aula em seguida.
+
 ## O benchmark — contra quem estamos nos medindo
 
 | Formação | O que ela tem de melhor | Status no nosso curso |
 |---|---|---|
-| **Stanford CS336** (Language Modeling from Scratch) | Implementar TUDO do zero: tokenizer, transformer, treino distribuído, kernels | ✅ Módulos 1–3 cobrem o núcleo; falta a trilha de sistemas (fase 2) |
-| **Stanford CS224N** (NLP with Deep Learning) | Fundamentos teóricos rigorosos, história das ideias | ✅ Coberto nos módulos 1–2, com mais medição que o original |
-| **Karpathy — Zero to Hero / nanoGPT / nanochat** | O padrão-ouro de "construir para entender" | ✅ É o DNA dos nossos labs; nanochat é leitura da fase 3 |
-| **ARENA** (Alignment Research Engineer Accelerator) | Interpretabilidade mecanicista e RL com labs de nível de pesquisa | ❌ Nossa maior lacuna — vira o módulo 16 |
-| **CMU 11-667** (Large Language Models) | Sistemas de inferência e treino em escala | ⚠️ Módulo 11 cobre inferência; falta treino distribuído (módulo 17) |
-| **Berkeley CS294** (LLM Agents) | Agentes, tool use, planejamento | ❌ Vira o módulo 15 |
-| **fast.ai** | Pedagogia top-down: o todo funcional primeiro, os detalhes depois | ⚠️ Parcial — nosso curso é bottom-up; a fase 2 alterna |
-| **HuggingFace smol-course / EleutherAI** | Prática aberta, avaliação, comunidade | ⚠️ Falta o módulo de avaliação (14) e a prática de contribuição (fase 3) |
+| **Stanford CS336** (Language Modeling from Scratch) | Implementar TUDO do zero: tokenizer, transformer, treino distribuído, kernels | ✅ Módulos 1–3 no núcleo; módulo 17 simula a trilha de sistemas |
+| **Stanford CS224N** (NLP with Deep Learning) | Fundamentos teóricos rigorosos, história das ideias | ✅ Módulos 1–2, com medição ao lado da derivação |
+| **Karpathy — Zero to Hero / nanoGPT / nanochat** | O padrão-ouro de "construir para entender" | ✅ É o DNA dos labs; nanochat é leitura da fase 3 |
+| **ARENA** (Alignment Research Engineer Accelerator) | Interpretabilidade mecanicista e RL com labs de nível de pesquisa | ✅ Módulo 16 publicado; a profundidade de pesquisa continua na fase 3 |
+| **CMU 11-667** (Large Language Models) | Sistemas de inferência e treino em escala | ✅ Módulos 11 e 17 |
+| **Berkeley CS294** (LLM Agents) | Agentes, tool use, planejamento | ✅ Módulo 15 |
+| **fast.ai** | Pedagogia top-down: o todo funcional primeiro, os detalhes depois | ✅ Primeira passagem nos módulos densos; a segunda guarda a derivação |
+| **HuggingFace smol-course / EleutherAI** | Prática aberta, avaliação, comunidade | ✅ Módulo 14 publicado; contribuir em público continua na fase 3 |
 
-**Leitura honesta da tabela:** a Fase 1 (módulos 1–12) já cobre o núcleo do CS336 + CS224N com um diferencial raro (resultados ligados a experimentos e limitações explícitas) e um déficit conhecido (escala de brinquedo). O que falta para o nível "melhor do mundo" está nas lacunas: interpretabilidade, agentes, avaliação, sistemas, e — acima de tudo — **as habilidades de pesquisa da fase 3**, que nenhum curso ensina e todo pesquisador de elite tem.
+**Leitura honesta da tabela:** as Fases 1 e 2 estão publicadas. O diferencial continua sendo resultado ligado a experimento e limite explícito. O déficit conhecido continua sendo a escala de brinquedo. O que separa este material de uma formação de pesquisa é a Fase 3: reproduzir, contribuir e produzir uma pergunta própria.
 
 ---
 
@@ -33,7 +35,7 @@ O pipeline inteiro: fundamentos → treino → dados → SFT → LoRA/QLoRA → 
 
 ### FASE 2 — Expansão (módulos 13–18, conteúdo publicado)
 
-O que as melhores formações têm e nós ainda não:
+O que as formações de referência cobrem, publicado aqui no mesmo formato da fase 1:
 
 | # | Módulo | Pergunta central | Inspiração | Hardware |
 |---|---|---|---|---|

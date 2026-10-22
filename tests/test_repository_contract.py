@@ -97,9 +97,14 @@ def test_sft_hardware_claim_is_explicit() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     mapa = (ROOT / "MAPA-MODULOS.md").read_text(encoding="utf-8")
     certificacao = (ROOT / "TRILHA-CERTIFICACAO-12-SEMANAS.md").read_text(encoding="utf-8")
+    modulo = (ROOT / "modulo-05-sft" / "README.md").read_text(encoding="utf-8")
     assert "| 5 | [Supervised Fine-Tuning]" in readme
-    assert "| Mac/GPU |" in mapa
-    assert "exige Mac Apple Silicon ou GPU NVIDIA" in certificacao
+    assert "CPU fecha o ciclo" in readme
+    assert "CPU fecha o ciclo" in mapa
+    assert (ROOT / "modulo-05-sft" / "lab_cpu.py").is_file()
+    assert "lab_cpu.py" in certificacao
+    assert "Mac Apple Silicon ou GPU NVIDIA" in certificacao
+    assert "não é um modelo de produção" in modulo
 
 
 def test_documentation_has_no_broken_local_references() -> None:

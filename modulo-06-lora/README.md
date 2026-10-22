@@ -4,6 +4,12 @@
 
 Este módulo resolve o problema que os módulos 1 e 3 deixaram armado. E, diferente de quase tudo que se lê sobre LoRA, aqui as afirmações vêm com medição — inclusive as que **não** confirmam a narrativa usual.
 
+## Como ler
+
+**Primeira passagem.** Seções 1, 3 e 8. No `lab_cpu.py`, preveja os Labs 2, 4 e 9. O script roda os nove; o SVD e o NF4 são a volta.
+
+**Segunda passagem.** Seções 2, 4 a 7 e os labs restantes. Faça antes de escolher `rank` e alvo de um adapter num projeto. `lab_mlx.py` repete a receita num modelo real, no Mac.
+
 ## Objetivos
 
 1. Enunciar e **testar** a hipótese de baixo posto, em vez de aceitá-la.

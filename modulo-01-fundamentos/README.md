@@ -4,6 +4,12 @@
 
 Este módulo é a fundação de todos os outros. Praticamente todo hiperparâmetro que você vai ajustar nos módulos 5 a 11 — learning rate, comprimento de sequência, temperatura, tamanho de batch, escolha de quantização — só faz sentido se você entender o que está sendo otimizado aqui.
 
+## Como ler
+
+**Primeira passagem.** Seções 1 a 7, 9 e 11. Exercícios A1 a A5. No laboratório, escreva a previsão dos Labs 1, 4, 5 e 6 antes de rodar.
+
+**Segunda passagem.** Seções 8 e 10 e os Labs 2, 3, 7, 8 e 9. Volte antes do módulo 5: perplexidade, KV cache e a conta de custo passam a decidir treino e serviço.
+
 ## Objetivos
 
 Ao final, você deve conseguir:

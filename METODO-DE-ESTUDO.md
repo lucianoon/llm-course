@@ -81,6 +81,10 @@ pule a verificação. O gate continua sendo explicar e executar sem copiar.
 
 ---
 
+## Quando o módulo travar
+
+Os módulos 1, 2, 3, 5 e 6 trazem uma caixa **Como ler** com duas passagens. Na primeira, siga as seções e os exercícios nomeados e avance. Volte para a segunda passagem no momento em que a caixa pedir — em geral, antes de usar o detalhe numa decisão de treino ou de custo. A derivação no dia em que ela destrava um número rende mais do que a derivação no dia em que ela só pesa.
+
 ## O que NÃO fazer (os mitos, com carinho)
 
 - **Reler e marcar texto** — as duas técnicas mais usadas e as duas de menor eficácia medida (Dunlosky et al., 2013). Substitua por recuperação.
