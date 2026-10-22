@@ -23,6 +23,7 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 
 ### Alterado
 
+- o README de entrada mostra o que o curso é, um comando e um único próximo arquivo; a ordem de leitura vem antes do catálogo e o módulo 12 aparece no fim da rota;
 - a rota de estudo pede um módulo por vez; plano mestre, mapa e método ficam como referência;
 - o plano mestre deixa de descrever como lacuna os módulos 14–17 já publicados;
 - a coluna de hardware passa a dizer onde a CPU fecha o ciclo e onde Mac ou GPU repetem o experimento num modelo real;
