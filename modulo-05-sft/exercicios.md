@@ -1,5 +1,7 @@
 # Módulo 5 — Exercícios
 
+Faça a parte A antes de ler a tabela que `lab_cpu.py` imprime. O gabarito fica escondido no fim de cada exercício.
+
 ---
 
 ## Parte A — Conceituais

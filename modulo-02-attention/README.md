@@ -4,7 +4,13 @@
 
 O módulo 1 tratou a pilha de blocos como caixa-preta. Aqui ela é aberta — e, no laboratório, reconstruída peça por peça até que a sua implementação bata com a do HuggingFace até a sexta casa decimal.
 
-Este é o módulo mais denso do curso. Vale o esforço: praticamente toda decisão de arquitetura que aparece nos módulos 6, 9 e 11 (onde o LoRA se acopla, o que a quantização degrada, por que o MoE substitui só o MLP) é ininteligível sem ele.
+Este é o módulo mais denso do curso. A primeira passagem basta para seguir ao módulo 3. Praticamente toda decisão de arquitetura que aparece nos módulos 6, 9 e 11 (onde o LoRA se acopla, o que a quantização degrada, por que o MoE substitui só o MLP) espera a segunda passagem.
+
+## Como ler
+
+**Primeira passagem.** Seções 1, 2 e 4. Na seção 3, leia os cinco passos das formas e as duas armadilhas de máscara; deixe a derivação de `√d_k` para a volta. Exercícios A1 e A3. No laboratório, preveja os Labs 1, 3 e 4. O script baixa o Qwen e segue até o Lab 9; os números da segunda passagem podem esperar.
+
+**Segunda passagem.** A derivação da seção 3, as seções 5 a 10, o restante dos exercícios e os Labs 2 e 5 a 9. Faça isso antes do módulo 6: LoRA, GQA e KV cache assumem onde estão os parâmetros e como a atenção é mascarada.
 
 ## Objetivos
 

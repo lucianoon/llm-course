@@ -25,8 +25,9 @@ podem alterar o consumo. A tabela operacional detalhada está em [`00-setup-gpu.
 uv sync --extra cpu --extra dev --extra test --locked
 ```
 
-Use esta rota para a Fase 0, módulos 1–4 e 13–19. Ela não baixa modelos
-automaticamente durante a instalação.
+Use esta rota para a Fase 0, os módulos 1–4, o ciclo de SFT do módulo 5 (`lab_cpu.py`)
+e os módulos 6–19. Ela não baixa modelos automaticamente durante a instalação.
+Repetir o SFT num modelo real continua na rota MLX ou CUDA.
 
 ### Apple Silicon / MLX
 
@@ -67,7 +68,7 @@ Para validar localmente os contratos baratos dos laboratórios:
 uv run python tools/validate_labs.py
 ```
 
-Esse comando analisa a sintaxe dos 35 labs e executa os seis scripts acelerados
+Esse comando analisa a sintaxe dos 36 labs e executa os seis scripts acelerados
 em modo `--dry-run`, sem baixar modelos ou datasets.
 
 Para diagnosticar uma instalação GPU ou serving:

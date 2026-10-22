@@ -622,7 +622,7 @@ Cada verbete tem três partes: **a ideia em linguagem comum** (muitas vezes uma 
 ## Termos de ferramentas (transversais)
 
 ### PyTorch / MLX / CUDA / MPS
-**A ideia:** as "oficinas" onde os modelos rodam. **PyTorch**: a biblioteca padrão da área (usada nos módulos 1–4 e nos labs de CPU). **CUDA**: a plataforma das GPUs NVIDIA — o padrão da indústria. **MLX**: a oficina da Apple para os chips M1–M4 (a trilha dos módulos 5+ no seu Mac). **MPS**: o backend Apple do PyTorch (alternativa menos otimizada que MLX no Mac).
+**A ideia:** as "oficinas" onde os modelos rodam. **PyTorch**: a biblioteca padrão da área (usada nos módulos 1–4 e nos labs de CPU). **CUDA**: a plataforma das GPUs NVIDIA — o padrão da indústria. **MLX**: a oficina da Apple para os chips M1–M4. Repete, num modelo real no Mac, o ciclo que os labs de CPU já fecharam. **MPS**: o backend Apple do PyTorch (alternativa menos otimizada que MLX no Mac).
 **Onde:** `00-setup.md` e `00-setup-mac.md`.
 
 ### HuggingFace

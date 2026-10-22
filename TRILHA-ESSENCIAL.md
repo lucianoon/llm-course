@@ -11,6 +11,12 @@ progresso](PROGRESSO.md) para registrar as evidências.
 > solução de LLM reproduzível, medir qualidade e custo, explicar decisões e entregar o
 > projeto para outra pessoa executar. Não significa dominar toda a pesquisa da área.
 
+## Como atravessar um módulo
+
+A aula é o `README.md` da pasta. Mapa, plano mestre, gates e método ficam fechados enquanto a leitura anda.
+
+Se o README tiver a caixa **Como ler**, faça a primeira passagem e siga. Volte para a segunda passagem no momento em que a caixa pedir — em geral, antes de usar o conceito numa decisão de treino, memória ou custo. A derivação esperando esse momento pesa menos do que a derivação lida no dia em que ainda não decide nada.
+
 ## Visão geral
 
 | Etapa | Conteúdo | Resultado observável | Tempo sugerido |
@@ -70,7 +76,7 @@ Princípios que importam:
 
 Estude:
 
-1. [`modulo-05-sft/`](modulo-05-sft/) — formato, chat template e supervised fine-tuning;
+1. [`modulo-05-sft/`](modulo-05-sft/) — formato, chat template e supervised fine-tuning. Comece por `lab_cpu.py`. `lab.py` e `lab_cuda.py` repetem o ciclo num modelo real;
 2. [`modulo-06-lora/`](modulo-06-lora/) — adaptação eficiente e esquecimento;
 3. [`modulo-11-inferencia/`](modulo-11-inferencia/) — memória, quantização e orçamento.
 

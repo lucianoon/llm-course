@@ -2,17 +2,18 @@
 
 Esta trilha seleciona a rota profissional essencial: 36 horas de encontros guiados,
 mais preparação individual e o projeto final. O restante do repositório é aprofundamento.
-Cada encontro produz uma evidência, não apenas leitura. Os gates conceituais rodam em CPU;
-o laboratório de SFT da semana 5 exige Mac Apple Silicon ou GPU NVIDIA. Veja a instalação em
+Cada encontro produz uma evidência, não apenas leitura. Os gates rodam em CPU. Na semana 5,
+`lab_cpu.py` fecha o ciclo de SFT. Repetir o ciclo num modelo real, com `lab.py` ou
+`lab_cuda.py`, pede Mac Apple Silicon ou GPU NVIDIA. Veja a instalação em
 [`AMBIENTES.md`](AMBIENTES.md) antes de iniciar.
 
 | Semana | Preparação | Encontro/lab obrigatório | Entregável |
 |---|---|---|---|
-| 1 | Módulo 1 §§1–7 | `modulo-01-fundamentos/lab.py` | comparação de tokenização e decoding |
-| 2 | Módulo 2 §§1–7 | `modulo-02-attention/lab.py` | atenção causal reconstruída e teste de bug |
-| 3 | Módulo 3 §§2–10 | `modulo-03-treino/lab.py` | curva de treino interpretada |
+| 1 | Módulo 1, primeira passagem | `modulo-01-fundamentos/lab.py` | comparação de tokenização e decoding |
+| 2 | Módulo 2, primeira passagem | `modulo-02-attention/lab.py` | atenção causal reconstruída e teste de bug |
+| 3 | Módulo 3, primeira passagem | `modulo-03-treino/lab.py` | curva de treino interpretada |
 | 4 | Módulo 4 + governança | `modulo-04-dados/lab.py` e auditoria do dataset | manifesto de dataset sem PII pendente |
-| 5 | Módulo 5 | `lab.py` em Mac/GPU + leitura do caminho acelerado | baseline, modelo, métricas e run registrada |
+| 5 | Módulo 5, primeira passagem | `lab_cpu.py` | baseline, máscara, métrica de formato e esquecimento |
 | 6 | Módulo 6 | `lab_cpu.py` + `lab_adapters.py` | comparação de memória e manifesto do adapter |
 | 7 | Módulo 11 | `lab_cpu.py` + benchmark disponível | memória, quantização e curva concorrência/latência |
 | 8 | Módulo 13 | `lab_cpu.py` | RAG com citação, abstenção e teste de recuperação |
@@ -37,8 +38,9 @@ o laboratório de SFT da semana 5 exige Mac Apple Silicon ou GPU NVIDIA. Veja a 
 Não há aprovação se o projeto não tiver baseline justa, manifesto de dados, revisão
 imutável do modelo, teste sem vazamento, métricas antes/depois e limitações explícitas. A
 [rubrica completa](CERTIFICACAO.md) define os pesos, mínimos e o badge verificável. A rota
-obrigatória é majoritariamente executável em CPU, mas a evidência de SFT real da semana 5
-requer hardware acelerado; um dry-run não será apresentado como treino executado.
+obrigatória roda em CPU, inclusive o ciclo de SFT num modelo de brinquedo. Um dry-run do
+lab acelerado não conta como treino de modelo real. Quem tiver Mac ou GPU entrega, além da
+tabela do `lab_cpu.py`, a run desse modelo real.
 
 ## Depois da certificação
 

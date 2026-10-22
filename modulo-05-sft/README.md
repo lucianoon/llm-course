@@ -2,15 +2,23 @@
 
 > **Pergunta central:** como se ensina um comportamento a um modelo que já sabe a língua?
 
-Aqui o curso vira. Nos módulos 1–4 você construiu entendimento; a partir de agora você **modifica modelos reais**, no seu M4, com resultados que dá para ver e medir.
+Aqui o curso vira: você modifica um modelo e mede se o comportamento mudou.
 
-E a boa notícia do módulo 3 se concretiza: o pré-treino custou US$ 2,4 milhões e consumiu 98% do compute. O que você vai fazer neste módulo custa **zero** e leva minutos.
+O ciclo cabe na CPU. `lab_cpu.py` treina um MiniGPT de brinquedo e imprime a tabela que este módulo existe para ler: baseline, máscara, formato e esquecimento. Quem tem Mac repete o ciclo com `lab.py`; quem tem GPU NVIDIA, com `lab_cuda.py`. O MiniGPT não é um modelo de produção. Um modelo real continua pedindo Mac ou GPU, e é nele que hiperparâmetro vira conta de memória.
+
+A boa notícia do módulo 3 se concretiza: o pré-treino custou US$ 2,4 milhões e consumiu 98% do compute. O SFT deste módulo custa pouco e leva minutos — no brinquedo, menos de um.
+
+## Como ler
+
+**Primeira passagem.** Seções 1, 2, 5 e 7. Rode `lab_cpu.py` e leia a tabela antes de abrir o gabarito dos exercícios.
+
+**Segunda passagem.** Seções 3, 4, 6 e 8, e o lab do seu hardware, se existir. Faça antes de escolher learning rate e número de épocas num projeto.
 
 ## Objetivos
 
 1. Explicar por que SFT muda comportamento e não conhecimento — e prever quando isso vai frustrar você.
 2. Preparar um dataset de instrução no formato correto, com masking e EOS.
-3. Treinar LoRA com `mlx_lm.lora` e ler o log de treino.
+3. Fechar na CPU o ciclo baseline → SFT com máscara → métrica, e apontar o comando que repete o ciclo no MLX ou no CUDA.
 4. Medir o resultado com mais rigor do que "olhei e pareceu melhor".
 5. Detectar e quantificar *catastrophic forgetting*.
 6. Escolher hiperparâmetros com justificativa, não por cópia.
@@ -199,7 +207,7 @@ Cara, lenta, e o padrão-ouro. Para uma aplicação real, 100 comparações huma
 5. Separar treino/val/teste    → antes de qualquer outra coisa
 6. Formatar (messages, JSONL)  → uma pasta com train/valid/test
 7. Baseline                    → medir o modelo base COM bom prompt
-8. Treinar                     → mlx_lm.lora
+8. Treinar                     → `lab_cpu.py`; no modelo real, `mlx_lm.lora` ou `lab_cuda.py`
 9. Avaliar                     → mesma métrica da baseline
 10. Iterar                     → hiperparâmetros, depois dados
 ```
@@ -231,4 +239,4 @@ Cara, lenta, e o padrão-ouro. Para uma aplicação real, 100 comparações huma
 - [ ] Qual é a baseline correta para comparar seu modelo fine-tuned?
 - [ ] Seu modelo responde certo e continua falando sozinho. Causa e correção?
 
-Depois, `preparar_dados.py` e `lab.py`. Em GPU NVIDIA, use `lab_cuda.py` para comparar full fine-tuning, LoRA e QLoRA com revisão imutável do modelo e registro local do experimento.
+Depois, rode `lab_cpu.py`. Ele fecha o ciclo. Com Mac, siga `preparar_dados.py` e `lab.py`. Em GPU NVIDIA, use `lab_cuda.py` para comparar full fine-tuning, LoRA e QLoRA num modelo real, com revisão imutável e registro local. A tabela do brinquedo prepara essa run; ela não a substitui.

@@ -58,8 +58,9 @@ jobs:
         # Avaliação como portão: reexecuta o lab de produção e valida que o conjunto
         # dourado passa do piso, o serviço mantém sucesso e o disjuntor abre.
         run: uv run python tools/eval_ci.py
-      - name: Executar novos labs CPU de supervisão e QAT
+      - name: Executar labs CPU de SFT, supervisão e QAT
         if: matrix.os == 'ubuntu-24.04' && matrix.python == '3.11'
         run: |
+          uv run python modulo-05-sft/lab_cpu.py
           uv run python modulo-07-reasoning/lab_process_supervision.py
           uv run python modulo-11-inferencia/lab_qat.py

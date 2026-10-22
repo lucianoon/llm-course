@@ -9,6 +9,8 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 
 ### Adicionado
 
+- `modulo-05-sft/lab_cpu.py`: o ciclo baseline → máscara → métrica → esquecimento fecha na CPU, num MiniGPT de brinquedo;
+- caixa **Como ler** nos módulos 1, 2, 3, 5 e 6, com primeira e segunda passagem;
 - documentação para contribuição, segurança e citação;
 - licença Apache-2.0 e aviso de atribuição;
 - caminho de início rápido para a beta pública.
@@ -21,6 +23,9 @@ O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o 
 
 ### Alterado
 
+- a rota de estudo pede um módulo por vez; plano mestre, mapa e método ficam como referência;
+- o plano mestre deixa de descrever como lacuna os módulos 14–17 já publicados;
+- a coluna de hardware passa a dizer onde a CPU fecha o ciclo e onde Mac ou GPU repetem o experimento num modelo real;
 - reposicionamento do README para engenharia e customização de LLMs em português;
 - separação explícita entre labs disponíveis, executados e reproduzidos.
 - onboarding com escolha rápida de trilha e instalação mínima de CPU.

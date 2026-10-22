@@ -14,7 +14,7 @@ mensuráveis**.
 Não é necessário concluir tudo. Há uma rota curta para engenharia, uma fase para quem nunca
 programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilidade e sistemas.
 
-> **Fase 0 + 19 módulos · trilha de pesquisa em 3 etapas · 35 scripts de laboratório**
+> **Fase 0 + 19 módulos · trilha de pesquisa em 3 etapas · 36 scripts de laboratório**
 >
 > Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
 > **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
@@ -40,9 +40,23 @@ uv run python 00-iniciante-zero/lab.py
 uv run python -m pytest
 ```
 
-Depois, escolha a [trilha essencial](TRILHA-ESSENCIAL.md) ou abra o
-[mapa completo](#o-mapa-completo). Para entender antes de instalar, leia a
+Depois, siga [uma aula de cada vez](#uma-aula-de-cada-vez). Para entender antes de instalar, leia a
 [Fase 0](00-iniciante-zero/) diretamente no GitHub.
+
+## Uma aula de cada vez
+
+Enquanto estuda, deixe abertos três arquivos: o `README.md` do módulo, o laboratório dele e o `exercicios.md`. O resto do repositório é mapa. Abra um arquivo de apoio na linha correspondente:
+
+| Se acontecer isto | Abra isto |
+|---|---|
+| Não sei por onde começar | [trilha essencial](TRILHA-ESSENCIAL.md), uma vez |
+| O módulo está denso | a caixa **Como ler** no topo do README do módulo |
+| Não sei se posso avançar | o checklist no fim desse mesmo README |
+| Travei num pré-requisito | a linha daquele módulo no [mapa](MAPA-MODULOS.md) |
+| Quero reter na semana seguinte | [método de estudo](METODO-DE-ESTUDO.md) |
+| Quero situar o currículo | [plano mestre](PLANO-MESTRE.md) — o norte, não a aula |
+
+A primeira passagem da caixa **Como ler** basta para ir ao módulo seguinte. A segunda passagem fica para o momento em que a caixa indicar, em geral antes de usar o detalhe numa decisão de treino ou de custo.
 
 ## O que você vai construir
 
@@ -131,13 +145,15 @@ gates e projetos em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md) e o mapeamento po
 | 2 | [Transformers, Attention e QKV](modulo-02-attention/) | Como o contexto vira representação? | Essencial | CPU |
 | 3 | [Como um LLM é treinado](modulo-03-treino/) | Pré-treino, objetivo, escala, custo | Essencial | CPU |
 | 4 | [Curadoria de datasets](modulo-04-dados/) | Por que dado é o gargalo real | Essencial | CPU |
-| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Essencial | Mac/GPU |
-| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Essencial | CPU conceitual; Mac/GPU real |
-| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Especialização | CPU conceitual; Mac/GPU ext. |
-| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Especialização | CPU conceitual; Mac/GPU ext. |
-| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Especialização | CPU conceitual; Mac/GPU ext. |
-| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Especialização | CPU conceitual; Mac/GPU ext. |
-| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | CPU conceitual; GPU ext. |
+| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Essencial | CPU fecha o ciclo; Mac/GPU no modelo real |
+| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Essencial | CPU fecha o ciclo; Mac/GPU no modelo real |
+| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
+| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
+| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
+| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
+| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | CPU fecha o ciclo; GPU opcional |
+
+Na coluna HW, **CPU fecha o ciclo** quer dizer que o laboratório de CPU chega a uma medição. Mac ou GPU repetem a mesma pergunta num modelo grande. O módulo segue completo sem eles. O número do lab de CPU vale para o brinquedo ou para o modelo pequeno que ele rodou.
 
 ### 🟢 Fase 2 — Expansão (módulos 13–18) · *o que as melhores formações têm* — núcleo em CPU
 
@@ -195,7 +211,9 @@ e um protocolo de validação.
 
 Os labs estão em formato *percent* (`# %%`) — legíveis como script e conversíveis em notebook com `python tools/build_notebooks.py`.
 
-### O sistema de apoio (vale para o curso inteiro)
+### Referência — abra na situação, não na ordem
+
+Estes arquivos sustentam o curso. Durante a aula eles ficam fechados. A tabela [Uma aula de cada vez](#uma-aula-de-cada-vez) diz quando abrir cada um.
 
 | Arquivo | Para quê |
 |---|---|
@@ -222,24 +240,21 @@ Os labs estão em formato *percent* (`# %%`) — legíveis como script e convers
 |---|---|---|
 | nunca programou | [Fase 0](00-iniciante-zero/) | [`00-setup.md`](00-setup.md) |
 | já programa e quer entregar sistemas | [trilha essencial](TRILHA-ESSENCIAL.md) | [`AMBIENTES.md`](AMBIENTES.md) |
-| quer treinar no Mac Apple Silicon | módulos 5–11 | [`00-setup-mac.md`](00-setup-mac.md) |
-| quer usar servidores NVIDIA | módulos CUDA | [`00-setup-gpu.md`](00-setup-gpu.md) |
+| quer repetir a customização no Mac | módulos 5–11, depois do ciclo em CPU | [`00-setup-mac.md`](00-setup-mac.md) |
+| quer repetir a customização em NVIDIA | labs CUDA, depois do ciclo em CPU | [`00-setup-gpu.md`](00-setup-gpu.md) |
 
 Se esta é a primeira instalação, execute o caminho mínimo acima antes de instalar
 extras de MLX, CUDA ou serving. Assim você valida Git, `uv`, Python e o primeiro
 laboratório sem depender de hardware acelerado.
 
-**1. Escolha seu ponto de entrada:**
-- Nunca programou ou não conhece testes, Git e tensores → [`00-iniciante-zero/`](00-iniciante-zero/)
-- Já programa e quer a rota mais curta até projetos profissionais → [`TRILHA-ESSENCIAL.md`](TRILHA-ESSENCIAL.md)
-- Já domina os fundamentos e quer pesquisa → escolha uma especialização no mapa acima
+A ordem de estudo está em [Uma aula de cada vez](#uma-aula-de-cada-vez). Os passos abaixo instalam.
 
-**2. Escolha o ambiente (a leitura de 5 min que evita 90% dos problemas):**
-- Módulos de CPU (fundamentos, labs conceituais e toda a Fase 2) → [`00-setup.md`](00-setup.md)
-- Customização com modelos reais no Mac → [`00-setup-mac.md`](00-setup-mac.md)
-- Customização com GPU NVIDIA/CUDA → [`00-setup-gpu.md`](00-setup-gpu.md)
+**1. Escolha o ambiente:**
+- CPU, incluindo o ciclo de SFT do módulo 5 → [`00-setup.md`](00-setup.md)
+- Repetir a customização num modelo real no Mac → [`00-setup-mac.md`](00-setup-mac.md)
+- Repetir a customização num modelo real com GPU NVIDIA → [`00-setup-gpu.md`](00-setup-gpu.md)
 
-**3. Clone e prepare:**
+**2. Clone e prepare:**
 ```bash
 git clone https://github.com/lucianoon/llm-course.git
 cd llm-course
@@ -248,16 +263,16 @@ uv run python tools/build_notebooks.py      # gera notebooks derivados dos labs
 ```
 Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
 
-**4. Para cada módulo da sua rota:** leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman → registre a evidência no [gate correspondente](GATES-DE-APRENDIZAGEM.md). Não avance com menos de 80% no checklist de saída. (O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).)
+**3. Para cada módulo da sua rota:** siga a caixa **Como ler**, se existir. Leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman → registre a evidência no [gate correspondente](GATES-DE-APRENDIZAGEM.md). A primeira passagem basta para avançar. A segunda passagem espera o momento em que a caixa indicar. O critério de saída continua sendo 80% do checklist, de memória. O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).
 
-**5. Estude para reter:** importe [`revisao/baralho-*.tsv`](revisao/) no [Anki](https://apps.ankiweb.net) e faça 15 min por dia a partir do módulo 1. Na Fase 0, priorize executar, errar e corrigir o código.
+**4. Estude para reter:** importe [`revisao/baralho-*.tsv`](revisao/) no [Anki](https://apps.ankiweb.net) e faça 15 min por dia a partir do módulo 1. Na Fase 0, priorize executar, errar e corrigir o código.
 
 ---
 
 ## Convenções do material
 
 - **⚠️ Armadilha** — erro que quase todo mundo comete na primeira vez.
-- **📐 Matemática** — a derivação vale a pena; pulá-la é entender o *o quê* mas não o *porquê* dos hiperparâmetros.
+- **📐 Matemática** — derivação. Na primeira passagem, leia o resultado e a armadilha. Na segunda, leia o porquê do hiperparâmetro.
 - **🔧 Na prática** — o que muda quando isso vai para produção.
 - Números concretos (VRAM, tokens, custo) sempre que possível. Conceito sem ordem de grandeza não decide nada.
 

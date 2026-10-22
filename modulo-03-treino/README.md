@@ -4,6 +4,12 @@
 
 Os módulos 1 e 2 descreveram o que o modelo **calcula**. Este descreve como os pesos chegaram lá. No laboratório você vai treinar um LLM completo do zero, na sua CPU, em poucos minutos — e depois usar as mesmas fórmulas para orçar o treino de um modelo de 8B.
 
+## Como ler
+
+**Primeira passagem.** Seções 1, 2, 5, 12 e 14. Exercícios A2 e A5. O laboratório roda inteiro; pare para ler a curva no Lab 8. As provas de AdamW e a calculadora de custo podem esperar.
+
+**Segunda passagem.** Seções 3, 4, 6 a 11 e 13, e os exercícios B. Faça antes do módulo 5, quando learning rate, batch e a curva passarem a ser decisões suas.
+
 ## Objetivos
 
 1. Descrever as três fases de treino e qual fração do compute cada uma consome.
