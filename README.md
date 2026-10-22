@@ -7,30 +7,18 @@
 [![Licença Apache--2.0](https://img.shields.io/badge/licen%C3%A7a-Apache--2.0-blue.svg)](LICENSE)
 [![Status: beta pública](https://img.shields.io/badge/status-beta%20p%C3%BAblica-orange.svg)](#status-do-projeto)
 
-Um curso aberto para entender, customizar, avaliar e servir modelos de linguagem —
-**construído de baixo para cima, em português, com laboratórios que tornam as hipóteses
-mensuráveis**.
+Um curso aberto para entender, customizar, avaliar e servir modelos de linguagem.
+É escrito em português, construído de baixo para cima, com laboratórios que tornam as hipóteses mensuráveis.
 
-Não é necessário concluir tudo. Há uma rota curta para engenharia, uma fase para quem nunca
-programou e especializações em fine-tuning, RL, RAG, agentes, interpretabilidade e sistemas.
+Há uma porta para quem nunca programou e uma rota até o primeiro nível profissional. O restante do repositório é especialização: dá para trabalhar bem sem concluir os 19 módulos.
 
-> **Fase 0 + 19 módulos · trilha de pesquisa em 3 etapas · 36 scripts de laboratório**
+> **Fase 0 + 19 módulos · 36 scripts de laboratório**
 >
-> Fundamentos rodam em **CPU**. Customização com modelos reais tem rotas para
-> **Mac Apple Silicon (MLX)** e **GPU NVIDIA (CUDA)**.
-
-Rotas prontas: [essencial](TRILHA-ESSENCIAL.md) · [certificação em 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) · [equivalência](TRILHA-EQUIVALENCIA.md) · [agentes e context engineering](TRILHA-AGENTES-E-CONTEXT-ENGINEERING.md) · [GPU NVIDIA/CUDA](00-setup-gpu.md) · [governança de dados](GOVERNANCA-DE-DADOS.md). Consulte também o [mapa de módulos](MAPA-MODULOS.md) e a [matriz de ambientes](AMBIENTES.md) antes de instalar.
-
-> 🌱 **Nunca programou?** Comece pela [Fase 0 — iniciante absoluto](00-iniciante-zero/)
-> e siga somente a [trilha essencial do zero ao primeiro nível profissional](TRILHA-ESSENCIAL.md).
-> Você não precisa concluir todos os temas avançados para começar a trabalhar bem.
-
----
+> A rota inteira roda em **CPU**. Mac (MLX) e GPU NVIDIA (CUDA) repetem o treino num modelo grande.
 
 ## Experimente em 10 minutos
 
-O primeiro laboratório não baixa modelos e percorre o ciclo usado no curso inteiro:
-entrada → transformação → previsão → avaliação.
+O primeiro laboratório não baixa modelos. Ele percorre o ciclo do curso: entrada, transformação, previsão e avaliação.
 
 ```bash
 git clone https://github.com/lucianoon/llm-course.git
@@ -40,157 +28,93 @@ uv run python 00-iniciante-zero/lab.py
 uv run python -m pytest
 ```
 
-Depois, siga [uma aula de cada vez](#uma-aula-de-cada-vez). Para entender antes de instalar, leia a
-[Fase 0](00-iniciante-zero/) diretamente no GitHub.
+O próximo arquivo é um só:
 
-## Uma aula de cada vez
-
-Enquanto estuda, deixe abertos três arquivos: o `README.md` do módulo, o laboratório dele e o `exercicios.md`. O resto do repositório é mapa. Abra um arquivo de apoio na linha correspondente:
-
-| Se acontecer isto | Abra isto |
-|---|---|
-| Não sei por onde começar | [trilha essencial](TRILHA-ESSENCIAL.md), uma vez |
-| O módulo está denso | a caixa **Como ler** no topo do README do módulo |
-| Não sei se posso avançar | o checklist no fim desse mesmo README |
-| Travei num pré-requisito | a linha daquele módulo no [mapa](MAPA-MODULOS.md) |
-| Quero reter na semana seguinte | [método de estudo](METODO-DE-ESTUDO.md) |
-| Quero situar o currículo | [plano mestre](PLANO-MESTRE.md) — o norte, não a aula |
-
-A primeira passagem da caixa **Como ler** basta para ir ao módulo seguinte. A segunda passagem fica para o momento em que a caixa indicar, em geral antes de usar o detalhe numa decisão de treino ou de custo.
+- Nunca programou, ou prefere ler antes de instalar → [Fase 0](00-iniciante-zero/)
+- Já programa → [trilha essencial](TRILHA-ESSENCIAL.md)
 
 ## O que você vai construir
 
-- componentes de um transformer e mecanismos de atenção, do zero;
-- pipelines de dados, SFT, LoRA/QLoRA, DPO, GRPO e distillation;
-- avaliações com baselines, intervalos de confiança e leitura manual de saídas;
-- sistemas com RAG, ferramentas, controle de custo, observabilidade e rollback;
-- um [projeto final reproduzível](modulo-12-projeto/) com contrato de entrega.
+- as peças de um transformer, inclusive a atenção, escritas do zero;
+- um conjunto de dados e um ajuste supervisionado (SFT), com adaptação LoRA numa máquina pequena;
+- uma avaliação com baseline, intervalo de confiança e leitura das saídas;
+- um sistema que consulta documentos, chama ferramentas e recusa quando o custo passa do limite;
+- um [projeto final](modulo-12-projeto/) que outra pessoa executa a partir do README.
+
+## A ordem de leitura
+
+`Fase 0 → módulos 1–6 → 11 → 13–15 → 19 → projeto (módulo 12)`
+
+O passo da tabela abaixo é a ordem. O número no nome do módulo é o da pasta: o 12 é o projeto e entra por último, depois de servir o sistema. Os módulos 7–10 e 16–18 ficam de fora até um projeto pedir.
+
+| Passo | Módulo | Pergunta | Onde roda |
+|---|---|---|---|
+| 1 | [Fase 0 — iniciante](00-iniciante-zero/) | Consigo alterar e testar um programa pequeno? | CPU |
+| 2 | [1 · Fundamentos](modulo-01-fundamentos/) | O que um LLM calcula? | CPU |
+| 3 | [2 · Atenção](modulo-02-attention/) | Como o contexto vira representação? | CPU |
+| 4 | [3 · Treino](modulo-03-treino/) | Como os pesos chegam a escrever? | CPU |
+| 5 | [4 · Dados](modulo-04-dados/) | Por que o dado limita a conclusão? | CPU |
+| 6 | [5 · Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato? | CPU |
+| 7 | [6 · LoRA](modulo-06-lora/) | Como adaptar um modelo grande numa máquina pequena? | CPU |
+| 8 | [11 · Inferência](modulo-11-inferencia/) | Como a resposta cabe no orçamento? | CPU |
+| 9 | [13 · RAG](modulo-13-rag/) | Como informar o modelo sem treinar de novo? | CPU |
+| 10 | [14 · Avaliação](modulo-14-avaliacao/) | Quantas amostras bastam para dizer que A é melhor que B? | CPU |
+| 11 | [15 · Agentes](modulo-15-agentes/) | O que muda quando o modelo age? | CPU |
+| 12 | [19 · Produção](modulo-19-producao/) | Como servir sem estourar o custo nem esconder a falha? | CPU |
+| 13 | [12 · Projeto](modulo-12-projeto/) | Outra pessoa reproduz a conclusão? | conforme o projeto |
+
+A partir do módulo 5, a **CPU fecha o ciclo**: o laboratório treina e mede num modelo pequeno. Mac ou GPU repetem a mesma pergunta num modelo grande. O número medido descreve o modelo pequeno que o laboratório rodou.
+
+### Especializações
+
+| Módulo | Pergunta | Quando abrir |
+|---|---|---|
+| [7 · Reasoning](modulo-07-reasoning/) | O que muda quando o modelo explica o raciocínio? | A tarefa pede uma cadeia de passos verificável |
+| [8 · Preferência (DPO)](modulo-08-dpo/) | Como ensinar uma escolha entre duas respostas boas? | Há pares de respostas preferidas |
+| [9 · Reforço (RL)](modulo-09-rl/) | Quando a recompensa pode ser checada por código? | Existe um verificador automático |
+| [10 · Destilação](modulo-10-distillation/) | Como passar capacidade para um modelo menor? | O modelo grande custa caro demais para servir |
+| [16 · Interpretabilidade](modulo-16-interpretabilidade/) | O que acontece dentro do modelo? | A pergunta é de mecanismo, não de produto |
+| [17 · Escala](modulo-17-sistemas/) | Como treinar o que não cabe numa GPU? | O treino passa de uma máquina |
+| [18 · Arquiteturas](modulo-18-arquiteturas/) | O que vem depois do transformer? | A pesquisa compara alternativas |
+| [Pesquisa](FASE-3-MAESTRIA.md) | Como reproduzir, contribuir e publicar? | A rota essencial já está concluída |
+
+O [mapa de cargos](MAPA-CARGOS.md) liga cada módulo ao que um profissional faz no trabalho. Tempo, pré-requisito e evidência de cada passo estão no [mapa de módulos](MAPA-MODULOS.md).
 
 ---
 
-## Dois cursos num só repositório
+## Uma aula de cada vez
 
-Este material não escolhe entre academia e mercado — porque a mesma base serve às duas. A distinção é **o que você pretende fazer com isso**, e há uma rota clara para cada uma:
+Quando o estudo começa, deixe abertos três arquivos: o `README.md` do módulo, o laboratório e o `exercicios.md`.
 
-| Trilha | Meta | Para quem | Onde está |
-|---|---|---|---|
-| **Engenharia (mercado)** | Colocar sistemas de LLM de pé, medidos e protegidos | Quem quer o primeiro nível profissional e entregar de verdade | [trilha essencial](TRILHA-ESSENCIAL.md) → [módulo 19](modulo-19-producao/) |
-| **Pesquisa (academia)** | Reproduzir, questionar e estender o estado da arte | Quem quer produzir conhecimento e publicar | [FASE-3-MAESTRIA.md](FASE-3-MAESTRIA.md) |
+| Se acontecer isto | Abra isto |
+|---|---|
+| O módulo está denso | a caixa **Como ler** no topo do README do módulo |
+| Não sei se posso avançar | o checklist no fim desse mesmo README |
+| Travei num pré-requisito | a linha daquele módulo no [mapa](MAPA-MODULOS.md) |
+| Quero reter na semana seguinte | o [método de estudo](METODO-DE-ESTUDO.md) |
+| Quero situar o currículo | o [plano mestre](PLANO-MESTRE.md) |
 
-O que muda é a **ordem** e o que você **omite**. Para o mercado, a rota termina com um projeto que **roda, custa e se reproduz** (módulo 12), passando pela **camada de produção** — servir, medir, orçar, proteger (módulo 19). Para a pesquisa, a rota atravessa interpretabilidade, arquiteturas e a trilha de papers.
-
-**Não sabe qual é a sua?** Veja o [**mapa competência → cargo**](MAPA-CARGOS.md): ele liga cada módulo ao que um profissional faz no trabalho, para você estudar com propósito, e não "porque o tema existe".
+A primeira passagem da caixa **Como ler** basta para o módulo seguinte. A segunda passagem espera o momento em que a caixa indicar, em geral antes de uma decisão de treino ou de custo. O critério de saída é 80% do checklist, de memória. A partir do módulo 1, 15 minutos de [Anki](https://apps.ankiweb.net) por dia com os baralhos em [`revisao/`](revisao/).
 
 ---
 
 ## Por que este curso é diferente
 
-Veja o [comparativo com Stanford, Hugging Face, Full Stack Deep Learning, DeepLearning.AI e
-fast.ai](COMPARATIVO-CURSOS.md) e use a [trilha de equivalência](TRILHA-EQUIVALENCIA.md) se
-você já estudou em outra formação.
-
-**Hipótese → lab → evidência → limite.** Cada alegação experimental precisa apontar para o
-laboratório que a produz e declarar ambiente, amostra e limitações. O curso distingue
-explicitamente três estados:
+Cada alegação experimental aponta para o laboratório que a produz e declara ambiente, amostra e limite. O curso separa três estados:
 
 | Estado | O que significa |
 |---|---|
 | Lab disponível | O código e o protocolo existem |
-| Executado na autoria | Houve uma execução, mas o artefato pode não estar preservado |
+| Executado na autoria | Houve uma execução, e o artefato pode não estar preservado |
 | Reproduzido | Versões, dados, ambiente e saída foram registrados no repositório |
 
-Os resultados numéricos preliminares — inclusive casos em que uma medição desmentiu o próprio
-material — ficam no [registro de evidências](EVIDENCIAS.md), e não são apresentados como leis
-gerais. A prioridade da beta pública é transformar os resultados destacados em reproduções
-versionadas sob [`resultados/`](resultados/).
+Os números preliminares, inclusive medições que desmentiram o próprio texto, ficam no [registro de evidências](EVIDENCIAS.md). A prioridade da beta pública é guardar essas reproduções em [`resultados/`](resultados/).
 
-**O erro é first-class.** Os melhores trechos são as armadilhas: o teste de EOS mal construído, os TFLOPs com sparsity, a métrica de degeneração medida no modo de decoding errado, a simulação que desmentiu o próprio README. Aprender onde a intuição falha vale mais que decorar onde ela acerta.
+O [comparativo](COMPARATIVO-CURSOS.md) situa o curso diante de Stanford, Hugging Face, Full Stack Deep Learning, DeepLearning.AI e fast.ai. Quem já estudou em outra formação usa a [trilha de equivalência](TRILHA-EQUIVALENCIA.md).
 
----
+## Certificação
 
-## Certificação verificável
-
-A certificação não é apenas presença: o projeto final é avaliado por uma [rubrica pública com
-badge verificável](CERTIFICACAO.md), incluindo baseline, dados, reprodução, avaliação, operação
-e revisão técnica.
-
-## O mapa completo
-
-Para escolher sem se perder, consulte o [mapa de módulos](MAPA-MODULOS.md), os [gates de
-aprendizagem](GATES-DE-APRENDIZAGEM.md) e o [checklist de progresso](PROGRESSO.md). Eles
-informam pré-requisitos, tempo, evidência e critério para avançar.
-
-### ⚪ Fase 0 — Alfabetização técnica · *para quem nunca programou*
-
-Python, terminal, testes, Git e a matemática mínima aparecem juntos em
-[`00-iniciante-zero/`](00-iniciante-zero/). O laboratório começa com variáveis e termina
-com um preditor de próxima palavra, sem baixar modelos.
-
-### A rota profissional essencial
-
-Para chegar ao primeiro nível profissional, siga esta ordem:
-
-`Fase 0 → módulos 1–6 → módulo 11 → módulos 13–15 → módulo 19 (produção) → projeto (módulo 12)`
-
-Essa rota ensina a construir, testar, avaliar, **servir sob controle de custo**, documentar e
-entregar sistemas de LLM. Os demais módulos continuam disponíveis como especializações. Veja os
-gates e projetos em [TRILHA-ESSENCIAL.md](TRILHA-ESSENCIAL.md) e o mapeamento por cargo em
-[MAPA-CARGOS.md](MAPA-CARGOS.md).
-
-### 🔵 Fase 1 — Fundação (módulos 1–11) · *o pipeline completo, do zero*
-
-| # | Módulo | Pergunta central | Rota | HW |
-|---|---|---|---|---|
-| 1 | [Fundamentos de LLMs](modulo-01-fundamentos/) | O que um LLM realmente calcula? | Essencial | CPU |
-| 2 | [Transformers, Attention e QKV](modulo-02-attention/) | Como o contexto vira representação? | Essencial | CPU |
-| 3 | [Como um LLM é treinado](modulo-03-treino/) | Pré-treino, objetivo, escala, custo | Essencial | CPU |
-| 4 | [Curadoria de datasets](modulo-04-dados/) | Por que dado é o gargalo real | Essencial | CPU |
-| 5 | [Supervised Fine-Tuning](modulo-05-sft/) | Como se ensina um formato | Essencial | CPU fecha o ciclo; Mac/GPU no modelo real |
-| 6 | [LoRA e QLoRA](modulo-06-lora/) | Como treinar 7B em 16 GB | Essencial | CPU fecha o ciclo; Mac/GPU no modelo real |
-| 7 | [Reasoning](modulo-07-reasoning/) | O que muda quando o modelo "pensa" | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
-| 8 | [Alinhamento (DPO)](modulo-08-dpo/) | Como se ensina preferência sem RL | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
-| 9 | [RL: PPO e GRPO](modulo-09-rl/) | Quando a recompensa é verificável | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
-| 10 | [Distillation](modulo-10-distillation/) | Transferir capacidade para modelos menores | Especialização | CPU fecha o ciclo; Mac/GPU opcional |
-| 11 | [MoE, quantização e inferência](modulo-11-inferencia/) | Como isso vira produção que cabe no orçamento | Essencial | CPU fecha o ciclo; GPU opcional |
-
-Na coluna HW, **CPU fecha o ciclo** quer dizer que o laboratório de CPU chega a uma medição. Mac ou GPU repetem a mesma pergunta num modelo grande. O módulo segue completo sem eles. O número do lab de CPU vale para o brinquedo ou para o modelo pequeno que ele rodou.
-
-### 🟢 Fase 2 — Expansão (módulos 13–18) · *o que as melhores formações têm* — núcleo em CPU
-
-O núcleo conceitual e os laboratórios principais rodam em CPU. Alguns módulos também oferecem
-rotas opcionais em Apple Silicon ou NVIDIA para experimentar modelos maiores; essas extensões
-não são pré-requisito da trilha profissional.
-
-| # | Módulo | Pergunta central | Rota |
-|---|---|---|---|
-| 13 | [RAG e conhecimento externo](modulo-13-rag/) | Como dar ao modelo o que ele não sabe, sem treinar? | Essencial |
-| 14 | [Avaliação como disciplina](modulo-14-avaliacao/) | Quantas amostras para afirmar que A é melhor que B? | Essencial |
-| 15 | [Agentes e tool use](modulo-15-agentes/) | O que muda quando o modelo age em vez de responder? | Essencial |
-| 16 | [Interpretabilidade mecanicista](modulo-16-interpretabilidade/) | O que acontece DENTRO do modelo — e como intervir? | Especialização |
-| 17 | [Sistemas de treino em escala](modulo-17-sistemas/) | Como treinar em 1.000 GPUs o que não cabe em uma? | Especialização |
-| 18 | [Fronteira de arquiteturas](modulo-18-arquiteturas/) | O que vem depois do transformer? | Especialização |
-
-### 🧰 Módulo 19 — A camada de produção (o elo com o mercado)
-
-| # | Módulo | Pergunta central | Rota | HW |
-|---|---|---|---|---|
-| 19 | [Engenharia de produção](modulo-19-producao/) | Como servir um modelo de forma medida, barata e que não derruba o orçamento quando quebra? | **Essencial** | CPU |
-
-Este é o módulo que transforma "treinei um modelo" em "**sistema**": servir e medir (p50/p95,
-throughput), orçar o custo e recusar cedo, proteger com disjuntor, avaliar como portão de
-**CI**, observar com logs estruturados (PII fora do log) e versionar prompt/modelo com rollback.
-É o que o módulo 12 descrevia sem receita — e o que a maioria das formações esquece.
-
-### Projeto final — depois dos sistemas
-
-O [módulo 12](modulo-12-projeto/) fecha a rota depois dos módulos 13–15 e 19. Ele não adiciona
-um novo bloco de conteúdo: é a integração avaliada do pipeline.
-
-### 🟣 Fase 3 — Trilha de pesquisa em 3 etapas · *especialização opcional*
-
-[**FASE-3-MAESTRIA.md**](FASE-3-MAESTRIA.md) — reproduzir papers · contribuir e publicar · pesquisa própria · a trilha contínua.
-
-O currículo se mede contra **Stanford CS336/CS224N, ARENA, Berkeley CS294 e Karpathy** — ver o mapa completo em [PLANO-MESTRE.md](PLANO-MESTRE.md).
+O projeto final é avaliado por uma [rubrica pública com badge verificável](CERTIFICACAO.md): baseline, dados, reprodução, avaliação, operação e revisão técnica. A [trilha de 12 semanas](TRILHA-CERTIFICACAO-12-SEMANAS.md) é o mesmo caminho essencial, com uma evidência por encontro.
 
 ---
 
@@ -204,96 +128,72 @@ e um protocolo de validação.
 | Arquivo | O que é |
 |---|---|
 | **`README.md`** | A aula: teoria, matemática, armadilhas e escopo das medições. Leia primeiro. |
-| **`lab_cpu.py`** (ou `lab.py`) | O algoritmo do zero + verificações numéricas. Consulte o status em `EVIDENCIAS.md`. |
-| **`lab_mlx.py`** | A receita de produção no Mac (MLX), com modelos reais. |
-| **`exercicios.md`** | Exercícios com gabarito escondido. Faça sem olhar o lab. |
-| **`dados.py`** | Baixa os datasets, de forma idempotente (quando o módulo usa). |
+| **`lab_cpu.py`** (ou `lab.py`) | O algoritmo do zero e as verificações numéricas. O status está em `EVIDENCIAS.md`. |
+| **`lab_mlx.py`** | A mesma receita no Mac (MLX), com modelo real. |
+| **`exercicios.md`** | Exercícios com gabarito escondido. Faça antes de olhar o lab. |
+| **`dados.py`** | Baixa os datasets, de forma idempotente, quando o módulo usa dados externos. |
 
-Os labs estão em formato *percent* (`# %%`) — legíveis como script e conversíveis em notebook com `python tools/build_notebooks.py`.
+Os labs usam células marcadas com `# %%`: o arquivo é um script e vira notebook com `python tools/build_notebooks.py`.
 
-### Referência — abra na situação, não na ordem
+### Referência
 
-Estes arquivos sustentam o curso. Durante a aula eles ficam fechados. A tabela [Uma aula de cada vez](#uma-aula-de-cada-vez) diz quando abrir cada um.
+Estes arquivos sustentam o curso. Durante a aula, ficam fechados.
 
 | Arquivo | Para quê |
 |---|---|
-| 📖 [**GLOSSARIO.md**](GLOSSARIO.md) | ~130 termos explicados **para leigos**: analogia → precisão → onde aparece. Leia como mini-curso ou consulte pelo índice. |
-| 🔧 [**GUIA-DE-CODIGO.md**](GUIA-DE-CODIGO.md) | O "docstring humano" dos labs: os 11 padrões que se repetem, com *o que faz / por que / onde tropeça*. |
-| 🧭 [**PLANO-MESTRE.md**](PLANO-MESTRE.md) | O norte: currículo comparado às melhores formações do mundo. |
-| 🎯 [**METODO-DE-ESTUDO.md**](METODO-DE-ESTUDO.md) | Como estudar isto para **reter** — ciência cognitiva aplicada, protocolo semanal. |
-| 🗂️ [**revisao/**](revisao/) | Baralho Anki de **140 cartões** + diário de erros. Conteúdo sem retenção é entretenimento. |
-| 🧾 [**EVIDENCIAS.md**](EVIDENCIAS.md) | Registro de alegações, reproduções, escopo e limitações. |
-| 🔐 [**GOVERNANCA-DE-DADOS.md**](GOVERNANCA-DE-DADOS.md) | Proveniência, licença, checksum e auditoria de PII antes do treino. |
-| 🧭 [**MAPA-MODULOS.md**](MAPA-MODULOS.md) | Pré-requisitos, tempo, dificuldade, ambiente e saída de cada módulo. |
-| ✅ [**GATES-DE-APRENDIZAGEM.md**](GATES-DE-APRENDIZAGEM.md) | Critérios observáveis para avançar sem confundir leitura com domínio. |
-| 🧪 [**PROJETO-INTERMEDIARIO.md**](PROJETO-INTERMEDIARIO.md) | Ensaio curto do ciclo prompt → RAG → fine-tuning antes do projeto final. |
-| 📏 [**PROTOCOLO-DE-AVALIACAO.md**](PROTOCOLO-DE-AVALIACAO.md) | Conjunto, baselines, métricas, incerteza e análise de erro padronizados. |
-| 📝 [**REGISTRO-DE-REVISAO.md**](REGISTRO-DE-REVISAO.md) | Controle de fontes, datas e escopo das afirmações que envelhecem. |
+| 📖 [**GLOSSARIO.md**](GLOSSARIO.md) | Termos em linguagem comum, depois a definição, depois o módulo. |
+| 🔧 [**GUIA-DE-CODIGO.md**](GUIA-DE-CODIGO.md) | Os padrões que se repetem nos labs: o que fazem, por que existem e onde tropeçam. |
+| 🧭 [**PLANO-MESTRE.md**](PLANO-MESTRE.md) | O currículo comparado a outras formações. |
+| 🎯 [**METODO-DE-ESTUDO.md**](METODO-DE-ESTUDO.md) | Protocolo semanal para reter. |
+| 🗂️ [**revisao/**](revisao/) | Baralhos e diário de erros. |
+| 🧾 [**EVIDENCIAS.md**](EVIDENCIAS.md) | Alegações, reproduções e limites. |
+| 🔐 [**GOVERNANCA-DE-DADOS.md**](GOVERNANCA-DE-DADOS.md) | Proveniência, licença, checksum e PII antes do treino. |
+| 🧭 [**MAPA-MODULOS.md**](MAPA-MODULOS.md) | Pré-requisito, tempo, dificuldade e evidência de saída. |
+| 🗺️ [**MAPA-CARGOS.md**](MAPA-CARGOS.md) | Módulo ligado ao trabalho de cada cargo. |
+| ✅ [**GATES-DE-APRENDIZAGEM.md**](GATES-DE-APRENDIZAGEM.md) | O que demonstrar antes de avançar. |
+| 🧪 [**PROJETO-INTERMEDIARIO.md**](PROJETO-INTERMEDIARIO.md) | Ensaio curto antes do projeto final. |
+| 📏 [**PROTOCOLO-DE-AVALIACAO.md**](PROTOCOLO-DE-AVALIACAO.md) | Amostra, baseline, métrica e análise de erro. |
+| 📝 [**REGISTRO-DE-REVISAO.md**](REGISTRO-DE-REVISAO.md) | Fontes e datas das afirmações que envelhecem. |
+| 🎓 [**Certificação em 12 semanas**](TRILHA-CERTIFICACAO-12-SEMANAS.md) | A rota essencial com entrega semanal. |
+| 🔁 [**Equivalência**](TRILHA-EQUIVALENCIA.md) | Por onde entrar se outra formação já cobriu a base. |
+| 🤖 [**Agentes**](TRILHA-AGENTES-E-CONTEXT-ENGINEERING.md) | Atalho para a especialização de agentes. |
+| 📊 [**Comparativo**](COMPARATIVO-CURSOS.md) | Este curso ao lado de outras formações. |
 
 ---
 
-## Começando
+## Instalação
 
-### Escolha rápida
+O bloco [Experimente em 10 minutos](#experimente-em-10-minutos) já instala a rota de CPU. Outro ambiente só entra para repetir a customização num modelo grande:
 
-| Se você... | Comece por | Instalação |
-|---|---|---|
-| nunca programou | [Fase 0](00-iniciante-zero/) | [`00-setup.md`](00-setup.md) |
-| já programa e quer entregar sistemas | [trilha essencial](TRILHA-ESSENCIAL.md) | [`AMBIENTES.md`](AMBIENTES.md) |
-| quer repetir a customização no Mac | módulos 5–11, depois do ciclo em CPU | [`00-setup-mac.md`](00-setup-mac.md) |
-| quer repetir a customização em NVIDIA | labs CUDA, depois do ciclo em CPU | [`00-setup-gpu.md`](00-setup-gpu.md) |
+| Se você vai | Abra |
+|---|---|
+| ficar na CPU, inclusive o SFT do módulo 5 | [`00-setup.md`](00-setup.md) |
+| repetir num Mac Apple Silicon | [`00-setup-mac.md`](00-setup-mac.md) |
+| repetir numa GPU NVIDIA | [`00-setup-gpu.md`](00-setup-gpu.md) |
+| comparar as rotas antes de instalar | [`AMBIENTES.md`](AMBIENTES.md) |
 
-Se esta é a primeira instalação, execute o caminho mínimo acima antes de instalar
-extras de MLX, CUDA ou serving. Assim você valida Git, `uv`, Python e o primeiro
-laboratório sem depender de hardware acelerado.
-
-A ordem de estudo está em [Uma aula de cada vez](#uma-aula-de-cada-vez). Os passos abaixo instalam.
-
-**1. Escolha o ambiente:**
-- CPU, incluindo o ciclo de SFT do módulo 5 → [`00-setup.md`](00-setup.md)
-- Repetir a customização num modelo real no Mac → [`00-setup-mac.md`](00-setup-mac.md)
-- Repetir a customização num modelo real com GPU NVIDIA → [`00-setup-gpu.md`](00-setup-gpu.md)
-
-**2. Clone e prepare:**
-```bash
-git clone https://github.com/lucianoon/llm-course.git
-cd llm-course
-uv sync --extra cpu --extra dev --extra test --locked
-uv run python tools/build_notebooks.py      # gera notebooks derivados dos labs
-```
-Os `dados.py` de cada módulo baixam os datasets na primeira execução — nada precisa ser versionado.
-
-**3. Para cada módulo da sua rota:** siga a caixa **Como ler**, se existir. Leia o `README.md` → rode o lab **prevendo cada saída antes** → faça os `exercicios.md` sem olhar o lab → escreva a explicação Feynman → registre a evidência no [gate correspondente](GATES-DE-APRENDIZAGEM.md). A primeira passagem basta para avançar. A segunda passagem espera o momento em que a caixa indicar. O critério de saída continua sendo 80% do checklist, de memória. O porquê de cada passo está no [método de estudo](METODO-DE-ESTUDO.md).
-
-**4. Estude para reter:** importe [`revisao/baralho-*.tsv`](revisao/) no [Anki](https://apps.ankiweb.net) e faça 15 min por dia a partir do módulo 1. Na Fase 0, priorize executar, errar e corrigir o código.
-
----
+Os `dados.py` baixam os datasets na primeira execução de cada módulo.
 
 ## Convenções do material
 
-- **⚠️ Armadilha** — erro que quase todo mundo comete na primeira vez.
+- **⚠️ Armadilha** — erro comum na primeira tentativa.
 - **📐 Matemática** — derivação. Na primeira passagem, leia o resultado e a armadilha. Na segunda, leia o porquê do hiperparâmetro.
 - **🔧 Na prática** — o que muda quando isso vai para produção.
-- Números concretos (VRAM, tokens, custo) sempre que possível. Conceito sem ordem de grandeza não decide nada.
+- Número concreto (memória, tokens, custo) ao lado do conceito.
 
 ## Nota de honestidade
 
-Os labs de **CPU** foram executados durante a escrita, mas uma execução passada não garante reprodução futura: dependências, modelos e dados podem mudar. Os labs acelerados por **MLX** ou **CUDA** foram escritos contra as APIs documentadas e têm validação estática e modo `--dry-run`, mas só podem ser considerados reproduzidos depois de uma execução registrada no hardware correspondente. O registro vivo de validação e limitações está em [EVIDENCIAS.md](EVIDENCIAS.md).
+Os labs de **CPU** foram executados durante a escrita. Uma execução passada não garante a próxima: dependências, modelos e dados mudam. Os labs de **MLX** e **CUDA** seguem as APIs documentadas, têm validação estática e modo `--dry-run`, e só contam como reproduzidos depois de uma execução registrada no hardware correspondente. O registro está em [EVIDENCIAS.md](EVIDENCIAS.md).
 
-O fio que atravessa tudo, e o que vale acima de qualquer técnica: **desconfie de todo número que você não mediu.**
+O fio do curso: **desconfie de todo número que você não mediu.**
 
 ---
 
 ## Status do projeto
 
-Este repositório está em **beta pública**. A infraestrutura compartilhada, os testes sem download
-de modelos e labs de CPU selecionados passam pelo CI. Isso não equivale a reproduzir todos os
-experimentos: as execuções aceleradas e os artefatos brutos indicados em
-[EVIDENCIAS.md](EVIDENCIAS.md) continuam em andamento. Relatos de instalação, erros conceituais
-e reproduções independentes são especialmente bem-vindos.
+Este repositório está em **beta pública**. O CI cobre a infraestrutura compartilhada, os testes sem download de modelos e labs de CPU selecionados. As execuções aceleradas e os artefatos indicados em [EVIDENCIAS.md](EVIDENCIAS.md) seguem em aberto. Relatos de instalação, erros conceituais e reproduções independentes são bem-vindos.
 
-Veja [CONTRIBUTING.md](CONTRIBUTING.md) para contribuir, [SECURITY.md](SECURITY.md) para relatar
-vulnerabilidades e [CITATION.cff](CITATION.cff) para citar o projeto.
+Veja [CONTRIBUTING.md](CONTRIBUTING.md) para contribuir, [SECURITY.md](SECURITY.md) para relatar vulnerabilidades e [CITATION.cff](CITATION.cff) para citar o projeto.
 
 Distribuído sob a [licença Apache-2.0](LICENSE).
 

@@ -98,7 +98,7 @@ def test_sft_hardware_claim_is_explicit() -> None:
     mapa = (ROOT / "MAPA-MODULOS.md").read_text(encoding="utf-8")
     certificacao = (ROOT / "TRILHA-CERTIFICACAO-12-SEMANAS.md").read_text(encoding="utf-8")
     modulo = (ROOT / "modulo-05-sft" / "README.md").read_text(encoding="utf-8")
-    assert "| 5 | [Supervised Fine-Tuning]" in readme
+    assert "[5 · Supervised Fine-Tuning](modulo-05-sft/)" in readme
     assert "CPU fecha o ciclo" in readme
     assert "CPU fecha o ciclo" in mapa
     assert (ROOT / "modulo-05-sft" / "lab_cpu.py").is_file()
